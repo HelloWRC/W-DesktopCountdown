@@ -75,5 +75,5 @@ Thumbs.db
 /.idea/
 /venv/
 
-/UIFrames/ui*
+UIFrames/ui*
 *.log
