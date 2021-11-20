@@ -1,3 +1,3 @@
 {
-    "files": ["resources.qrc","Scripts/CompRes.py","README.md","Scripts/Build.bat","Scripts/Ready.bat","app.py","function.py","warp.py","Scripts/build.sh","Scripts/CompUI.py","UISources/countdown.ui"]
+    "files": ["function.py","UISources/countdown.ui","warp.py","app.py","Scripts/Build.bat","Scripts/Ready.bat","Scripts/CompRes.py","README.md","Scripts/CompUI.py","resources.qrc","Scripts/build.sh","UISource/countdown.ui"]
 }
