@@ -6,6 +6,8 @@ import logging
 QEventLoopInit_Type = QEvent.registerEventType()  # 注册事件
 
 version = 'develop'
+log_styles = '[%(asctime)s] [%(module)s(%(lineno)s)/%(threadName)s/%(funcName)s] [%(levelname)s] %(message)s'
+datefmt = '%Y/%m/%d %H:%M:%S'
 
 
 def default_pass(raw: dict, mapping: dict):

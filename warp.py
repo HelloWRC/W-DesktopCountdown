@@ -6,9 +6,9 @@ from PyQt5.QtCore import QEvent
 
 if __name__ == "__main__":
     logging.basicConfig(filename='log-cast.log', level=logging.DEBUG,
-                        format='[%(asctime)s] [%(module)s(%(lineno)s)/%(threadName)s/%(funcName)s] [%(levelname)s] %(message)s',
+                        format=function.log_styles,
                         filemode='w',
-                        datefmt='%Y/%m/%d %H:%M:%S')
+                        datefmt=function.datefmt)
     logger = logging.getLogger(__name__)
     logger.info('Welcome to W-DesktopCountdown %s.', function.version)
     app = wdcd_app.WDesktopCD([], logger)
