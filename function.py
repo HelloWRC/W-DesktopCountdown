@@ -10,13 +10,16 @@ log_styles = '[%(asctime)s] [%(module)s(%(lineno)s)/%(threadName)s/%(funcName)s]
 datefmt = '%Y/%m/%d %H:%M:%S'
 
 
-def default_pass(raw: dict, mapping: dict):
-    for i in mapping.keys():
-        if i in raw.keys():
-            continue
-        else:
-            raw[i] = mapping[i]
-            logging.warning('%s not exists, set value as default %s', i, mapping[i])
+def default_pass(raw: dict, default_val: dict):
+    print(default_val)
+    for i in default_val.keys():
+        logging.debug('now is %s', i)
+        if i not in raw.keys():
+            raw[i] = default_val[i]
+            logging.warning('%s not exists, set value as default %s', i, default_val[i])
+        if type(default_val[i]) == type(raw[i]) == dict:
+            raw[i] = default_pass(raw[i], default_val[i])
+            logging.debug('go into %s', i)
     return raw
 
 
@@ -54,16 +57,26 @@ def get_qss(path: str):
 
 # ========== TEST ==========
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG,
+                        format=log_styles,
+                        datefmt=datefmt)
     mapping = {
-        'foo' : 1,
-        'hello' : {
+        'foo': 1,
+        'hello': {
             'test': 1
         }
     }
-    assert default_pass({}, mapping) == mapping
-    assert default_pass({'foo' : 11}, mapping) == {
-        'foo' : 11,
-        'hello' : {
-            'test': 1
+    # assert default_pass({}, mapping) == mapping
+    # assert default_pass({'foo': 11}, mapping) == {
+    #     'foo': 11,
+    #     'hello': {
+    #         'test': 1
+    #     }
+    # }
+    assert default_pass({'foo': 11, 'hello':{'k':233}}, mapping) == {
+        'foo': 11,
+        'hello': {
+            'test': 1,
+            'k': 233
         }
     }
