@@ -8,23 +8,36 @@ QEventLoopInit_Type = QEvent.registerEventType()  # 注册事件
 version = 'develop'
 
 
+def default_pass(raw: dict, mapping: dict):
+    for i in mapping.keys():
+        if i in raw.keys():
+            continue
+        else:
+            raw[i] = mapping[i]
+    return raw
+
+
 class QEventLoopInit(QEvent):
     def __init__(self):
         super().__init__(QEventLoopInit_Type)
 
 
-class ConfigMgr:
-    def __init__(self, file_path: str, target_class, mapping: dict):
-        self.file_path = file_path
+class ConfigFileMgr:
+    def __init__(self, filename, mapping):
+        self.filename = filename
         self.mapping = mapping
-        self.target_class = target_class
-        self.parsed_cfg: dict
+        self.cfg = {}
 
-    def load_config(self):
-        pass
+    def load(self, default=True):
+        with open(self.filename, 'r') as cf:
+            self.cfg = json.load(cf)
+        if default:
+            self.cfg = default_pass(self.cfg, self.mapping)
+        self.write()
 
-    def write_config(self):
-        pass
+    def write(self):
+        with open(self.filename, 'w') as cf:
+            json.dump(self.cfg, cf)
 
 
 def get_qss(path: str):
