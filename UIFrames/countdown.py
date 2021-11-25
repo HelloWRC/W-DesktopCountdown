@@ -20,7 +20,9 @@ class CountdownWin(QWidget):
             'height': 100,
             'window_mode': 0,
             'pos_x': 0,
-            'pos_y': 0
+            'pos_y': 0,
+            'show_title_bar': True,
+
         },
         'countdown': {
             'start': 0,
@@ -31,8 +33,11 @@ class CountdownWin(QWidget):
             'target_format': '%Y/%m/%d %H:%M:%S',
             'countdown_format': '%Y/%m/%d %H:%M:%S',
             'show_progress_bar': True,
-            'end_text': '计时结束'
-        }
+            'end_text': '计时结束',
+            'start_text': '计时未开始',
+            'qss_priority': 1
+        },
+        'enabled': True
     }
 
     def __init__(self, app, qss_path: str, config_path: str):
@@ -42,6 +47,7 @@ class CountdownWin(QWidget):
         self.config_path = config_path
         self.stopped: bool = False
         self.win_mode = 0
+        self.title_visible = True
         self.cfg = function.ConfigFileMgr(self.config_path, self.countdown_config_default)
         self.app.logger.info('created countdown window')
         self.ui = Ui_Countdown()
@@ -62,9 +68,18 @@ class CountdownWin(QWidget):
         self.move(self.cfg.cfg['window']['pos_x'], self.cfg.cfg['window']['pos_y'])
         self.ui.lb_event.setText(self.cfg.cfg['countdown']['title'])
         self.set_win_mode(self.cfg.cfg['window']['window_mode'])
+        self.set_window_title_visible(self.cfg.cfg['window']['show_title_bar'])
         self.update_content()
         self.write_config()
         logging.info('loaded config of %s', self.cfg.filename)
+
+    def set_window_title_visible(self, stat: bool):
+        if stat:
+            self.setWindowFlag(Qt.FramelessWindowHint, False)
+        else:
+            self.setWindowFlag(Qt.FramelessWindowHint, True)
+        self.title_visible = stat
+        self.show()
 
     def write_config(self):
         self.cfg.cfg['window']['width'] = self.geometry().width()
@@ -72,6 +87,7 @@ class CountdownWin(QWidget):
         self.cfg.cfg['window']['pos_x'] = self.x()
         self.cfg.cfg['window']['pos_y'] = self.y()
         self.cfg.cfg['window']['window_mode'] = self.win_mode
+        self.cfg.cfg['window']['show_title_bar'] = self.title_visible
         self.cfg.write()
         logging.info('saved config of %s', self.cfg.filename)
 
@@ -108,6 +124,8 @@ class CountdownWin(QWidget):
                 pass
             logging.info('countdown window %s closed', self.cfg.cfg['countdown']['title'])
             return True
+        elif watched == self and event.type() == event.MouseButtonDblClick:
+            self.set_window_title_visible(not self.title_visible)
         return super(CountdownWin, self).eventFilter(watched, event)
 
     def set_win_mode(self, level: int):
