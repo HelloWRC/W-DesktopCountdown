@@ -7,9 +7,8 @@ import datetime
 import threading
 from UIFrames.ui_countdown import Ui_Countdown
 from PyQt5.QtWidgets import QWidget
-from PyQt5.QtCore import QEvent
+from PyQt5.QtCore import QEvent, QObject
 from PyQt5.Qt import QApplication
-
 
 window_update_event = QEvent.registerEventType()
 
@@ -41,6 +40,7 @@ class CountdownWin(QWidget):
         super(CountdownWin, self).__init__()
         self.setStyleSheet(function.get_qss(qss_path))
         self.config_path = config_path
+        self.stopped: bool = False
         self.cfg = function.ConfigFileMgr(self.config_path, self.countdown_config_default)
         self.app.logger.info('created countdown window')
         self.ui = Ui_Countdown()
@@ -49,9 +49,11 @@ class CountdownWin(QWidget):
         self.update_thread = threading.Thread(target=self.keep_update,
                                               name='{} UpdateThread'.format(self.cfg.cfg['countdown']['title']))
         self.update_thread.start()
+        self.installEventFilter(self)
 
     def load_config(self):
         self.cfg.load()
+        # 应用配置
         self.setWindowTitle(self.cfg.cfg['countdown']['title'])
         self.ui.lb_event.setText(self.cfg.cfg['countdown']['title'])
         self.update_content()
@@ -81,5 +83,16 @@ class CountdownWin(QWidget):
             if int(time.time()) - past >= 1:
                 past = int(time.time())
                 self.update_content()
+            if self.stopped:
+                logging.info('stop update thread')
+                return
 
-
+    def eventFilter(self, watched: QObject, event: QEvent) -> bool:
+        if watched == self and event.type() == event.Close:
+            self.write_config()
+            self.stopped = True
+            while self.update_thread.is_alive():
+                pass
+            logging.info('countdown window %s closed', self.cfg.cfg['countdown']['title'])
+            return True
+        return super(CountdownWin, self).eventFilter(watched, event)
