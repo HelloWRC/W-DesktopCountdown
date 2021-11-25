@@ -50,17 +50,27 @@ class CountdownWin(QWidget):
                                               name='{} UpdateThread'.format(self.cfg.cfg['countdown']['title']))
         self.update_thread.start()
         self.installEventFilter(self)
+        self.show()
 
     def load_config(self):
         self.cfg.load()
         # 应用配置
+        # 窗口
         self.setWindowTitle(self.cfg.cfg['countdown']['title'])
+        self.resize(self.cfg.cfg['window']['width'], self.cfg.cfg['window']['height'])
+        self.move(self.cfg.cfg['window']['pos_x'], self.cfg.cfg['window']['pos_y'])
         self.ui.lb_event.setText(self.cfg.cfg['countdown']['title'])
         self.update_content()
         self.write_config()
+        logging.info('loaded config of %s', self.cfg.filename)
 
     def write_config(self):
+        self.cfg.cfg['window']['width'] = self.geometry().width()
+        self.cfg.cfg['window']['height'] = self.geometry().height()
+        self.cfg.cfg['window']['pos_x'] = self.x()
+        self.cfg.cfg['window']['pos_y'] = self.y()
         self.cfg.write()
+        logging.info('saved config of %s', self.cfg.filename)
 
     def update_content(self):
         self.ui.lb_targetddate.setText(time.strftime(self.cfg.cfg['display']['target_format'],

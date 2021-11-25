@@ -20,7 +20,6 @@ class WDesktopCD(QApplication):
         self.logger.info('init phase 2')
 
         self.cdtest = CountdownWin(self, 'style.qss', 'config.json')
-        self.cdtest.show()
 
     def event(self, event: QEvent) -> bool:
         if event.type() == function.QEventLoopInit_Type:
