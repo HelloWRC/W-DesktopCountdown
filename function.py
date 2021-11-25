@@ -2,6 +2,7 @@ from PyQt5.QtCore import QEvent
 import time
 import json
 import logging
+from string import Template
 
 QEventLoopInit_Type = QEvent.registerEventType()  # 注册事件
 
@@ -10,8 +11,20 @@ log_styles = '[%(asctime)s] [%(module)s(%(lineno)s)/%(threadName)s/%(funcName)s]
 datefmt = '%Y/%m/%d %H:%M:%S'
 
 
+class DeltaTemplate(Template):
+    delimiter = "%"
+
+
+def strfdelta(tdelta, fmt):
+    d = {"D": tdelta.days}
+    d["H"], rem = divmod(tdelta.seconds, 3600)
+    d["M"], d["S"] = divmod(rem, 60)
+    t = DeltaTemplate(fmt)
+    return t.substitute(**d)
+
+
 def default_pass(raw: dict, default_val: dict):
-    print(default_val)
+    # print(default_val)
     for i in default_val.keys():
         logging.debug('now is %s', i)
         if i not in raw.keys():
@@ -73,7 +86,7 @@ if __name__ == '__main__':
     #         'test': 1
     #     }
     # }
-    assert default_pass({'foo': 11, 'hello':{'k':233}}, mapping) == {
+    assert default_pass({'foo': 11, 'hello': {'k': 233}}, mapping) == {
         'foo': 11,
         'hello': {
             'test': 1,

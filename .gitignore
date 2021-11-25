@@ -78,3 +78,4 @@ Thumbs.db
 
 UIFrames/ui*
 *.log
+/config.json

@@ -19,7 +19,7 @@ class WDesktopCD(QApplication):
         # Qt事件处理器启动完毕，开始初始化qt套件
         self.logger.info('init phase 2')
 
-        self.cdtest = CountdownWin(self, 'style.qss')
+        self.cdtest = CountdownWin(self, 'style.qss', 'config.json')
         self.cdtest.show()
 
     def event(self, event: QEvent) -> bool:
