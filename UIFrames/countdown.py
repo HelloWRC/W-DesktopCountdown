@@ -7,7 +7,7 @@ import datetime
 import threading
 from UIFrames.ui_countdown import Ui_Countdown
 from PyQt5.QtWidgets import QWidget
-from PyQt5.QtCore import QEvent, QObject
+from PyQt5.QtCore import QEvent, QObject, Qt
 from PyQt5.Qt import QApplication
 
 window_update_event = QEvent.registerEventType()
@@ -41,6 +41,7 @@ class CountdownWin(QWidget):
         self.setStyleSheet(function.get_qss(qss_path))
         self.config_path = config_path
         self.stopped: bool = False
+        self.win_mode = 0
         self.cfg = function.ConfigFileMgr(self.config_path, self.countdown_config_default)
         self.app.logger.info('created countdown window')
         self.ui = Ui_Countdown()
@@ -60,6 +61,7 @@ class CountdownWin(QWidget):
         self.resize(self.cfg.cfg['window']['width'], self.cfg.cfg['window']['height'])
         self.move(self.cfg.cfg['window']['pos_x'], self.cfg.cfg['window']['pos_y'])
         self.ui.lb_event.setText(self.cfg.cfg['countdown']['title'])
+        self.set_win_mode(self.cfg.cfg['window']['window_mode'])
         self.update_content()
         self.write_config()
         logging.info('loaded config of %s', self.cfg.filename)
@@ -69,6 +71,7 @@ class CountdownWin(QWidget):
         self.cfg.cfg['window']['height'] = self.geometry().height()
         self.cfg.cfg['window']['pos_x'] = self.x()
         self.cfg.cfg['window']['pos_y'] = self.y()
+        self.cfg.cfg['window']['window_mode'] = self.win_mode
         self.cfg.write()
         logging.info('saved config of %s', self.cfg.filename)
 
@@ -106,3 +109,22 @@ class CountdownWin(QWidget):
             logging.info('countdown window %s closed', self.cfg.cfg['countdown']['title'])
             return True
         return super(CountdownWin, self).eventFilter(watched, event)
+
+    def set_win_mode(self, level: int):
+        """
+        @level: 窗口层级
+         0: 正常
+         -1: 置底
+         1:置顶
+        """
+        if level != self.win_mode:
+            if level == -1:
+                self.setWindowFlag(Qt.WindowStaysOnBottomHint)
+            elif level == 0:
+                self.setWindowFlag(Qt.Widget)
+            elif level == 1:
+                self.setWindowFlag(Qt.WindowStaysOnTopHint)
+            else:
+                raise ValueError('Values must be -1, 0 or 1')
+            self.win_mode = level
+            self.show()
