@@ -1,4 +1,15 @@
 #lb_CountDown {
 	
-	font: 63 italic 100pt "Noto Sans";
+    font: bold bold 100px "Microsoft YaHei";
+}
+
+#lb_event{
+    font: bold bold 25px "Microsoft YaHei";
+
+}
+
+
+
+QWidget {
+    font: normal normal 15px "Microsoft YaHei";
 }
