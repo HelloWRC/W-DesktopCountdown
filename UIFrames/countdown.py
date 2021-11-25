@@ -40,15 +40,14 @@ class CountdownWin(QWidget):
         'enabled': True
     }
 
-    def __init__(self, app, qss_path: str, config_path: str):
+    def __init__(self, app, qss_path: str, config: function.ConfigFileMgr):
         self.app = app
         super(CountdownWin, self).__init__()
         self.setStyleSheet(function.get_qss(qss_path))
-        self.config_path = config_path
         self.stopped: bool = False
         self.win_mode = 0
         self.title_visible = True
-        self.cfg = function.ConfigFileMgr(self.config_path, self.countdown_config_default)
+        self.cfg = config
         self.app.logger.info('created countdown window')
         self.ui = Ui_Countdown()
         self.ui.setupUi(self)
