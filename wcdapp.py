@@ -11,6 +11,7 @@ class WDesktopCD(QApplication):
     def __init__(self, argv, logger: logging.Logger):
         # 程序开始，初始化基本套件
         super().__init__(argv)
+        self.countdown_win_cls = CountdownWin
         self.logger = logger
         self.logger.info('init phase 1')
         qt_material.apply_stylesheet(self, 'dark_blue.xml')
@@ -18,8 +19,8 @@ class WDesktopCD(QApplication):
     def init_phase2(self):
         # Qt事件处理器启动完毕，开始初始化qt套件
         self.logger.info('init phase 2')
-
-        self.cdtest = CountdownWin(self, 'style.qss', 'config.json')
+        self.cdtest = CountdownWin(self, 'style.qss', function.ConfigFileMgr('config.json',
+                                                                             CountdownWin.countdown_config_default))
 
     def event(self, event: QEvent) -> bool:
         if event.type() == function.QEventLoopInit_Type:
