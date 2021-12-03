@@ -4,6 +4,7 @@ import json
 import logging
 from string import Template
 import UIFrames.countdown
+import UIFrames.new_countdown
 
 QEventLoopInit_Type = QEvent.registerEventType()  # 注册事件
 

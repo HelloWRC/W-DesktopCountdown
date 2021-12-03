@@ -5,9 +5,8 @@ import function, logging
 from PyQt5.QtCore import QEvent
 
 if __name__ == "__main__":
-    logging.basicConfig(filename='log-cast.log', level=logging.DEBUG,
+    logging.basicConfig(level=logging.DEBUG,
                         format=function.log_styles,
-                        filemode='w',
                         datefmt=function.datefmt)
     logger = logging.getLogger(__name__)
     logger.info('Welcome to W-DesktopCountdown %s.', function.version)
