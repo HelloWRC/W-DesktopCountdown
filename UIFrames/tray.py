@@ -31,5 +31,5 @@ class SystemTray(QSystemTrayIcon):
         logging.debug('tray clicked, reason: %s', reason)
 
     def new_countdown(self):
-        ncd = NewCountdownWin(self.app)
-        time.sleep(0.001)
+        self.ncd = NewCountdownWin(self.app)
+        # time.sleep(0.001)
