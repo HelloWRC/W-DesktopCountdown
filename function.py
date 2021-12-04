@@ -5,6 +5,7 @@ import logging
 from string import Template
 import UIFrames.countdown
 import UIFrames.new_countdown
+import UIFrames.profile_config_ui
 
 QEventLoopInit_Type = QEvent.registerEventType()  # 注册事件
 
@@ -79,6 +80,7 @@ class ProfileMgr(QObject):
         self.profiles: list = []
         self.countdowns_win: dict = {}
         self.config_mgr: dict = {}
+        self.config_ui: dict = {}
 
         if not os.path.exists(profile_prefix):
             os.mkdir(profile_prefix)
@@ -104,6 +106,8 @@ class ProfileMgr(QObject):
         logging.info('creating new profile: %s', name)
         self.config_mgr[name] = ConfigFileMgr(profile_prefix + name, self.countdown_cfg_default)
         self.config_mgr[name].load()
+        self.config_ui[name] = UIFrames.profile_config_ui.ProfileConfigUI(self.app)
+        self.config_ui[name].show()
         self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, 'style.qss', self.config_mgr[name])
 
     def remove_profile(self, name: str):
