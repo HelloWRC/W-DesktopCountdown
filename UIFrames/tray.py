@@ -24,6 +24,9 @@ class SystemTray(QSystemTrayIcon):
         self.add_profile = QAction('添加倒计时', triggered=self.new_countdown)
         self.menu.addAction(self.add_profile)
 
+        self.exit = QAction('退出', triggered=self.app.exit)
+        self.menu.addAction(self.exit)
+
         self.setContextMenu(self.menu)
         self.show()
 

@@ -58,7 +58,7 @@ class ConfigFileMgr:
             with open(self.filename, 'r') as cf:
                 self.cfg = json.load(cf)
         except FileNotFoundError:
-            logging.warning('file %s not found!', self.filename)
+            logging.warning('file %s not found! creating as default...', self.filename)
         if default:
             self.cfg = default_pass(self.cfg, self.mapping)
         self.write()
@@ -70,7 +70,10 @@ class ConfigFileMgr:
 
 
 class ProfileMgr(QObject):
+
     def __init__(self, app):
+        self.countdown_cfg_default = UIFrames.countdown.CountdownWin.countdown_config_default
+
         super().__init__(app)
         self.app = app
         self.profiles: list = []
@@ -79,6 +82,10 @@ class ProfileMgr(QObject):
 
         if not os.path.exists(profile_prefix):
             os.mkdir(profile_prefix)
+        self.load_profiles_list()
+        for i in self.profiles:
+            self.config_mgr[i] = ConfigFileMgr(profile_prefix + i, self.countdown_cfg_default)
+            self.countdowns_win[i] = UIFrames.countdown.CountdownWin(self.app, 'style.qss', self.config_mgr[i])
 
     def load_profiles_list(self):
         self.profiles = os.listdir(profile_prefix)
@@ -86,14 +93,18 @@ class ProfileMgr(QObject):
 
     def spawn_countdown_win(self, name: str):
         self.config_mgr[name] = ConfigFileMgr(profile_prefix +
-                                              name, UIFrames.countdown.CountdownWin.countdown_config_default)
+                                              name, self.countdown_cfg_default)
         self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, qss_prefix + name, self.config_mgr[name])
+        logging.info('spawned window: %s', name)
 
     def close_countdown_win(self, name: str):
         self.countdowns_win[name].close()
 
     def create_profile(self, name: str):
-        pass
+        logging.info('creating new profile: %s', name)
+        self.config_mgr[name] = ConfigFileMgr(profile_prefix + name, self.countdown_cfg_default)
+        self.config_mgr[name].load()
+        self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, 'style.qss', self.config_mgr[name])
 
     def remove_profile(self, name: str):
         pass

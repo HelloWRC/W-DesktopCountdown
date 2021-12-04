@@ -80,3 +80,4 @@ UIFrames/ui*
 *.log
 /config.json
 /resources_rc.py
+/profiles/

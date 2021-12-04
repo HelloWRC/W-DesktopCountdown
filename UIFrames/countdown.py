@@ -103,7 +103,10 @@ class CountdownWin(QWidget):
 
         # progressbar
         self.ui.progressBar.setMaximum(self.cfg.cfg['countdown']['end'] - self.cfg.cfg['countdown']['start'])
-        self.ui.progressBar.setValue(time.time() - self.cfg.cfg['countdown']['start'])
+        if time.time() > self.cfg.cfg['countdown']['end']:
+            self.ui.progressBar.setValue(self.ui.progressBar.maximum())
+        else:
+            self.ui.progressBar.setValue(time.time() - self.cfg.cfg['countdown']['start'])
 
     def keep_update(self):
         past = int(time.time())
