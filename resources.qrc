@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>resources/icons/colorful/logo.svg</file>
+        <file>LICENSE</file>
     </qresource>
 </RCC>
