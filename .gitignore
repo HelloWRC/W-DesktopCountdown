@@ -81,3 +81,6 @@ UIFrames/ui*
 /config.json
 /resources_rc.py
 /profiles/
+/dist/
+/build/
+/warp.spec
