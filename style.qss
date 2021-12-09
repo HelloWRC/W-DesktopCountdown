@@ -1,6 +1,6 @@
 #lb_CountDown {
 	
-    font: bold bold 100px "Microsoft YaHei";
+    font: bold bold 70px "Microsoft YaHei";
 }
 
 #lb_event{
