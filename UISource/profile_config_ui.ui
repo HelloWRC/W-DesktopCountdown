@@ -19,37 +19,29 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QScrollArea" name="tab">
+     <widget class="QWidget" name="tab_gernal">
       <attribute name="title">
-       <string>Tab 1</string>
+       <string>基本</string>
       </attribute>
-      <widget class="QScrollArea" name="scrollArea">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>516</width>
-         <height>310</height>
-        </rect>
-       </property>
-       <property name="widgetResizable">
-        <bool>true</bool>
-       </property>
-       <widget class="QWidget" name="scrollAreaWidgetContents">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>514</width>
-          <height>308</height>
-         </rect>
-        </property>
-       </widget>
-      </widget>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="tab_countdown">
       <attribute name="title">
-       <string>Tab 2</string>
+       <string>倒计时</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_display">
+      <attribute name="title">
+       <string>显示</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_window">
+      <attribute name="title">
+       <string>窗口</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_style">
+      <attribute name="title">
+       <string>样式</string>
       </attribute>
      </widget>
     </widget>
@@ -72,14 +64,14 @@
      <item>
       <widget class="QPushButton" name="pushButton_2">
        <property name="text">
-        <string>PushButton</string>
+        <string>取消</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton">
        <property name="text">
-        <string>PushButton</string>
+        <string>确定</string>
        </property>
       </widget>
      </item>

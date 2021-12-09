@@ -10,4 +10,7 @@ class ProfileConfigUI(QWidget):
         super(ProfileConfigUI, self).__init__()
         self.ui = Ui_ProfileConfigUI()
         self.ui.setupUi(self)
-        self.show()
+    
+    def show(self) -> None:
+        logging.info('showed profile config ui')
+        super(ProfileConfigUI, self).show()

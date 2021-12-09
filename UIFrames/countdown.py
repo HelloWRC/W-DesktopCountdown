@@ -6,8 +6,10 @@ import time
 import datetime
 import threading
 from UIFrames.ui_countdown import Ui_Countdown
+from UIFrames.profile_config_ui import ProfileConfigUI
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import QEvent, QObject, Qt
+from PyQt5.QtCore import pyqtSlot
 from PyQt5.Qt import QApplication
 
 window_update_event = QEvent.registerEventType()
@@ -49,9 +51,13 @@ class CountdownWin(QWidget):
         self.title_visible = True
         self.cfg = config
         self.app.logger.info('created countdown window')
+
         self.ui = Ui_Countdown()
         self.ui.setupUi(self)
+        self.addAction(self.ui.action_open_config)
+
         self.load_config()
+        self.config_ui = ProfileConfigUI(self.app)
         self.update_thread = threading.Thread(target=self.keep_update,
                                               name='{} UpdateThread'.format(self.cfg.cfg['countdown']['title']))
         self.update_thread.start()
@@ -148,3 +154,8 @@ class CountdownWin(QWidget):
                 raise ValueError('Values must be -1, 0 or 1')
             self.win_mode = level
             self.show()
+
+    @pyqtSlot(bool)
+    def on_action_open_config_triggered(self, trigger_type: bool):
+        if not trigger_type:
+            self.config_ui.show()
