@@ -8,7 +8,7 @@ import threading
 from UIFrames.ui_countdown import Ui_Countdown
 from UIFrames.profile_config_ui import ProfileConfigUI
 from PyQt5.QtWidgets import QWidget
-from PyQt5.QtCore import QEvent, QObject, Qt
+from PyQt5.QtCore import QEvent, QObject, Qt, QThread, pyqtSignal
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.Qt import QApplication
 
@@ -58,8 +58,8 @@ class CountdownWin(QWidget):
 
         self.load_config()
         self.config_ui = ProfileConfigUI(self.app)
-        self.update_thread = threading.Thread(target=self.keep_update,
-                                              name='{} UpdateThread'.format(self.cfg.cfg['countdown']['title']))
+        self.update_thread = UpdateThread()
+        self.update_thread.sig_update.connect(self.update_content)
         self.update_thread.start()
         self.installEventFilter(self)
         self.show()
@@ -114,26 +114,15 @@ class CountdownWin(QWidget):
         else:
             self.ui.progressBar.setValue(time.time() - self.cfg.cfg['countdown']['start'])
 
-    def keep_update(self):
-        past = int(time.time())
-        while True:
-            if int(time.time()) - past >= 1:
-                past = int(time.time())
-                self.update_content()
-            if self.stopped:
-                logging.info('stop update thread')
-                return
-
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
         if watched == self and event.type() == event.Close:
             self.write_config()
-            self.stopped = True
-            while self.update_thread.is_alive():
-                pass
+            self.update_thread.sig_stop.emit()
             logging.info('countdown window %s closed', self.cfg.cfg['countdown']['title'])
             return True
         elif watched == self and event.type() == event.MouseButtonDblClick:
             self.set_window_title_visible(not self.title_visible)
+        print(watched, event)
         return super(CountdownWin, self).eventFilter(watched, event)
 
     def set_win_mode(self, level: int):
@@ -159,3 +148,25 @@ class CountdownWin(QWidget):
     def on_action_open_config_triggered(self, trigger_type: bool):
         if not trigger_type:
             self.config_ui.show()
+
+
+class UpdateThread(QThread):
+    sig_update = pyqtSignal()
+    sig_stop = pyqtSignal()
+
+    def __init__(self):
+        super(UpdateThread, self).__init__()
+        self.stopped = False
+        self.sig_stop.connect(self.stop)
+
+    def run(self):
+        past = int(time.time())
+        while True:
+            if int(time.time()) - past >= 1:
+                past = int(time.time())
+                self.sig_update.emit()
+            if self.stopped:
+                break
+
+    def stop(self):
+        self.stopped = True

@@ -32,9 +32,10 @@ class WDesktopCD(QApplication):
         #                                                                      CountdownWin.countdown_config_default))
 
     def event(self, event: QEvent) -> bool:
+        print(event)
         if event.type() == function.QEventLoopInit_Type:
             self.init_phase2()
             return True
         else:
-            return QApplication.event(self, event)
+            return super(WDesktopCD, self).event(event)
 
