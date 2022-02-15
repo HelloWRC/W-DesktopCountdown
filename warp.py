@@ -11,5 +11,5 @@ if __name__ == "__main__":
     logger = logging.getLogger(__name__)
     logger.info('Welcome to W-DesktopCountdown %s.', function.version)
     app = wdcd_app.WDesktopCD([], logger)
-    app.postEvent(app, function.QEventLoopInit())
-    sys.exit(app.exec())  # 启动事件循环
+    app.sig_phase2_triggered.emit()
+    sys.exit(app.exec_())  # 启动事件循环

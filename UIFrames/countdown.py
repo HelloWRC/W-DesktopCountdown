@@ -122,7 +122,7 @@ class CountdownWin(QWidget):
             return True
         elif watched == self and event.type() == event.MouseButtonDblClick:
             self.set_window_title_visible(not self.title_visible)
-        print(watched, event)
+        # print(watched, event)
         return super(CountdownWin, self).eventFilter(watched, event)
 
     def set_win_mode(self, level: int):
