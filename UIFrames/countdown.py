@@ -59,6 +59,7 @@ class CountdownWin(QWidget):
         self.load_config()
         self.config_ui = ProfileConfigUI(self.app)
         self.update_thread = UpdateThread()
+        self.update_thread.setPriority(QThread.IdlePriority)
         self.update_thread.sig_update.connect(self.update_content)
         self.update_thread.start()
         self.installEventFilter(self)
@@ -167,6 +168,7 @@ class UpdateThread(QThread):
                 self.sig_update.emit()
             if self.stopped:
                 break
+            self.sleep(1)
 
     def stop(self):
         self.stopped = True
