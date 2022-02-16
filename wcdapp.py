@@ -1,6 +1,7 @@
 from PyQt5.Qt import QApplication
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtCore import QEvent
+from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QSystemTrayIcon
 from PyQt5.QtGui import QIcon
 from UIFrames.countdown import CountdownWin
@@ -11,6 +12,10 @@ import function
 import logging
 import qt_material
 import threading as thd
+
+QEventLoopInit_Type = QEvent.registerEventType()
+ProfileUpdatedEvent = QEvent.registerEventType()
+ProfileFileEvent = QEvent.registerEventType()
 
 
 class WDesktopCD(QApplication):
@@ -30,6 +35,7 @@ class WDesktopCD(QApplication):
         qt_material.apply_stylesheet(self, 'dark_blue.xml', extra={'font_family': 'Microsoft YaHei UI'})
         res.qInitResources()
         self.sig_phase2_triggered.connect(self.init_phase2)
+        self.setQuitOnLastWindowClosed(False)
 
     def init_phase2(self):
         # Qt事件处理器启动完毕，开始初始化qt套件

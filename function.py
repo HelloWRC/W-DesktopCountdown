@@ -6,6 +6,7 @@ from string import Template
 import UIFrames.countdown
 import UIFrames.new_countdown
 import UIFrames.profile_config_ui
+import wcdapp
 
 QEventLoopInit_Type = QEvent.registerEventType()  # 注册事件
 
@@ -69,14 +70,18 @@ class ConfigFileMgr:
             json.dump(self.cfg, cf)
             logging.info('successfully saved to %s', self.filename)
 
+    def remove(self):
+        os.remove(self.filename)
+
 
 class ProfileMgr(QObject):
 
     def __init__(self, app):
+        import wcdapp
         self.countdown_cfg_default = UIFrames.countdown.CountdownWin.countdown_config_default
 
         super().__init__(app)
-        self.app = app
+        self.app: wcdapp.WDesktopCD = app
         self.profiles: list = []
         self.countdowns_win: dict = {}
         self.config_mgr: dict = {}
@@ -88,6 +93,7 @@ class ProfileMgr(QObject):
         for i in self.profiles:
             self.config_mgr[i] = ConfigFileMgr(profile_prefix + i, self.countdown_cfg_default)
             self.countdowns_win[i] = UIFrames.countdown.CountdownWin(self.app, 'style.qss', self.config_mgr[i])
+            self.config_ui[i] = self.countdowns_win[i].config_ui
 
     def load_profiles_list(self):
         self.profiles = os.listdir(profile_prefix)
@@ -97,6 +103,7 @@ class ProfileMgr(QObject):
         self.config_mgr[name] = ConfigFileMgr(profile_prefix +
                                               name, self.countdown_cfg_default)
         self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, qss_prefix + name, self.config_mgr[name])
+        self.config_ui[name] = self.countdowns_win[name].config_ui
         logging.info('spawned window: %s', name)
 
     def close_countdown_win(self, name: str):
@@ -104,14 +111,27 @@ class ProfileMgr(QObject):
 
     def create_profile(self, name: str):
         logging.info('creating new profile: %s', name)
+        self.profiles.append(name)
         self.config_mgr[name] = ConfigFileMgr(profile_prefix + name, self.countdown_cfg_default)
         self.config_mgr[name].load()
-        self.config_ui[name] = UIFrames.profile_config_ui.ProfileConfigUI(self.app, self.config_mgr[name])
-        self.config_ui[name].show()
+        self.config_mgr[name].cfg['countdown']['title'] = name
+        self.config_mgr[name].write()
         self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, 'style.qss', self.config_mgr[name])
+        self.config_ui[name] = self.countdowns_win[name].config_ui
+        self.config_ui[name].show()
+        self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileFileEvent))
 
     def remove_profile(self, name: str):
-        pass
+        logging.info('removing new profile: %s', name)
+        self.config_mgr[name].write()
+        self.countdowns_win[name].close()
+        self.config_ui[name].close()
+        self.config_mgr[name].remove()
+        del self.config_mgr[name]
+        del self.countdowns_win[name]
+        del self.config_ui[name]
+        self.profiles.remove(name)
+        self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileFileEvent))
 
 
 def get_qss(path: str):

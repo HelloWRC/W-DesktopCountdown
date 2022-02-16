@@ -4,6 +4,7 @@ import time
 from UIFrames.ui_profile_config_ui import Ui_ProfileConfigUI
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtCore import QEvent
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.Qt import QApplication
 
@@ -88,6 +89,7 @@ class ProfileConfigUI(QWidget):
         self.ui.cb_titlebar.setChecked(self.cfg.cfg['window']['show_title_bar'])
 
     def save_val(self):
+        import wcdapp
         # countdown
         self.cfg.cfg['countdown']['title'] = self.ui.le_event_name.text()
         self.cfg.cfg['countdown']['start'] = int(time.mktime(self.ui.dte_starttime.dateTime().toPyDateTime().timetuple()))
@@ -110,3 +112,4 @@ class ProfileConfigUI(QWidget):
         self.cfg.write()
         if self.update_trigger is not None:
             self.update_trigger()
+        self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))
