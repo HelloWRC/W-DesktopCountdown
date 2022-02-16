@@ -76,6 +76,8 @@ class CountdownWin(QWidget):
         self.installEventFilter(self)
 
     def show(self) -> None:
+        if not self.cfg.cfg['enabled']:
+            return
         self.update_thread.start()
         super(CountdownWin, self).show()
 

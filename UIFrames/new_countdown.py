@@ -1,7 +1,8 @@
 import logging
 import time
 import datetime
-import os
+
+import function
 from UIFrames.ui_new_countdown import Ui_NewCountdown
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QMessageBox
@@ -25,7 +26,7 @@ class NewCountdownWin(QWidget):
         self.close()
 
     def on_btn_confirm_released(self):
-        profile_name = self.filename_chk(self.ui.le_input.text())
+        profile_name = function.filename_chk(self.ui.le_input.text())
         start_time = int(time.mktime(self.ui.dte_starttime.dateTime().toPyDateTime().timetuple()))
         end_time = int(time.mktime(self.ui.dte_endtime.dateTime().toPyDateTime().timetuple()))
         if start_time > end_time:
@@ -37,12 +38,5 @@ class NewCountdownWin(QWidget):
         self.close()
 
     def on_le_input_textChanged(self, text):
-        self.ui.lb_filename.setText('将被保存为：{}'.format(self.filename_chk(text)))
-
-    def filename_chk(self, name):
-        import function
-        if name == '':
-            name = 'countdown'
-        if os.path.exists(function.profile_prefix + name):
-            name = name + '_'
-        return name
+        from function import filename_chk
+        self.ui.lb_filename.setText('将被保存为：{}'.format(filename_chk(text)))

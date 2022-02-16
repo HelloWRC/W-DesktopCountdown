@@ -73,6 +73,10 @@ class ConfigFileMgr:
     def remove(self):
         os.remove(self.filename)
 
+    def copy_to(self, path):
+        self.filename = path
+        self.write()
+
 
 class ProfileMgr(QObject):
 
@@ -123,6 +127,19 @@ class ProfileMgr(QObject):
         self.config_ui[name].show()
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileFileEvent))
 
+    def import_profile(self, path):
+        logging.info('importing profile %s', path)
+        cfm = ConfigFileMgr(path, self.countdown_cfg_default)
+        cfm.load()
+        name = cfm.cfg['countdown']['title']
+        self.profiles.append(name)
+        self.config_mgr[name] = cfm
+        self.config_mgr[name].copy_to(profile_prefix + filename_chk(name))
+        self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, 'style.qss', self.config_mgr[name])
+        self.config_ui[name] = self.countdowns_win[name].config_ui
+        self.config_ui[name].show()
+        self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileFileEvent))
+
     def remove_profile(self, name: str):
         logging.info('removing new profile: %s', name)
         self.config_mgr[name].write()
@@ -166,3 +183,12 @@ if __name__ == '__main__':
             'k': 233
         }
     }
+
+
+def filename_chk(name):
+    import function
+    if name == '':
+        name = 'countdown'
+    if os.path.exists(function.profile_prefix + name):
+        name = name + '_'
+    return name

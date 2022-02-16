@@ -1,6 +1,7 @@
 import logging
 import function
 import time
+import shutil
 
 import wcdapp
 from UIFrames.ui_profilemgr import Ui_ProfileMgr
@@ -10,6 +11,7 @@ from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QListWidgetItem
 from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtCore import QSize
 from PyQt5.QtCore import QEvent
 from PyQt5.QtCore import pyqtSlot
@@ -52,6 +54,13 @@ class CountdownCard(QWidget):
                                 defaultButton=QMessageBox.No)
         if r == QMessageBox.Yes:
             self.app.profile_mgr.remove_profile(self.name)
+
+    def on_btn_export_released(self):
+        path = QFileDialog.getSaveFileName(self, filter='W-DesktopCountdown配置文件(*.wdcd)')
+        if path[0] == '':
+            return
+        shutil.copy(self.cfg.filename, path[0])
+        QMessageBox.information(self, '导出成功', '导出成功')
 
     def on_cb_enabled_toggled(self, stat):
         self.cfg.cfg['enabled'] = stat
@@ -110,4 +119,11 @@ class ProfileMgrUI(QMainWindow):
     @pyqtSlot(bool)
     def on_action_new_profile_triggered(self, triggered):
         self.newcd = NewCountdownWin(self.app)
+
+    @pyqtSlot(bool)
+    def on_action_import_countdown_triggered(self, triggered):
+        path = QFileDialog.getOpenFileName(self, filter='W-DesktopCountdown配置文件(*.wdcd)')
+        if path[0] == '':
+            return
+        self.app.profile_mgr.import_profile(path[0])
 
