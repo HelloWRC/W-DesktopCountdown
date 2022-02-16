@@ -2,29 +2,39 @@
 <ui version="4.0">
  <class>NewCountdown</class>
  <widget class="QDialog" name="NewCountdown">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>401</width>
-    <height>144</height>
+    <width>474</width>
+    <height>197</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>创建倒计时</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <widget class="QLabel" name="lb_info1">
-     <property name="text">
-      <string>输入倒计时的标题</string>
+  <layout class="QFormLayout" name="formLayout">
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="le_input"/>
+   </item>
+   <item row="5" column="1">
+    <widget class="QDateTimeEdit" name="dte_starttime">
+     <property name="displayFormat">
+      <string>yyyy/M/d H:mm:ss</string>
      </property>
     </widget>
    </item>
-   <item>
-    <widget class="QLineEdit" name="le_input"/>
+   <item row="8" column="1">
+    <widget class="QDateTimeEdit" name="dte_endtime">
+     <property name="displayFormat">
+      <string>yyyy/M/d H:mm:ss</string>
+     </property>
+    </widget>
    </item>
-   <item>
+   <item row="9" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -37,7 +47,7 @@
      </property>
     </spacer>
    </item>
-   <item>
+   <item row="11" column="0" colspan="2">
     <layout class="QHBoxLayout" name="bottom_button">
      <item>
       <spacer name="horizontalSpacer">
@@ -68,10 +78,43 @@
      </item>
     </layout>
    </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="lb_starttime">
+     <property name="text">
+      <string>开始时间</string>
+     </property>
+     <property name="buddy">
+      <cstring>dte_starttime</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="lb_endtime">
+     <property name="text">
+      <string>结束时间</string>
+     </property>
+     <property name="buddy">
+      <cstring>dte_endtime</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="lb_info1">
+     <property name="text">
+      <string>倒计时标题</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0" colspan="2">
+    <widget class="QLabel" name="lb_filename">
+     <property name="text">
+      <string>将被保存为：{}</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>
-  <tabstop>le_input</tabstop>
   <tabstop>btn_confirm</tabstop>
   <tabstop>btn_cancel</tabstop>
  </tabstops>

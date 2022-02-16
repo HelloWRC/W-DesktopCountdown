@@ -10,7 +10,7 @@ import wcdapp
 
 QEventLoopInit_Type = QEvent.registerEventType()  # 注册事件
 
-version = '0.2 alpha'
+version = '0.2.1 alpha'
 log_styles = '[%(asctime)s] [%(threadName)s/%(module)s.%(funcName)s(%(lineno)s)/%(levelname)s] %(message)s'
 datefmt = '%Y/%m/%d %H:%M:%S'
 
@@ -109,12 +109,14 @@ class ProfileMgr(QObject):
     def close_countdown_win(self, name: str):
         self.countdowns_win[name].close()
 
-    def create_profile(self, name: str):
+    def create_profile(self, name: str, start_time=0, end_time=0):
         logging.info('creating new profile: %s', name)
         self.profiles.append(name)
         self.config_mgr[name] = ConfigFileMgr(profile_prefix + name, self.countdown_cfg_default)
         self.config_mgr[name].load()
         self.config_mgr[name].cfg['countdown']['title'] = name
+        self.config_mgr[name].cfg['countdown']['start'] = start_time
+        self.config_mgr[name].cfg['countdown']['end'] = end_time
         self.config_mgr[name].write()
         self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, 'style.qss', self.config_mgr[name])
         self.config_ui[name] = self.countdowns_win[name].config_ui

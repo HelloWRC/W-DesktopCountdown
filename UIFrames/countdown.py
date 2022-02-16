@@ -35,7 +35,7 @@ class CountdownWin(QWidget):
         },
         'display': {
             'target_format': '%Y/%m/%d %H:%M:%S',
-            'countdown_format': '%H:%M:%S',
+            'countdown_format': '%D天%H:%M:%S',
             'show_progress_bar': True,
             'reverse_progress_bar': False,
             'end_text': '计时结束',
@@ -57,8 +57,14 @@ class CountdownWin(QWidget):
         self.cfg = config
         self.app.logger.info('created countdown window')
 
+        self.update_thread = UpdateThread()
+        self.update_thread.setPriority(QThread.IdlePriority)
+        self.update_thread.sig_update.connect(self.update_content)
         self.ui = Ui_Countdown()
         self.ui.setupUi(self)
+        self.setWindowFlag(Qt.WindowCloseButtonHint, False)
+        self.setWindowFlag(Qt.WindowTitleHint, False)
+        self.enabled = None
         for i in (
             self.ui.action_open_config,
             self.ui.action_save_profile
@@ -67,12 +73,11 @@ class CountdownWin(QWidget):
 
         self.load_config()
         self.config_ui = ProfileConfigUI(self.app, self.cfg, self.load_config)
-        self.update_thread = UpdateThread()
-        self.update_thread.setPriority(QThread.IdlePriority)
-        self.update_thread.sig_update.connect(self.update_content)
-        self.update_thread.start()
         self.installEventFilter(self)
-        self.show()
+
+    def show(self) -> None:
+        self.update_thread.start()
+        super(CountdownWin, self).show()
 
     def load_config(self):
         self.cfg.load()
@@ -84,6 +89,7 @@ class CountdownWin(QWidget):
         self.ui.lb_event.setText(self.cfg.cfg['countdown']['title'])
         self.set_win_mode(self.cfg.cfg['window']['window_mode'])
         self.set_window_title_visible(self.cfg.cfg['window']['show_title_bar'])
+        self.set_countdown_enabled(self.cfg.cfg['enabled'])
         self.update_content()
         self.write_config()
         logging.info('loaded config of %s', self.cfg.filename)
@@ -95,6 +101,15 @@ class CountdownWin(QWidget):
             self.setWindowFlag(Qt.FramelessWindowHint, True)
         self.title_visible = stat
         self.show()
+
+    def set_countdown_enabled(self, stat):
+        if stat == self.enabled:
+            return
+        if stat:
+            self.show()
+        else:
+            self.close()
+        self.enabled = stat
 
     def write_config(self):
         self.cfg.cfg['window']['width'] = self.geometry().width()
@@ -135,6 +150,7 @@ class CountdownWin(QWidget):
             return True
         elif watched == self and event.type() == event.MouseButtonDblClick:
             self.set_window_title_visible(not self.title_visible)
+            self.write_config()
         # print(watched, event)
         return super(CountdownWin, self).eventFilter(watched, event)
 
@@ -185,6 +201,7 @@ class CountdownWin(QWidget):
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:
         self.drag_flag = False
         self.setCursor(QCursor(Qt.ArrowCursor))
+        self.write_config()
 
 
 class UpdateThread(QThread):
@@ -198,6 +215,7 @@ class UpdateThread(QThread):
 
     def run(self):
         past = int(time.time())
+        self.stopped = False
         while True:
             if int(time.time()) - past >= 1:
                 past = int(time.time())

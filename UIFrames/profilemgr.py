@@ -53,6 +53,11 @@ class CountdownCard(QWidget):
         if r == QMessageBox.Yes:
             self.app.profile_mgr.remove_profile(self.name)
 
+    def on_cb_enabled_toggled(self, stat):
+        self.cfg.cfg['enabled'] = stat
+        self.cfg.write()
+        self.countdown.load_config()
+
 
 class ProfileMgrUI(QMainWindow):
     def __init__(self, app):
