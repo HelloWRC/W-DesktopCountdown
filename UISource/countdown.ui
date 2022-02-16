@@ -94,6 +94,14 @@
     <string>配置这个计时器</string>
    </property>
   </action>
+  <action name="action_save_profile">
+   <property name="text">
+    <string>保存当前窗口配置</string>
+   </property>
+   <property name="toolTip">
+    <string>将当前窗口的大小、位置保存到配置文件中</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

@@ -10,7 +10,7 @@ import UIFrames.profile_config_ui
 QEventLoopInit_Type = QEvent.registerEventType()  # 注册事件
 
 version = 'develop'
-log_styles = '[%(asctime)s] [%(module)s(%(lineno)s)/%(threadName)s/%(funcName)s] [%(levelname)s] %(message)s'
+log_styles = '[%(asctime)s] [%(threadName)s/%(module)s.%(funcName)s(%(lineno)s)/%(levelname)s] %(message)s'
 datefmt = '%Y/%m/%d %H:%M:%S'
 
 work_root = './'
@@ -106,7 +106,7 @@ class ProfileMgr(QObject):
         logging.info('creating new profile: %s', name)
         self.config_mgr[name] = ConfigFileMgr(profile_prefix + name, self.countdown_cfg_default)
         self.config_mgr[name].load()
-        self.config_ui[name] = UIFrames.profile_config_ui.ProfileConfigUI(self.app)
+        self.config_ui[name] = UIFrames.profile_config_ui.ProfileConfigUI(self.app, self.config_mgr[name])
         self.config_ui[name].show()
         self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, 'style.qss', self.config_mgr[name])
 

@@ -10,7 +10,9 @@ from UIFrames.profile_config_ui import ProfileConfigUI
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import QEvent, QObject, Qt, QThread, pyqtSignal
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.Qt import QApplication
+from PyQt5.QtGui import QMouseEvent
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QCursor
 
 window_update_event = QEvent.registerEventType()
 
@@ -33,8 +35,9 @@ class CountdownWin(QWidget):
         },
         'display': {
             'target_format': '%Y/%m/%d %H:%M:%S',
-            'countdown_format': '%Y/%m/%d %H:%M:%S',
+            'countdown_format': '%H:%M:%S',
             'show_progress_bar': True,
+            'reverse_progress_bar': False,
             'end_text': '计时结束',
             'start_text': '计时未开始',
             'qss_priority': 1
@@ -48,16 +51,22 @@ class CountdownWin(QWidget):
         self.setStyleSheet(function.get_qss(qss_path))
         self.stopped: bool = False
         self.win_mode = 0
+        self.drag_flag = False
+        self.m_pos = None
         self.title_visible = True
         self.cfg = config
         self.app.logger.info('created countdown window')
 
         self.ui = Ui_Countdown()
         self.ui.setupUi(self)
-        self.addAction(self.ui.action_open_config)
+        for i in (
+            self.ui.action_open_config,
+            self.ui.action_save_profile
+        ):
+            self.addAction(i)
 
         self.load_config()
-        self.config_ui = ProfileConfigUI(self.app)
+        self.config_ui = ProfileConfigUI(self.app, self.cfg, self.load_config)
         self.update_thread = UpdateThread()
         self.update_thread.setPriority(QThread.IdlePriority)
         self.update_thread.sig_update.connect(self.update_content)
@@ -109,15 +118,18 @@ class CountdownWin(QWidget):
             self.ui.lb_CountDown.setText(function.strfdelta(delta, self.cfg.cfg['display']['countdown_format']))
 
         # progressbar
+        self.ui.progressBar.setVisible(self.cfg.cfg['display']['show_progress_bar'])
         self.ui.progressBar.setMaximum(self.cfg.cfg['countdown']['end'] - self.cfg.cfg['countdown']['start'])
         if time.time() > self.cfg.cfg['countdown']['end']:
             self.ui.progressBar.setValue(self.ui.progressBar.maximum())
         else:
-            self.ui.progressBar.setValue(time.time() - self.cfg.cfg['countdown']['start'])
+            if self.cfg.cfg['display']['reverse_progress_bar']:
+                self.ui.progressBar.setValue(self.cfg.cfg['countdown']['end'] - time.time())
+            else:
+                self.ui.progressBar.setValue(time.time() - self.cfg.cfg['countdown']['start'])
 
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
         if watched == self and event.type() == event.Close:
-            self.write_config()
             self.update_thread.sig_stop.emit()
             logging.info('countdown window %s closed', self.cfg.cfg['countdown']['title'])
             return True
@@ -133,7 +145,10 @@ class CountdownWin(QWidget):
          -1: 置底
          1:置顶
         """
+
         if level != self.win_mode:
+            self.setWindowFlag(Qt.WindowStaysOnBottomHint, False)
+            self.setWindowFlag(Qt.WindowStaysOnTopHint, False)
             if level == -1:
                 self.setWindowFlag(Qt.WindowStaysOnBottomHint)
             elif level == 0:
@@ -147,8 +162,29 @@ class CountdownWin(QWidget):
 
     @pyqtSlot(bool)
     def on_action_open_config_triggered(self, trigger_type: bool):
+        self.write_config()
         if not trigger_type:
             self.config_ui.show()
+
+    @pyqtSlot(bool)
+    def on_action_save_profile_triggered(self, trigger_type: bool):
+        if not trigger_type:
+            self.write_config()
+
+    def mousePressEvent(self, event: QMouseEvent) -> None:
+        self.drag_flag = True
+        self.m_pos = event.globalPos() - self.pos()
+        event.accept()
+        self.setCursor(QCursor(Qt.OpenHandCursor))
+
+    def mouseMoveEvent(self, event: QMouseEvent) -> None:
+        if Qt.LeftButton and self.drag_flag:
+            self.move(event.globalPos() - self.m_pos)
+        event.accept()
+
+    def mouseReleaseEvent(self, event: QMouseEvent) -> None:
+        self.drag_flag = False
+        self.setCursor(QCursor(Qt.ArrowCursor))
 
 
 class UpdateThread(QThread):

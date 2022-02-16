@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>ProfileConfigUI</class>
  <widget class="QWidget" name="ProfileConfigUI">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>558</width>
-    <height>414</height>
+    <width>574</width>
+    <height>576</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -94,7 +97,11 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QDateTimeEdit" name="dte_starttime"/>
+        <widget class="QDateTimeEdit" name="dte_starttime">
+         <property name="displayFormat">
+          <string>yyyy/M/d H:mm:ss</string>
+         </property>
+        </widget>
        </item>
        <item row="0" column="1">
         <widget class="QLineEdit" name="le_event_name"/>
@@ -120,7 +127,11 @@
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QDateTimeEdit" name="dte_endtime"/>
+        <widget class="QDateTimeEdit" name="dte_endtime">
+         <property name="displayFormat">
+          <string>yyyy/M/d H:mm:ss</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -140,16 +151,13 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="le_target_format"/>
-       </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="lb_end_text_description">
-         <property name="text">
-          <string>TextLabel</string>
+        <widget class="QLineEdit" name="le_target_format">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;占位符说明：&lt;/p&gt;&lt;p&gt;%Y：年（%y：当年后两位数）&lt;/p&gt;&lt;p&gt;%M：月&lt;/p&gt;&lt;p&gt;%d：日&lt;/p&gt;&lt;p&gt;%H：小时（24小时制）&lt;/p&gt;&lt;p&gt;%h：小时（12小时制）&lt;/p&gt;&lt;p&gt;%m：分钟&lt;/p&gt;&lt;p&gt;%s：秒&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="1" column="0">
         <widget class="QLabel" name="lb_countdown_format">
          <property name="text">
           <string>倒计时格式</string>
@@ -159,17 +167,21 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="le_countdown_format"/>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QLabel" name="lb_countdown_format_description">
-         <property name="text">
-          <string>TextLabel</string>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="le_countdown_format">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;占位符说明：&lt;/p&gt;&lt;p&gt;%D：天&lt;/p&gt;&lt;p&gt;%H：小时&lt;/p&gt;&lt;p&gt;%M：分钟&lt;/p&gt;&lt;p&gt;%S：秒&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
+       <item row="2" column="0" colspan="2">
+        <widget class="QLabel" name="lb_countdown_format_description">
+         <property name="text">
+          <string>注意：以上两项配置不能出现未指定的占位符。</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
         <widget class="QLabel" name="lb_start_text">
          <property name="text">
           <string>计时开始前占位文字</string>
@@ -179,10 +191,10 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
+       <item row="3" column="1">
         <widget class="QLineEdit" name="le_start_text"/>
        </item>
-       <item row="5" column="0">
+       <item row="4" column="0">
         <widget class="QLabel" name="lb_endtext">
          <property name="text">
           <string>计时结束后占位文字</string>
@@ -192,17 +204,17 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="4" column="1">
         <widget class="QLineEdit" name="le_end_text"/>
        </item>
-       <item row="6" column="0" colspan="2">
+       <item row="5" column="0" colspan="2">
         <widget class="QCheckBox" name="cb_show_progressbar">
          <property name="text">
           <string>显示进度条</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
+       <item row="6" column="0" colspan="2">
         <widget class="QCheckBox" name="cb_reverse_progressbar">
          <property name="text">
           <string>进度条反转</string>
@@ -219,10 +231,24 @@
        <item row="0" column="1">
         <layout class="QHBoxLayout" name="winpos">
          <item>
-          <widget class="QSpinBox" name="winpos_x"/>
+          <widget class="QSpinBox" name="winpos_x">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="maximum">
+            <number>65536</number>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="winpos_y"/>
+          <widget class="QSpinBox" name="winpos_y">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="maximum">
+            <number>65536</number>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -236,10 +262,24 @@
        <item row="1" column="1">
         <layout class="QHBoxLayout" name="winsize">
          <item>
-          <widget class="QSpinBox" name="winsize_w"/>
+          <widget class="QSpinBox" name="winsize_w">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="maximum">
+            <number>65536</number>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="winsize_h"/>
+          <widget class="QSpinBox" name="winsize_h">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="maximum">
+            <number>65536</number>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -257,17 +297,17 @@
         <widget class="QComboBox" name="cbl_win_mode">
          <item>
           <property name="text">
+           <string>置底</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>正常</string>
           </property>
          </item>
          <item>
           <property name="text">
            <string>置顶</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>置底</string>
           </property>
          </item>
         </widget>
@@ -357,6 +397,13 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="btn_confirm">
+       <property name="text">
+        <string>确定</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="btn_cancle">
        <property name="text">
         <string>取消</string>
@@ -364,9 +411,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_confirm">
+      <widget class="QPushButton" name="btn_apply">
        <property name="text">
-        <string>确定</string>
+        <string>应用</string>
        </property>
       </widget>
      </item>
@@ -375,5 +422,22 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btn_cancle</sender>
+   <signal>released()</signal>
+   <receiver>ProfileConfigUI</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>437</x>
+     <y>396</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>467</x>
+     <y>3</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QSystemTrayIcon
 from PyQt5.QtGui import QIcon
 from UIFrames.countdown import CountdownWin
 from UIFrames.tray import SystemTray
+from UIFrames.profilemgr import ProfileMgrUI
 import resources_rc as res
 import function
 import logging
@@ -18,6 +19,7 @@ class WDesktopCD(QApplication):
     def __init__(self, argv, logger: logging.Logger):
         # 程序开始，初始化基本套件
         super().__init__(argv)
+        self.profile_mgr_ui = None
         self.profile_mgr = None
         self.cdtest: CountdownWin
         self.tray: QSystemTrayIcon = SystemTray(self)
@@ -25,7 +27,7 @@ class WDesktopCD(QApplication):
         self.logger = logger
         self.logger.info('init phase 1')
         self.installEventFilter(self)
-        qt_material.apply_stylesheet(self, 'dark_blue.xml')
+        qt_material.apply_stylesheet(self, 'dark_blue.xml', extra={'font_family': 'Microsoft YaHei UI'})
         res.qInitResources()
         self.sig_phase2_triggered.connect(self.init_phase2)
 
@@ -33,6 +35,7 @@ class WDesktopCD(QApplication):
         # Qt事件处理器启动完毕，开始初始化qt套件
         self.logger.info('init phase 2')
         self.profile_mgr = function.ProfileMgr(self)
+        self.profile_mgr_ui = ProfileMgrUI(self)
         # self.cdtest = CountdownWin(self, 'style.qss', function.ConfigFileMgr('config.json',
         #                                                                      CountdownWin.countdown_config_default))
 

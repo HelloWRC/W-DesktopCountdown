@@ -7,7 +7,9 @@ from PyQt5.QtCore import QEvent
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG,
                         format=function.log_styles,
-                        datefmt=function.datefmt)
+                        datefmt=function.datefmt,
+                        filemode='w',
+                        filename='latest.log')
     logger = logging.getLogger(__name__)
     logger.info('Welcome to W-DesktopCountdown %s.', function.version)
     app = wdcd_app.WDesktopCD([], logger)
