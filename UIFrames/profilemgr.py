@@ -127,3 +127,6 @@ class ProfileMgrUI(QMainWindow):
             return
         self.app.profile_mgr.import_profile(path[0])
 
+    @pyqtSlot(bool)
+    def on_action_settings_triggered(self, triggered):
+        self.app.settings_ui.show()

@@ -1,3 +1,5 @@
+import re
+
 from PyQt5.QtCore import QEvent, QObject
 import os
 import json
@@ -6,17 +8,39 @@ from string import Template
 import UIFrames.countdown
 import UIFrames.new_countdown
 import UIFrames.profile_config_ui
+import properties
 import wcdapp
+import platform
+from properties import log_styles, datefmt, profile_prefix, qss_prefix
 
 QEventLoopInit_Type = QEvent.registerEventType()  # 注册事件
 
-version = '0.2.1 alpha'
-log_styles = '[%(asctime)s] [%(threadName)s/%(module)s.%(funcName)s(%(lineno)s)/%(levelname)s] %(message)s'
-datefmt = '%Y/%m/%d %H:%M:%S'
 
-work_root = './'
-profile_prefix = work_root + 'profiles/'
-qss_prefix = work_root + 'qss-styles/'
+def call_browser(link: str):
+    if platform.system() == 'Windows':
+        os.system('start {}'.format(link))
+    elif platform.system() == 'Linux':
+        os.system('call-browser {} &'.format(link))
+
+
+def rgb2hex(r, g, b):
+    hexc = []
+    for i in (r, g, b):
+        s = str(hex(i))[2:]
+        if len(s) < 2:
+            s = '0' + s
+        hexc.append(s)
+    return '#{}{}{}'.format(hexc[0], hexc[1], hexc[2])
+
+
+def gen_custom_theme(filename, accent_color, is_dark_theme):
+    if is_dark_theme:
+        temple = properties.DARK_THEME_TEMPLE
+    else:
+        temple = properties.LIGHT_THEME_TEMPLE
+    temple = temple.format(accent_color, accent_color)
+    with open(filename, 'w') as theme:
+        theme.write(temple)
 
 
 class DeltaTemplate(Template):
@@ -186,9 +210,23 @@ if __name__ == '__main__':
 
 
 def filename_chk(name):
-    import function
     if name == '':
         name = 'countdown'
-    if os.path.exists(function.profile_prefix + name):
+    if os.path.exists(properties.profile_prefix + name):
         name = name + '_'
     return name
+
+
+def hexcnv(color: int):
+    t1 = re.search(r'(?<=0x[0-f]{2})([0-f]{6})', str(hex(color))).groups()[0]
+    # print(t1)
+    t2 = t1[4:6] + t1[2:4] + t1[0:2]
+    return '#{}'.format(t2)
+
+
+if 'Windows' in platform.system():
+    import winreg
+    with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'Software\Microsoft\Windows\CurrentVersion\Themes\Personalize') as key:
+        properties.ld_themes[2] = properties.ld_themes[1-winreg.QueryValueEx(key, 'AppsUseLightTheme')[0]]
+    with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'SOFTWARE\Microsoft\Windows\DWM') as key:
+        properties.system_color = hexcnv(winreg.QueryValueEx(key, 'AccentColor')[0])

@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import QSystemTrayIcon, QMenu
 from PyQt5.QtGui import QIcon
 from PyQt5.Qt import QAction
+
+import properties
 from UIFrames.new_countdown import NewCountdownWin
 from UIFrames.profilemgr import ProfileMgrUI
 import resources_rc as res
@@ -17,17 +19,17 @@ class SystemTray(QSystemTrayIcon):
         self.setObjectName('SystemTray')
         self.setToolTip('W-DesktopCountdown')
         self.setIcon(QIcon('://resources/icons/colorful/logo.svg'))
-        self.menu = QMenu('W-DesktopCountdown {}'.format(function.version))
+        self.menu = QMenu('W-DesktopCountdown {}'.format(properties.version))
 
-        self.menu_title = QAction('W-DesktopCountdown {}'.format(function.version))
+        self.menu_title = QAction('W-DesktopCountdown {}'.format(properties.version))
         self.menu_title.setEnabled(False)
         self.menu.addAction(self.menu_title)
 
-        self.show_pmui = QAction('显示', triggered=self.open_pmui)
+        self.show_pmui = QAction('倒计时管理', triggered=self.open_pmui)
         self.menu.addAction(self.show_pmui)
 
-        self.add_profile = QAction('添加倒计时', triggered=self.new_countdown)
-        self.menu.addAction(self.add_profile)
+        self.settings = QAction('应用设置', triggered=self.app.settings_ui.show)
+        self.menu.addAction(self.settings)
 
         self.exit = QAction('退出', triggered=self.app.exit)
         self.menu.addAction(self.exit)
