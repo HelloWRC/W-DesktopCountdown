@@ -20,7 +20,7 @@ class WDesktopCD(QApplication):
         # 程序开始，初始化基本套件
         super().__init__(argv)
         self.profile_mgr_ui = None
-        self.profile_mgr = None
+        self.profile_mgr: function.ProfileMgr
         self.cdtest: CountdownWin
         self.tray: QSystemTrayIcon = SystemTray(self)
         self.countdown_win_cls = CountdownWin
