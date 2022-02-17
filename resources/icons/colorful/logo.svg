@@ -1,113 +1,70 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #00cec2;
+      }
 
-<svg
-   width="512"
-   height="512"
-   viewBox="0 0 512 512"
-   version="1.1"
-   id="svg5"
-   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
-   sodipodi:docname="logo.svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview7"
-     pagecolor="#ffffff"
-     bordercolor="#999999"
-     borderopacity="1"
-     inkscape:pageshadow="0"
-     inkscape:pageopacity="0"
-     inkscape:pagecheckerboard="0"
-     inkscape:document-units="px"
-     showgrid="false"
-     inkscape:zoom="1.1794365"
-     inkscape:cx="337.87321"
-     inkscape:cy="249.69551"
-     inkscape:window-width="1920"
-     inkscape:window-height="1002"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
-  <defs
-     id="defs2">
-    <linearGradient
-       inkscape:collect="always"
-       id="linearGradient5507">
-      <stop
-         style="stop-color:#000000;stop-opacity:1;"
-         offset="0"
-         id="stop5503" />
-      <stop
-         style="stop-color:#000000;stop-opacity:0;"
-         offset="1"
-         id="stop5505" />
-    </linearGradient>
-    <linearGradient
-       id="linearGradient3523"
-       inkscape:swatch="solid">
-      <stop
-         style="stop-color:#000000;stop-opacity:1;"
-         offset="0"
-         id="stop3521" />
-    </linearGradient>
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient5507"
-       id="linearGradient5511"
-       x1="13.596223"
-       y1="367.20172"
-       x2="450.15277"
-       y2="367.20172"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.0105166,0,0,84.297538,-369.93403,-30722.327)" />
-    <radialGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient5507"
-       id="radialGradient1283"
-       cx="369.92844"
-       cy="182.89096"
-       fx="369.92844"
-       fy="182.89096"
-       r="137.88034"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.1390177,0.01110255,-0.01117514,1.1464644,-49.382781,-30.894163)" />
+      .cls-1, .cls-11, .cls-12, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2 {
+        fill: #fffba8;
+      }
+
+      .cls-3 {
+        fill: #e3de88;
+      }
+
+      .cls-4 {
+        fill: #ec6eac;
+      }
+
+      .cls-5 {
+        fill: #ec1e84;
+      }
+
+      .cls-10, .cls-6 {
+        fill: #282828;
+      }
+
+      .cls-7, .cls-9 {
+        fill: #fff;
+      }
+
+      .cls-8 {
+        fill: #c5c5c5;
+      }
+
+      .cls-10, .cls-11, .cls-12, .cls-9 {
+        stroke: #282828;
+      }
+
+      .cls-10, .cls-12, .cls-9 {
+        stroke-width: 5px;
+      }
+
+      .cls-11, .cls-12 {
+        fill: none;
+      }
+
+      .cls-11 {
+        stroke-width: 3px;
+      }
+    </style>
   </defs>
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1">
-    <rect
-       style="fill:#0053c9;stroke-width:1.45519;stroke:#0054c7;stroke-opacity:1;fill-opacity:1"
-       id="rect133"
-       width="436.55655"
-       height="247.38205"
-       x="13.596223"
-       y="142.95984" />
-    <circle
-       style="fill:#ffffff;stroke:url(#radialGradient1283);fill-opacity:1"
-       id="path261"
-       cx="369.92844"
-       cy="182.89096"
-       r="137.38034" />
-    <rect
-       style="fill:#323232;fill-opacity:1;stroke:#323232;stroke-width:1.0005;stroke-opacity:1"
-       id="rect2772"
-       width="436.55655"
-       height="20.550797"
-       x="13.596223"
-       y="369.79108" />
-    <rect
-       style="fill:url(#linearGradient5511);fill-opacity:1;stroke:none;stroke-width:0.691922;stroke-opacity:1"
-       id="rect3171"
-       width="4.5910873"
-       height="436.55655"
-       x="-369.79108"
-       y="13.596223"
-       transform="rotate(-90)" />
-  </g>
+  <path id="矩形_2" data-name="矩形 2" class="cls-2" d="M17.143,140h20v19.241h-20V140Zm0,0h20v19.241h-20V140Z"/>
+  <path id="矩形_2-2" data-name="矩形 2" class="cls-3" d="M17.143,140l9.485,9.111,10.515,10.144h-20V140Zm0,0,9.485,9.111,10.515,10.144h-20V140Z"/>
+  <path id="矩形_2-3" data-name="矩形 2" class="cls-4" d="M17.143,165.045h20v19.241h-20V165.045Zm0,0h20v19.241h-20V165.045Z"/>
+  <path id="矩形_2-4" data-name="矩形 2" class="cls-5" d="M17.143,165.031l9.485,9.111,10.515,10.144h-20V165.031Zm0,0,9.485,9.111,10.515,10.144h-20V165.031Z"/>
+  <path id="矩形_1" data-name="矩形 1" class="cls-1" d="M10,131.429H238.571V260H10V131.429Z"/>
+  <path id="矩形_3" data-name="矩形 3" class="cls-6" d="M10,245.714H238.571V260H10V245.714Z"/>
+  <path id="矩形_4" data-name="矩形 4" class="cls-7" d="M12.857,248.571h8.571v8.572H12.857v-8.572Z"/>
+  <path id="矩形_4-2" data-name="矩形 4" class="cls-8" d="M12.857,248.571l4.286,4.286,4.286,4.286H12.857v-8.572Z"/>
+  <path id="椭圆_1" data-name="椭圆 1" class="cls-9" d="M238.571,60a71.429,71.429,0,1,1-71.428,71.429A71.429,71.429,0,0,1,238.571,60ZM133,64"/>
+  <circle id="椭圆_2" data-name="椭圆 2" class="cls-10" cx="239" cy="131" r="5"/>
+  <path id="形状_1" data-name="形状 1" class="cls-11" d="M238.89,132.37l1.22-2.74,55.726,24.811-1.22,2.74Z"/>
+  <path id="形状_2" data-name="形状 2" class="cls-12" d="M236.835,129.25l4.33,2.5-20,34.641-4.33-2.5Z"/>
+  <path id="形状_3" data-name="形状 3" class="cls-12" d="M239.5,130.866l-1-1.732,52.828-30.5,1,1.732Z"/>
 </svg>
