@@ -3,6 +3,7 @@ import function
 import time
 import shutil
 
+import properties
 import wcdapp
 from UIFrames.ui_profilemgr import Ui_ProfileMgr
 from UIFrames.ui_countdown_card import Ui_CountdownCard
@@ -15,17 +16,23 @@ from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtCore import QSize
 from PyQt5.QtCore import QEvent
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import QCoreApplication
+
+tr = QCoreApplication.translate
 
 
 class CountdownCard(QWidget):
-    def __init__(self, name, item, cfg, countdown, app):
+    def __init__(self, name, item, cfg, cfgui, countdown, app,
+                 default_cfg=False):
         from UIFrames.countdown import CountdownWin
         super(CountdownCard, self).__init__()
         self.item: QListWidgetItem = item
         self.name = name
+        self.cfg_ui = cfgui
         self.app: wcdapp.WDesktopCD = app
         self.cfg: function.ConfigFileMgr = cfg
         self.countdown: CountdownWin = countdown
+        self.default_cfg = default_cfg
         self.ui = Ui_CountdownCard()
         self.ui.setupUi(self)
         self.load_val()
@@ -33,19 +40,26 @@ class CountdownCard(QWidget):
     def load_val(self):
         from UIFrames.countdown import CountdownWin
 
-        self.ui.lb_title.setText('<html><head/><body><p><span style=" font-size:28pt; font-weight:700;">{}</span></p></body></html>'.format(self.cfg.cfg['countdown']['title']))
-        self.ui.lb_time.setText('{} - {}'.format(
-            time.strftime(CountdownWin.countdown_config_default['display']['target_format'],
-                          time.localtime(self.cfg.cfg['countdown']['start'])),
-            time.strftime(
-                CountdownWin.countdown_config_default['display'][
-                    'target_format'],
-                time.localtime(self.cfg.cfg['countdown']['end']))
-            ))
-        self.ui.cb_enabled.setChecked(self.cfg.cfg['enabled'])
+        if self.default_cfg:
+            self.ui.lb_time.setText(tr('CountdownCard', '用于创建新倒计时的模板。'))
+            self.ui.lb_title.setText(
+                tr('CountdownCard', '<html><head/><body><p><span style=" font-size:28pt; font-weight:700;">默认配置</span></p></body></html>'))
+            self.ui.cb_enabled.setVisible(False)
+            self.ui.btn_del.setVisible(False)
+        else:
+            self.ui.lb_title.setText('<html><head/><body><p><span style=" font-size:28pt; font-weight:700;">{}</span></p></body></html>'.format(self.cfg.cfg['countdown']['title']))
+            self.ui.lb_time.setText('{} - {}'.format(
+                time.strftime(CountdownWin.countdown_config_default['display']['target_format'],
+                              time.localtime(self.cfg.cfg['countdown']['start'])),
+                time.strftime(
+                    CountdownWin.countdown_config_default['display'][
+                        'target_format'],
+                    time.localtime(self.cfg.cfg['countdown']['end']))
+                ))
+            self.ui.cb_enabled.setChecked(self.cfg.cfg['enabled'])
 
     def on_btn_edit_released(self):
-        self.countdown.config_ui.show()
+        self.cfg_ui.show()
 
     def on_btn_del_released(self):
         r = QMessageBox.warning(self, '删除{}'.format(self.cfg.cfg['countdown']['title']),
@@ -89,8 +103,15 @@ class ProfileMgrUI(QMainWindow):
             self.cards[i] = QListWidgetItem('')
             self.cards[i].setSizeHint(QSize(320, 160))
             self.ui.countdowns.addItem(self.cards[i])
-            self.cards_widget[i] = CountdownCard(i, self.cards[i], self.profile_mgr.config_mgr[i],
-                                                 self.profile_mgr.countdowns_win[i], self.app)
+            if i == properties.default_profile_name:
+                self.cards_widget[i] = CountdownCard(i, self.cards[i], self.profile_mgr.config_mgr[i],
+                                                     self.profile_mgr.config_ui[i],
+                                                     None, self.app, True)
+            else:
+                self.cards_widget[i] = CountdownCard(i, self.cards[i], self.profile_mgr.config_mgr[i],
+                                                     self. profile_mgr.config_ui[i],
+                                                     self.profile_mgr.countdowns_win[i], self.app, False)
+
             self.ui.countdowns.setItemWidget(self.cards[i], self.cards_widget[i])
 
     def refresh(self, refresh_type=0) -> None:

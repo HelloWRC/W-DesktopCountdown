@@ -45,8 +45,9 @@ class CountdownWin(QWidget):
         'enabled': True
     }
 
-    def __init__(self, app, qss_path: str, config: function.ConfigFileMgr):
+    def __init__(self, app, name, qss_path: str, config: function.ConfigFileMgr):
         self.app = app
+        self.name = name
         super(CountdownWin, self).__init__()
         self.setStyleSheet(function.get_qss(qss_path))
         self.stopped: bool = False
@@ -72,7 +73,7 @@ class CountdownWin(QWidget):
             self.addAction(i)
 
         self.load_config()
-        self.config_ui = ProfileConfigUI(self.app, self.cfg, self.load_config)
+        self.config_ui = ProfileConfigUI(self.app, self.name, self.cfg, self.load_config)
         self.installEventFilter(self)
 
     def show(self) -> None:

@@ -31,29 +31,14 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="1" column="0">
-        <widget class="QPushButton" name="btn_save_default">
+        <widget class="QPushButton" name="btn_reset_default">
          <property name="text">
           <string>还原为默认值</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="3">
-        <widget class="QPushButton" name="btn_edit_default">
-         <property name="text">
-          <string>编辑默认档案</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="lb_gernal_description">
-         <property name="text">
-          <string>这里是倒计时档案配置页面。
-文件保存在：{}</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="1">
-        <widget class="QPushButton" name="btn_save_default_2">
+        <widget class="QPushButton" name="btn_save_as_default">
          <property name="text">
           <string>将此档案设为默认</string>
          </property>
@@ -72,10 +57,18 @@
          </property>
         </spacer>
        </item>
-       <item row="0" column="3">
+       <item row="1" column="2">
         <widget class="QPushButton" name="btn_open_folder">
          <property name="text">
           <string>打开档案文件夹</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="3">
+        <widget class="QLabel" name="lb_gernal_description">
+         <property name="text">
+          <string>这里是倒计时档案配置页面。
+文件保存在：{}</string>
          </property>
         </widget>
        </item>

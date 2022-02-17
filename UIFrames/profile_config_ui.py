@@ -10,13 +10,15 @@ from PyQt5.Qt import QApplication
 
 
 class ProfileConfigUI(QWidget):
-    def __init__(self, app, cfg, update_trigger=None):
+    def __init__(self, app, name, cfg, update_trigger=None, default_cfg=False):
         self.desktop = None
         import function
         import wcdapp
         self.app: wcdapp.WDesktopCD = app
         self.cfg: function.ConfigFileMgr = cfg
         self.update_trigger = update_trigger
+        self.default_cfg = default_cfg
+        self.name = name
         super(ProfileConfigUI, self).__init__()
         self.ui = Ui_ProfileConfigUI()
         self.ui.setupUi(self)
@@ -43,6 +45,21 @@ class ProfileConfigUI(QWidget):
             return
         self.save_val()
 
+    def on_btn_reset_default_released(self):
+        r = QMessageBox.warning(self, '重置'.format(self.cfg.cfg['countdown']['title']),
+                                '你真的要重置这个档案吗？这将把除倒计时设置以外的所有设置重置为默认值！',
+                                buttons=QMessageBox.Yes | QMessageBox.No,
+                                defaultButton=QMessageBox.No)
+        if r == QMessageBox.Yes:
+            import wcdapp
+            self.app.profile_mgr.reset_profile(self.name)
+            self.load_val()
+            if self.default_cfg:
+                QMessageBox.information(self, '提示', '您可能需要重启应用才能看到所做的更改。')
+            if self.update_trigger is not None:
+                self.update_trigger()
+            self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))
+
     def check_val(self) -> bool:
         import function
         start_time = int(time.mktime(self.ui.dte_starttime.dateTime().toPyDateTime().timetuple()))
@@ -66,9 +83,14 @@ class ProfileConfigUI(QWidget):
         self.ui.lb_gernal_description.setText(self.ui.lb_gernal_description.text().format(self.cfg.filename))
 
         # countdown
-        self.ui.le_event_name.setText(self.cfg.cfg['countdown']['title'])
-        self.ui.dte_starttime.setDateTime(datetime.datetime.fromtimestamp(self.cfg.cfg['countdown']['start']))
-        self.ui.dte_endtime.setDateTime(datetime.datetime.fromtimestamp(self.cfg.cfg['countdown']['end']))
+        if self.default_cfg:
+            self.ui.tab_countdown.setVisible(False)
+            self.ui.tab_countdown.setEnabled(False)
+            self.ui.le_event_name.setText('此设置在编辑默认设置时不可用。')
+        else:
+            self.ui.le_event_name.setText(self.cfg.cfg['countdown']['title'])
+            self.ui.dte_starttime.setDateTime(datetime.datetime.fromtimestamp(self.cfg.cfg['countdown']['start']))
+            self.ui.dte_endtime.setDateTime(datetime.datetime.fromtimestamp(self.cfg.cfg['countdown']['end']))
         # display
         self.ui.le_target_format.setText(self.cfg.cfg['display']['target_format'])
         self.ui.le_countdown_format.setText(self.cfg.cfg['display']['countdown_format'])
@@ -91,9 +113,10 @@ class ProfileConfigUI(QWidget):
     def save_val(self):
         import wcdapp
         # countdown
-        self.cfg.cfg['countdown']['title'] = self.ui.le_event_name.text()
-        self.cfg.cfg['countdown']['start'] = int(time.mktime(self.ui.dte_starttime.dateTime().toPyDateTime().timetuple()))
-        self.cfg.cfg['countdown']['end'] = int(time.mktime(self.ui.dte_endtime.dateTime().toPyDateTime().timetuple()))
+        if not self.default_cfg:
+            self.cfg.cfg['countdown']['title'] = self.ui.le_event_name.text()
+            self.cfg.cfg['countdown']['start'] = int(time.mktime(self.ui.dte_starttime.dateTime().toPyDateTime().timetuple()))
+            self.cfg.cfg['countdown']['end'] = int(time.mktime(self.ui.dte_endtime.dateTime().toPyDateTime().timetuple()))
         # display
         self.cfg.cfg['display']['target_format'] = self.ui.le_target_format.text()
         self.cfg.cfg['display']['countdown_format'] = self.ui.le_countdown_format.text()
