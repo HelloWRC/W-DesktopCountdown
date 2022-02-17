@@ -54,10 +54,18 @@ class ProfileConfigUI(QWidget):
             import wcdapp
             self.app.profile_mgr.reset_profile(self.name)
             self.load_val()
-            if self.default_cfg:
-                QMessageBox.information(self, '提示', '您可能需要重启应用才能看到所做的更改。')
             if self.update_trigger is not None:
                 self.update_trigger()
+            self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))
+
+    def on_btn_save_as_default_released(self):
+        r = QMessageBox.warning(self, '设为默认'.format(self.cfg.cfg['countdown']['title']),
+                                '你真的要将此档案设为用于创建其它倒计时的模板吗？这会将除倒计时设置以外的所有设置覆盖到原有的模板上！',
+                                buttons=QMessageBox.Yes | QMessageBox.No,
+                                defaultButton=QMessageBox.No)
+        if r == QMessageBox.Yes:
+            import wcdapp
+            self.app.profile_mgr.set_as_default(self.name)
             self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))
 
     def check_val(self) -> bool:
@@ -87,6 +95,7 @@ class ProfileConfigUI(QWidget):
             self.ui.tab_countdown.setVisible(False)
             self.ui.tab_countdown.setEnabled(False)
             self.ui.le_event_name.setText('此设置在编辑默认设置时不可用。')
+            self.ui.btn_save_as_default.setEnabled(False)
         else:
             self.ui.le_event_name.setText(self.cfg.cfg['countdown']['title'])
             self.ui.dte_starttime.setDateTime(datetime.datetime.fromtimestamp(self.cfg.cfg['countdown']['start']))

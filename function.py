@@ -4,6 +4,7 @@ from PyQt5.QtCore import QEvent, QObject
 import os
 import json
 import logging
+import copy
 from string import Template
 import UIFrames.countdown
 import UIFrames.new_countdown
@@ -201,6 +202,18 @@ class ProfileMgr(QObject):
         self.config_mgr[name].cfg['countdown']['title'] = title
         self.config_mgr[name].cfg['countdown']['start'] = start
         self.config_mgr[name].cfg['countdown']['end'] = end
+
+        self.update_all_defaults()
+
+    def set_as_default(self, name):
+        self.config_mgr[default_profile_name].cfg = copy.deepcopy(self.config_mgr[name].cfg)
+        self.update_all_defaults()
+
+    def update_all_defaults(self):
+        for i in self.profiles:
+            if i == default_profile_name:
+                continue
+            self.config_mgr[i].mapping = self.config_mgr[default_profile_name].cfg
 
 
 def get_qss(path: str):
