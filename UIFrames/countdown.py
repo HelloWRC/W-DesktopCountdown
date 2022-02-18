@@ -5,6 +5,9 @@ import function
 import time
 import datetime
 import threading
+import ctypes
+
+import properties
 from UIFrames.ui_countdown import Ui_Countdown
 from UIFrames.profile_config_ui import ProfileConfigUI
 from PyQt5.QtWidgets import QWidget
@@ -18,32 +21,10 @@ window_update_event = QEvent.registerEventType()
 
 
 class CountdownWin(QWidget):
-    countdown_config_default = {
-        'window': {
-            'width': 300,
-            'height': 100,
-            'window_mode': 0,
-            'pos_x': 0,
-            'pos_y': 0,
-            'show_title_bar': True,
-
-        },
-        'countdown': {
-            'start': 0,
-            'end': 0,
-            'title': 'countdown'
-        },
-        'display': {
-            'target_format': '%Y/%m/%d %H:%M:%S',
-            'countdown_format': '%D天%H:%M:%S',
-            'show_progress_bar': True,
-            'reverse_progress_bar': False,
-            'end_text': '计时结束',
-            'start_text': '计时未开始',
-            'qss_priority': 1
-        },
-        'enabled': True
-    }
+    countdown_config_default = properties.countdown_config_default
+    widget_list = [
+        'hl_description', 'lb_event', 'lb_targetdate', 'lb_text1', 'lb_text2', 'lb_CountDown', 'progressBar'
+    ]
 
     def __init__(self, app, name, qss_path: str, config: function.ConfigFileMgr):
         self.app = app

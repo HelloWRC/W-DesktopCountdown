@@ -221,6 +221,16 @@ def get_qss(path: str):
         return qss.read()
 
 
+def mk_qss(style: dict):
+    result = []
+    for i in style:
+        main_section = []
+        for k in style[i]:
+            main_section.append('{}: {}'.format(k, style[i][k]))
+        result.append('#' + i + '{' + ';'.join(main_section) + '}')
+    return '\n'.join(result)
+
+
 # ========== TEST ==========
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,

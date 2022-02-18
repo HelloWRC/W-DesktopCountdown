@@ -26,6 +26,71 @@ ld_themes = [
 
 system_color = '#FF5D99'
 
+countdown_config_default = {
+    'window': {
+        'width': 300,
+        'height': 100,
+        'window_mode': 0,
+        'pos_x': 0,
+        'pos_y': 0,
+        'show_title_bar': True,
+
+    },
+    'countdown': {
+        'start': 0,
+        'end': 0,
+        'title': 'countdown'
+    },
+    'display': {
+        'target_format': '%Y/%m/%d %H:%M:%S',
+        'countdown_format': '%D天%H:%M:%S',
+        'show_progress_bar': True,
+        'reverse_progress_bar': False,
+        'end_text': '计时结束',
+        'start_text': '计时未开始',
+        'qss_priority': 1
+    },
+    'style': {
+        'hl_description': {},
+        'lb_event': {},
+        'lb_targetdate': {},
+        'lb_text1': {},
+        'lb_text2': {},
+        'lb_CountDown': {},
+        'progressBar': {}
+    },
+    'style_enabled': {
+        'hl_description': {},
+        'lb_event': {},
+        'lb_targetdate': {},
+        'lb_text1': {},
+        'lb_text2': {},
+        'lb_CountDown': {},
+        'progressBar': {}
+    },
+    'enabled': True
+}
+
+default_widget_style = {
+    'background-color': '#FFFFFF',
+    'background-image': '',
+    'background-repeat': 'no-repeat',
+    'background-position': '',
+    'font': '',
+    'color': '',
+    'border-radius': ''
+}
+
+default_widget_enabled = {
+    'background-color': False,
+    'background-image': False,
+    'background-repeat': False,
+    'background-position': False,
+    'font': False,
+    'color': False,
+    'border-radius': False
+}
+
 default_config = {
     'appearance': {
         'language': 'zhs',

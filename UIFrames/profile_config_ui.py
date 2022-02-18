@@ -1,9 +1,13 @@
 import datetime
 import logging
+import os
 import time
+
+import properties
 from UIFrames.ui_profile_config_ui import Ui_ProfileConfigUI
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QInputDialog
 from PyQt5.QtCore import QEvent
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.Qt import QApplication
@@ -12,6 +16,7 @@ from PyQt5.Qt import QApplication
 class ProfileConfigUI(QWidget):
     def __init__(self, app, name, cfg, update_trigger=None, default_cfg=False):
         self.desktop = None
+        self._final = False
         import function
         import wcdapp
         self.app: wcdapp.WDesktopCD = app
@@ -19,9 +24,18 @@ class ProfileConfigUI(QWidget):
         self.update_trigger = update_trigger
         self.default_cfg = default_cfg
         self.name = name
+        self.last_style_widget = None
         super(ProfileConfigUI, self).__init__()
         self.ui = Ui_ProfileConfigUI()
         self.ui.setupUi(self)
+        self.ui.cb_widgets.clear()
+        for i in self.cfg.cfg['style']:
+            function.default_pass(self.cfg.cfg['style'][i], properties.default_widget_style)
+            function.default_pass(self.cfg.cfg['style_enabled'][i], properties.default_widget_enabled)
+            self.ui.cb_widgets.addItem(i)
+        self.last_style_widget = self.ui.cb_widgets.currentText()
+        self._final = True
+        self.ui.cb_widgets.setCurrentIndex(0)
         self.load_val()
 
     def ghost(self):
@@ -68,6 +82,9 @@ class ProfileConfigUI(QWidget):
             self.app.profile_mgr.set_as_default(self.name)
             self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))
 
+    def on_btn_open_folder_released(self):
+        os.startfile(os.getcwd() + properties.profile_prefix)
+
     def check_val(self) -> bool:
         import function
         start_time = int(time.mktime(self.ui.dte_starttime.dateTime().toPyDateTime().timetuple()))
@@ -83,6 +100,8 @@ class ProfileConfigUI(QWidget):
         return True
 
     def load_val(self):
+        import function
+        self._final = False
         self.desktop = self.app.desktop()
         rect = self.desktop.screenGeometry()
         maxw = rect.width()
@@ -118,6 +137,9 @@ class ProfileConfigUI(QWidget):
         self.ui.winsize_w.setValue(self.cfg.cfg['window']['width'])
         self.ui.cbl_win_mode.setCurrentIndex(self.cfg.cfg['window']['window_mode'] + 1)
         self.ui.cb_titlebar.setChecked(self.cfg.cfg['window']['show_title_bar'])
+        # style
+
+        self._final = True
 
     def save_val(self):
         import wcdapp
@@ -145,3 +167,13 @@ class ProfileConfigUI(QWidget):
         if self.update_trigger is not None:
             self.update_trigger()
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))
+
+    def on_cb_widgets_currentTextChanged(self, text):
+        if not self._final:
+            return
+        self.load_widget_style(text)
+
+    def load_widget_style(self, widget):
+        style_root = self.cfg.cfg['style'][widget]
+        self.ui.btn_bgcolor.setText(style_root['background-color'])
+        self.ui.le_bgpic.setText(style_root['background-image'])
