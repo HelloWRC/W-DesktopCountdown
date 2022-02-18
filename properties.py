@@ -75,10 +75,13 @@ default_widget_style = {
     'background-color': '#FFFFFF',
     'background-image': '',
     'background-repeat': 'no-repeat',
-    'background-position': '',
+    'background-position': 'center center',
     'font': '',
-    'color': '',
-    'border-radius': ''
+    'color': '#FFFFFF',
+    'border-radius': 0,
+    'border-size': 0,
+    'border-color': '#000000',
+    'border-style': 'solid'
 }
 
 default_widget_enabled = {
@@ -88,7 +91,11 @@ default_widget_enabled = {
     'background-position': False,
     'font': False,
     'color': False,
-    'border-radius': False
+    'border-radius': False,
+    'border-size': False,
+    'border-color': False,
+    'border-style': False
+
 }
 
 default_config = {

@@ -101,7 +101,6 @@ class ProfileConfigUI(QWidget):
 
     def load_val(self):
         import function
-        self._final = False
         self.desktop = self.app.desktop()
         rect = self.desktop.screenGeometry()
         maxw = rect.width()
@@ -138,8 +137,7 @@ class ProfileConfigUI(QWidget):
         self.ui.cbl_win_mode.setCurrentIndex(self.cfg.cfg['window']['window_mode'] + 1)
         self.ui.cb_titlebar.setChecked(self.cfg.cfg['window']['show_title_bar'])
         # style
-
-        self._final = True
+        self.load_widget_style(self.ui.cb_widgets.currentText())
 
     def save_val(self):
         import wcdapp
@@ -162,6 +160,8 @@ class ProfileConfigUI(QWidget):
         self.cfg.cfg['window']['width'] = self.ui.winsize_w.value()
         self.cfg.cfg['window']['window_mode'] = self.ui.cbl_win_mode.currentIndex() - 1
         self.cfg.cfg['window']['show_title_bar'] = self.ui.cb_titlebar.isChecked()
+        # style
+        self.save_widget_style(self.last_style_widget)
 
         self.cfg.write()
         if self.update_trigger is not None:
@@ -171,9 +171,62 @@ class ProfileConfigUI(QWidget):
     def on_cb_widgets_currentTextChanged(self, text):
         if not self._final:
             return
+        self.save_widget_style(self.last_style_widget)
         self.load_widget_style(text)
+        self.last_style_widget = text
 
     def load_widget_style(self, widget):
         style_root = self.cfg.cfg['style'][widget]
+        state_root = self.cfg.cfg['style_enabled'][widget]
+        # value
         self.ui.btn_bgcolor.setText(style_root['background-color'])
         self.ui.le_bgpic.setText(style_root['background-image'])
+        if style_root['background-repeat'] == 'repeat':
+            self.ui.cb_clip_bg.setChecked(True)
+        else:
+            self.ui.cb_clip_bg.setChecked(False)
+        self.ui.cb_bgpos1.setCurrentText(style_root['background-position'].split(' ')[0])
+        self.ui.cb_bgpos2.setCurrentText(style_root['background-position'].split(' ')[1])
+        self.ui.btn_font.setText(style_root['font'])
+        self.ui.btn_color.setText(style_root['color'])
+        self.ui.sb_radius.setValue(style_root['border-radius'])
+        self.ui.sb_bordersize.setValue(style_root['border-size'])
+        self.ui.btn_bordercolor.setText(style_root['border-color'])
+        self.ui.cb_border_style.setCurrentText(style_root['border-style'])
+
+        # state
+        att = [i for i in state_root]
+        att.remove('background-repeat')
+        wid = [self.ui.lb_bgcolor, self.ui.lb_bgpic, self.ui.lb_bgpos, self.ui.lb_font,
+               self.ui.lb_color, self.ui.lb_radius, self.ui.lb_border_size, self.ui.lb_border_color,
+               self.ui.lb_border_style]
+        for i in range(9):
+            wid[i].setChecked(state_root[att[i]])
+
+    def save_widget_style(self, widget):
+        style_root = self.cfg.cfg['style'][widget]
+        state_root = self.cfg.cfg['style_enabled'][widget]
+
+        # value
+        style_root['background-color'] = self.ui.btn_bgcolor.text()
+        style_root['background-image'] = self.ui.le_bgpic.text()
+        if self.ui.cb_clip_bg.isChecked():
+            style_root['background-repeat'] = 'repeat'
+        else:
+            style_root['background-repeat'] = 'no-repeat'
+        style_root['background-position'] = ' '.join([i.currentText() for i in [self.ui.cb_bgpos1, self.ui.cb_bgpos2]])
+        style_root['font'] = self.ui.btn_font.text()
+        style_root['color'] = self.ui.btn_color.text()
+        style_root['border-radius'] = self.ui.sb_radius.value()
+        style_root['border-size'] = self.ui.sb_bordersize.value()
+        style_root['border-color'] = self.ui.btn_bordercolor.text()
+        style_root['border-style'] = self.ui.cb_border_style.currentText()
+
+        # state
+        att = [i for i in state_root]
+        att.remove('background-repeat')
+        wid = [self.ui.lb_bgcolor, self.ui.lb_bgpic, self.ui.lb_bgpos, self.ui.lb_font,
+               self.ui.lb_color, self.ui.lb_radius, self.ui.lb_border_size, self.ui.lb_border_color,
+               self.ui.lb_border_style]
+        for i in range(9):
+            state_root[att[i]] = wid[i].isChecked()
