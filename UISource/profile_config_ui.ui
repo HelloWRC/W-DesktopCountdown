@@ -23,7 +23,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_gernal">
       <attribute name="title">
@@ -386,7 +386,11 @@
        <item row="7" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QLineEdit" name="le_bgpic"/>
+          <widget class="QLineEdit" name="le_bgpic">
+           <property name="inputMask">
+            <string/>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btn_browse_bgpic">

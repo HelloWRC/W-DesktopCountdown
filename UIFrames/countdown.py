@@ -26,11 +26,10 @@ class CountdownWin(QWidget):
         'hl_description', 'lb_event', 'lb_targetdate', 'lb_text1', 'lb_text2', 'lb_CountDown', 'progressBar'
     ]
 
-    def __init__(self, app, name, qss_path: str, config: function.ConfigFileMgr):
+    def __init__(self, app, name, config: function.ConfigFileMgr):
         self.app = app
         self.name = name
         super(CountdownWin, self).__init__()
-        self.setStyleSheet(function.get_qss(qss_path))
         self.stopped: bool = False
         self.win_mode = 0
         self.drag_flag = False
@@ -77,6 +76,7 @@ class CountdownWin(QWidget):
         self.update_content()
         self.write_config()
         logging.info('loaded config of %s', self.cfg.filename)
+        self.setStyleSheet(function.mk_qss(self.cfg.cfg['style'], self.cfg.cfg['style_enabled']))
 
     def set_window_title_visible(self, stat: bool):
         if stat:

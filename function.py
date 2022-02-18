@@ -137,7 +137,7 @@ class ProfileMgr(QObject):
             if i == default_profile_name:
                 continue
             self.config_mgr[i] = ConfigFileMgr(profile_prefix + i, self.config_mgr[default_profile_name].cfg)
-            self.countdowns_win[i] = UIFrames.countdown.CountdownWin(self.app, i, 'style.qss', self.config_mgr[i])
+            self.countdowns_win[i] = UIFrames.countdown.CountdownWin(self.app, i, self.config_mgr[i])
             self.config_ui[i] = self.countdowns_win[i].config_ui
 
     def load_profiles_list(self):
@@ -147,7 +147,7 @@ class ProfileMgr(QObject):
     def spawn_countdown_win(self, name: str):
         self.config_mgr[name] = ConfigFileMgr(profile_prefix +
                                               name, self.countdown_cfg_default)
-        self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, qss_prefix + name, self.config_mgr[name])
+        self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, qss_prefix + name, )
         self.config_ui[name] = self.countdowns_win[name].config_ui
         logging.info('spawned window: %s', name)
 
@@ -163,7 +163,7 @@ class ProfileMgr(QObject):
         self.config_mgr[name].cfg['countdown']['start'] = start_time
         self.config_mgr[name].cfg['countdown']['end'] = end_time
         self.config_mgr[name].write()
-        self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, name, 'style.qss', self.config_mgr[name])
+        self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, name, self.config_mgr[name])
         self.config_ui[name] = self.countdowns_win[name].config_ui
         self.config_ui[name].show()
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileFileEvent))
@@ -176,7 +176,7 @@ class ProfileMgr(QObject):
         self.profiles.append(name)
         self.config_mgr[name] = cfm
         self.config_mgr[name].copy_to(profile_prefix + filename_chk(name))
-        self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, name, 'style.qss', self.config_mgr[name])
+        self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, name, self.config_mgr[name])
         self.config_ui[name] = self.countdowns_win[name].config_ui
         self.config_ui[name].show()
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileFileEvent))
@@ -221,13 +221,14 @@ def get_qss(path: str):
         return qss.read()
 
 
-def mk_qss(style: dict):
+def mk_qss(style: dict, states: dict):
     result = []
     for i in style:
         main_section = []
         for k in style[i]:
-            main_section.append('{}: {}'.format(k, style[i][k]))
-        result.append('#' + i + '{' + ';'.join(main_section) + '}')
+            if states[i][k]:
+                main_section.append('  {}: {}'.format(k, style[i][k]))
+        result.append('#' + i + '{\n' + ';\n'.join(main_section) + '}')
     return '\n'.join(result)
 
 

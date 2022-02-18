@@ -51,18 +51,20 @@ countdown_config_default = {
         'qss_priority': 1
     },
     'style': {
+        'Countdown': {},
         'hl_description': {},
         'lb_event': {},
-        'lb_targetdate': {},
+        'lb_targetddate': {},
         'lb_text1': {},
         'lb_text2': {},
         'lb_CountDown': {},
         'progressBar': {}
     },
     'style_enabled': {
+        'Countdown': {},
         'hl_description': {},
         'lb_event': {},
-        'lb_targetdate': {},
+        'lb_targetddate': {},
         'lb_text1': {},
         'lb_text2': {},
         'lb_CountDown': {},
@@ -87,7 +89,7 @@ default_widget_style = {
 default_widget_enabled = {
     'background-color': False,
     'background-image': False,
-    'background-repeat': False,
+    'background-repeat': True,
     'background-position': False,
     'font': False,
     'color': False,

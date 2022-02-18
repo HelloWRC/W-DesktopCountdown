@@ -185,7 +185,7 @@ class ProfileConfigUI(QWidget):
         state_root = self.cfg.cfg['style_enabled'][widget]
         # value
         self.ui.btn_bgcolor.setText(style_root['background-color'])
-        self.ui.le_bgpic.setText(style_root['background-image'])
+        self.ui.le_bgpic.setText(style_root['background-image'][4:-1])
         if style_root['background-repeat'] == 'repeat':
             self.ui.cb_clip_bg.setChecked(True)
         else:
@@ -214,7 +214,7 @@ class ProfileConfigUI(QWidget):
 
         # value
         style_root['background-color'] = self.ui.btn_bgcolor.text()
-        style_root['background-image'] = self.ui.le_bgpic.text()
+        style_root['background-image'] = 'url({})'.format(self.ui.le_bgpic.text())
         if self.ui.cb_clip_bg.isChecked():
             style_root['background-repeat'] = 'repeat'
         else:
@@ -262,15 +262,13 @@ class ProfileConfigUI(QWidget):
 
     def on_btn_font_released(self):
         font_l = self.ui.btn_font.text().split(' ')
-        if len(font_l) == 4:
-            font_r = QFont(font_l[3])
-            font_r.setStyle(font_l[0])
-            font_r.setWeight(font_l[1])
-            font_r.setPixelSize(font_l[2])
+        if len(font_l) == 3:
+            font_r = QFont(font_l[2])
             font = QFontDialog.getFont(font_r, self)
         else:
             font = QFontDialog.getFont(self)
         # print(font)
         if font[1]:
-            self.ui.btn_font.setText(' '.join([str(i) for i in [font[0].style(), font[0].weight(), font[0].pixelSize(), font[0].family()]]))
+            self.ui.btn_font.setText(' '.join([str(i) for i in [font[0].styleName(),
+                                                                str(font[0].pointSize()) + 'px', font[0].family()]]))
 
