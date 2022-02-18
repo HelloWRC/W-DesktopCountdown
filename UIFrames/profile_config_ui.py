@@ -9,6 +9,11 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QInputDialog
 from PyQt5.QtCore import QEvent
+from PyQt5.QtWidgets import QColorDialog
+from PyQt5.QtWidgets import QFontDialog
+from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtGui import QColor
+from PyQt5.QtGui import QFont
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.Qt import QApplication
 
@@ -230,3 +235,42 @@ class ProfileConfigUI(QWidget):
                self.ui.lb_border_style]
         for i in range(9):
             state_root[att[i]] = wid[i].isChecked()
+
+    def on_btn_bgcolor_released(self):
+        import function
+        colr_sel = QColorDialog.getColor(initial=QColor(self.ui.btn_bgcolor.text()), title='选择背景颜色')
+        rgb = colr_sel.getRgb()
+        self.ui.btn_bgcolor.setText(function.rgb2hex(rgb[0], rgb[1], rgb[2]))
+
+    def on_btn_color_released(self):
+        import function
+        colr_sel = QColorDialog.getColor(initial=QColor(self.ui.btn_color.text()), title='选择颜色')
+        rgb = colr_sel.getRgb()
+        self.ui.btn_color.setText(function.rgb2hex(rgb[0], rgb[1], rgb[2]))
+
+    def on_btn_bordercolor_released(self):
+        import function
+        colr_sel = QColorDialog.getColor(initial=QColor(self.ui.btn_bordercolor.text()), title='选择边框颜色')
+        rgb = colr_sel.getRgb()
+        self.ui.btn_bordercolor.setText(function.rgb2hex(rgb[0], rgb[1], rgb[2]))
+
+    def on_btn_browse_bgpic_released(self):
+        path = QFileDialog.getOpenFileName(self, '打开图片文件', filter='图片文件(*.png *.svg *.bmp *.jpg *.jpeg *.gif);;所有文件(*.*)')
+        if path[0] == '':
+            return
+        self.ui.le_bgpic.setText(path[0])
+
+    def on_btn_font_released(self):
+        font_l = self.ui.btn_font.text().split(' ')
+        if len(font_l) == 4:
+            font_r = QFont(font_l[3])
+            font_r.setStyle(font_l[0])
+            font_r.setWeight(font_l[1])
+            font_r.setPixelSize(font_l[2])
+            font = QFontDialog.getFont(font_r, self)
+        else:
+            font = QFontDialog.getFont(self)
+        # print(font)
+        if font[1]:
+            self.ui.btn_font.setText(' '.join([str(i) for i in [font[0].style(), font[0].weight(), font[0].pixelSize(), font[0].family()]]))
+
