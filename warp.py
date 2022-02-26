@@ -7,7 +7,7 @@ import function, logging
 from PyQt5.QtCore import QEvent
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG,
+    logging.basicConfig(level=logging.INFO,
                         format=properties.log_styles,
                         datefmt=properties.datefmt,
                         filemode='w',

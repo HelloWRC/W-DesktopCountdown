@@ -2,5 +2,8 @@
     <qresource prefix="/">
         <file>resources/icons/colorful/logo.svg</file>
         <file>LICENSE</file>
+        <file>doc/cmdline.md</file>
+        <file>doc/contributors.md</file>
+        <file>doc/development.md</file>
     </qresource>
 </RCC>

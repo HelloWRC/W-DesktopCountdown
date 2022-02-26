@@ -35,7 +35,7 @@ class Settings(QWidget):
             platform.platform())))
         for i in properties.default_colors:
             self.ui.cb_colortheme.addItem(i)
-        self.ui.tb_thanks.setSource(QUrl('qrc:///res/doc/contributors.md'), 4)
+        # self.ui.tb_thanks.setSource(QUrl('qrc:///res/doc/contributors.md'), 4)
         self.ui.cb_custom_font.setFont(QFont(self.cfg['appearance']['custom_font']))
         self.load_val()
         self.click_count = 0

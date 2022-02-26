@@ -1,3 +1,3 @@
 {
-    "files": ["UISources/countdown.ui","UISource/profilemgr.ui","resources.qrc","resources/icons/colorful/logo.svg","Scripts/CompUI.py","Scripts/CompRes.py","README.md","UISource/countdown_card.ui","Scripts/build.sh","UISource/profile_config_ui.ui","UISource/new_countdown.ui","Scripts/Build.bat","warp.py","Scripts/Ready.bat","UISource/countdown.ui","app.py","function.py","UISource/settings.ui"]
+    "files": ["Scripts/build.sh","resources.qrc","UISource/countdown.ui","warp.py","UISource/profile_config_ui.ui","function.py","Scripts/CompUI.py","UISource/new_countdown.ui","resources/icons/colorful/logo.svg","UISource/countdown_card.ui","Scripts/CompRes.py","Scripts/Ready.bat","Scripts/Build.bat","UISource/profilemgr.ui","UISource/settings.ui","UISources/countdown.ui","README.md","app.py","doc/cmdline.md","doc/contributors.md","doc/development.md"]
 }

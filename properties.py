@@ -1,4 +1,4 @@
-version = '0.3.1 alpha'
+version = '参赛版本'
 log_styles = '[%(asctime)s] [%(threadName)s/%(module)s.%(funcName)s(%(lineno)s)/%(levelname)s] %(message)s'
 datefmt = '%Y/%m/%d %H:%M:%S'
 work_root = './'
