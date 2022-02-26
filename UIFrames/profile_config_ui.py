@@ -119,17 +119,17 @@ class ProfileConfigUI(QWidget):
         rect = self.desktop.screenGeometry()
         maxw = rect.width()
         maxh = rect.height()
-        self.setWindowTitle(self.windowTitle().format(self.cfg.cfg['countdown']['title']))
+        self.setWindowTitle('配置倒计时：{}'.format(self.cfg.cfg['countdown']['title']))
         self.ui.lb_gernal_description.setText(self.ui.lb_gernal_description.text().format(self.cfg.filename))
         self.ui.cb_widgets.setCurrentIndex(0)
 
         # countdown
         if self.default_cfg:
-            self.ui.tab_countdown.setVisible(False)
             self.ui.tab_countdown.setEnabled(False)
-            self.ui.le_event_name.setText('此设置在编辑默认设置时不可用。')
+            self.ui.le_event_name.setText('')
             self.ui.btn_save_as_default.setEnabled(False)
         else:
+            self.ui.lb_defaultcfg_warn.setVisible(False)
             self.ui.le_event_name.setText(self.cfg.cfg['countdown']['title'])
             self.ui.dte_starttime.setDateTime(datetime.datetime.fromtimestamp(self.cfg.cfg['countdown']['start']))
             self.ui.dte_endtime.setDateTime(datetime.datetime.fromtimestamp(self.cfg.cfg['countdown']['end']))
@@ -183,6 +183,7 @@ class ProfileConfigUI(QWidget):
         self.save_widget_style(self.last_style_widget)
 
         self.cfg.write()
+        self.load_val()
         if self.update_trigger is not None:
             self.update_trigger()
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))

@@ -40,3 +40,7 @@ class NewCountdownWin(QWidget):
     def on_le_input_textChanged(self, text):
         from function import filename_chk
         self.ui.lb_filename.setText('将被保存为：{}'.format(filename_chk(text)))
+        if self.ui.le_input.text() == '':
+            self.ui.btn_confirm.setEnabled(False)
+        else:
+            self.ui.btn_confirm.setEnabled(True)

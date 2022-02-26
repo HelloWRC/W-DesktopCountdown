@@ -23,7 +23,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_gernal">
       <attribute name="title">
@@ -126,6 +126,13 @@
          </property>
         </widget>
        </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QLabel" name="lb_defaultcfg_warn">
+         <property name="text">
+          <string>这些设置不能在默认配置中被配置。</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab_display">
@@ -217,7 +224,7 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="0" colspan="2">
+       <item row="8" column="0" colspan="2">
         <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -229,6 +236,13 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="7" column="0" colspan="2">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>将鼠标放在对应的文本框上可以查看占位符说明。</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -378,7 +392,7 @@
        <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="lb_description">
          <property name="text">
-          <string>您可以在这里修改每一个组件的样式。</string>
+          <string>您可以在这里修改每一个组件的样式。不是每一个组件都支持以下所有的样式。</string>
          </property>
         </widget>
        </item>

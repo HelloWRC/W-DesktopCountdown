@@ -44,7 +44,7 @@ countdown_config_default = {
     },
     'display': {
         'target_format': '%Y/%m/%d %H:%M:%S',
-        'countdown_format': '%D天%H:%M:%S',
+        'countdown_format': '%D天%H小时%M分钟%S秒',
         'show_progress_bar': True,
         'reverse_progress_bar': False,
         'end_text': '计时结束',

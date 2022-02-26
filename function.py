@@ -262,6 +262,9 @@ if __name__ == '__main__':
 def filename_chk(name):
     if name == '':
         name = 'countdown'
+    for i in ('*', '?', '/', '\\', '|', ':', '<', '>'):
+        if i in name:
+            name = 'countdown'
     if os.path.exists(properties.profile_prefix + name):
         name = name + '_'
     return name
