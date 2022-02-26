@@ -34,7 +34,8 @@ countdown_config_default = {
         'pos_x': 0,
         'pos_y': 0,
         'show_title_bar': True,
-
+        'no_background': False,
+        'mouse_tran': False
     },
     'countdown': {
         'start': 0,

@@ -141,6 +141,8 @@ class ProfileConfigUI(QWidget):
         self.ui.winsize_w.setValue(self.cfg.cfg['window']['width'])
         self.ui.cbl_win_mode.setCurrentIndex(self.cfg.cfg['window']['window_mode'] + 1)
         self.ui.cb_titlebar.setChecked(self.cfg.cfg['window']['show_title_bar'])
+        self.ui.cb_no_background.setChecked(self.cfg.cfg['window']['no_background'])
+        self.ui.cb_mouse_tran.setChecked(self.cfg.cfg['window']['mouse_tran'])
         # style
         self.load_widget_style(self.ui.cb_widgets.currentText())
 
@@ -165,6 +167,8 @@ class ProfileConfigUI(QWidget):
         self.cfg.cfg['window']['width'] = self.ui.winsize_w.value()
         self.cfg.cfg['window']['window_mode'] = self.ui.cbl_win_mode.currentIndex() - 1
         self.cfg.cfg['window']['show_title_bar'] = self.ui.cb_titlebar.isChecked()
+        self.cfg.cfg['window']['no_background'] = self.ui.cb_no_background.isChecked()
+        self.cfg.cfg['window']['mouse_tran'] = self.ui.cb_mouse_tran.isChecked()
         # style
         self.save_widget_style(self.last_style_widget)
 
@@ -272,3 +276,9 @@ class ProfileConfigUI(QWidget):
             self.ui.btn_font.setText(' '.join([str(i) for i in [font[0].styleName(),
                                                                 str(font[0].pointSize()) + 'px', font[0].family()]]))
 
+    def on_cb_no_background_toggled(self, state):
+        if state:
+            self.ui.cb_titlebar.setChecked(False)
+            self.ui.cb_titlebar.setEnabled(False)
+        else:
+            self.ui.cb_titlebar.setEnabled(True)

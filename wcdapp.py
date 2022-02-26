@@ -49,8 +49,13 @@ class WDesktopCD(QApplication):
         self.logger.info('init phase 2')
         self.profile_mgr = function.ProfileMgr(self)
         self.profile_mgr_ui = ProfileMgrUI(self)
+        if len(self.profile_mgr.profiles) <= 1:
+            self.tray.showMessage('W-DesktopCountdown正在后台运行。', '双击系统托盘图标以显示本应用。')
         # self.cdtest = CountdownWin(self, 'style.qss', function.ConfigFileMgr('config.json',
         #                                                                      CountdownWin.countdown_config_default))
+        
+    def on_tray_clicked(self, reason):
+        logging.debug('tray clicked, reason: %s', reason)
 
     def update_theme(self, config=None):
         logging.info('Updating app theme')

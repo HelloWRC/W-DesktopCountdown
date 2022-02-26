@@ -35,10 +35,13 @@ class SystemTray(QSystemTrayIcon):
         self.menu.addAction(self.exit)
 
         self.setContextMenu(self.menu)
+        self.activated.connect(self.on_SystemTray_activated)
         self.show()
 
     def on_SystemTray_activated(self, reason):
         logging.debug('tray clicked, reason: %s', reason)
+        if reason == QSystemTrayIcon.DoubleClick:
+            self.open_pmui()
 
     def new_countdown(self):
         self.ncd = NewCountdownWin(self.app)

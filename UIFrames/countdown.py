@@ -32,6 +32,8 @@ class CountdownWin(QWidget):
         super(CountdownWin, self).__init__()
         self.stopped: bool = False
         self.win_mode = 0
+        self.mouse_tran = False
+        self.no_bg = False
         self.drag_flag = False
         self.m_pos = None
         self.title_visible = True
@@ -73,10 +75,29 @@ class CountdownWin(QWidget):
         self.set_win_mode(self.cfg.cfg['window']['window_mode'])
         self.set_window_title_visible(self.cfg.cfg['window']['show_title_bar'])
         self.set_countdown_enabled(self.cfg.cfg['enabled'])
+        self.set_background_invisible(self.cfg.cfg['window']['no_background'])
+        self.set_mouse_tran(self.cfg.cfg['window']['mouse_tran'])
+
         self.update_content()
         self.write_config()
         logging.info('loaded config of %s', self.cfg.filename)
         self.setStyleSheet(function.mk_qss(self.cfg.cfg['style'], self.cfg.cfg['style_enabled']))
+
+    def set_background_invisible(self, stat: bool):
+        if stat == self.no_bg:
+            return
+        if stat:
+            self.setAttribute(Qt.WA_TranslucentBackground, True)
+        else:
+            self.setAttribute(Qt.WA_TintedBackground, True)
+        self.no_bg = stat
+        self.show()
+
+    def set_mouse_tran(self, stat: bool):
+        self.setAttribute(Qt.WA_TransparentForMouseEvents, stat)
+        self.mouse_tran = stat
+        self.show()
+
 
     def set_window_title_visible(self, stat: bool):
         if stat:
