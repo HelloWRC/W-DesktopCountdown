@@ -43,12 +43,6 @@ class Settings(QWidget):
         self.ui.lb_logo.installEventFilter(self.ui.lb_logo)
         self.__finished_init = True
 
-    def on_btn_projhome_released(self):
-        function.call_browser('https://github.com/HelloWRC/W-DesktopCountdown')
-
-    def on_btn_feedback_released(self):
-        function.call_browser('https://github.com/HelloWRC/W-DesktopCountdown/issues')
-
     def on_btn_opensource_released(self):
         self.license = LicenseRead(self)
         self.license.show()

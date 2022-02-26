@@ -1,0 +1,21 @@
+[Icon Theme]
+Name=Breeze Dark
+Name[zh_CN]=微风暗色
+Comment=Breeze Dark icon theme from KDE
+Comment[zh_CN]=来自KDE的微风暗色图标主题
+
+[actions/32]
+Size=32
+Type=Scalaed
+
+[actions/24]
+Size=24
+Type=Scalaed
+
+[actions/22]
+Size=22
+Type=Scalaed
+
+[actions/16]
+Size=16
+Type=Scalaed

@@ -1,0 +1,21 @@
+[Icon Theme]
+Name=Breeze Light
+Name[zh_CN]=微风亮色
+Comment=Breeze Light icon theme from KDE
+Comment[zh_CN]=来自KDE的微风亮色图标主题
+
+[actions/32]
+Size=32
+Type=Scalaed
+
+[actions/24]
+Size=24
+Type=Scalaed
+
+[actions/22]
+Size=22
+Type=Scalaed
+
+[actions/16]
+Size=16
+Type=Scalaed
