@@ -22,9 +22,6 @@ window_update_event = QEvent.registerEventType()
 
 class CountdownWin(QWidget):
     countdown_config_default = properties.countdown_config_default
-    widget_list = [
-        'hl_description', 'lb_event', 'lb_targetdate', 'lb_text1', 'lb_text2', 'lb_CountDown', 'progressBar'
-    ]
 
     def __init__(self, app, name, config: function.ConfigFileMgr):
         self.app = app

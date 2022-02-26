@@ -34,27 +34,7 @@
        <string>外观</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout_2">
-       <item row="0" column="0">
-        <widget class="QLabel" name="lb_lang">
-         <property name="text">
-          <string>语言</string>
-         </property>
-         <property name="buddy">
-          <cstring>cb_lang</cstring>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="lb_appstle">
-         <property name="text">
-          <string>应用风格</string>
-         </property>
-         <property name="buddy">
-          <cstring>cb_appstyle</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
         <widget class="QLabel" name="lb_ldstyle">
          <property name="text">
           <string>明暗主题</string>
@@ -64,71 +44,7 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="lb_color">
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:700;&quot;&gt;颜色主题&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0" colspan="2">
-        <widget class="QRadioButton" name="rb_syscolor">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="text">
-          <string>系统颜色</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0">
-        <widget class="QRadioButton" name="rb_customcolor">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="text">
-          <string>自定义</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="0">
-        <widget class="QLabel" name="lb_customfont">
-         <property name="text">
-          <string>自定义字体</string>
-         </property>
-         <property name="buddy">
-          <cstring>cb_custom_font</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="1">
-        <widget class="QFontComboBox" name="cb_custom_font"/>
-       </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="cb_lang">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <item>
-          <property name="text">
-           <string>中文（简体）</string>
-          </property>
-         </item>
-        </widget>
-       </item>
        <item row="2" column="1">
-        <widget class="QComboBox" name="cb_appstyle">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <item>
-          <property name="text">
-           <string>Material</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="4" column="1">
         <widget class="QComboBox" name="cb_ldstyle">
          <property name="enabled">
           <bool>true</bool>
@@ -162,17 +78,14 @@
          </item>
         </widget>
        </item>
-       <item row="11" column="1">
-        <widget class="QPushButton" name="btn_selcolor">
+       <item row="4" column="0">
+        <widget class="QLabel" name="lb_color">
          <property name="text">
-          <string>{}</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:700;&quot;&gt;颜色主题&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
-        <widget class="QComboBox" name="cb_colortheme"/>
-       </item>
-       <item row="7" column="0">
+       <item row="5" column="0">
         <widget class="QRadioButton" name="rb_default">
          <property name="text">
           <string>默认颜色</string>
@@ -181,6 +94,49 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QComboBox" name="cb_colortheme"/>
+       </item>
+       <item row="8" column="0" colspan="2">
+        <widget class="QRadioButton" name="rb_syscolor">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>系统颜色</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QRadioButton" name="rb_customcolor">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>自定义</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="QPushButton" name="btn_selcolor">
+         <property name="text">
+          <string>{}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLabel" name="lb_customfont">
+         <property name="text">
+          <string>自定义字体</string>
+         </property>
+         <property name="buddy">
+          <cstring>cb_custom_font</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="1">
+        <widget class="QFontComboBox" name="cb_custom_font"/>
        </item>
       </layout>
      </widget>

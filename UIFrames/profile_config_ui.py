@@ -34,6 +34,15 @@ class ProfileConfigUI(QWidget):
         self.ui = Ui_ProfileConfigUI()
         self.ui.setupUi(self)
         self.ui.cb_widgets.clear()
+        if not properties.exp_flags:
+            for i in (
+                        self.ui.lb_radius, self.ui.sb_radius,
+                        self.ui.lb_border_style, self.ui.cb_border_style,
+                        self.ui.lb_border_size, self.ui.sb_bordersize,
+                        self.ui.lb_border_color, self.ui.btn_bordercolor,
+                        self.ui.cb_no_background, self.ui.cb_mouse_tran
+            ):
+                i.setVisible(False)
         for i in self.cfg.cfg['style']:
             function.default_pass(self.cfg.cfg['style'][i], properties.default_widget_style)
             function.default_pass(self.cfg.cfg['style_enabled'][i], properties.default_widget_enabled)
@@ -112,6 +121,7 @@ class ProfileConfigUI(QWidget):
         maxh = rect.height()
         self.setWindowTitle(self.windowTitle().format(self.cfg.cfg['countdown']['title']))
         self.ui.lb_gernal_description.setText(self.ui.lb_gernal_description.text().format(self.cfg.filename))
+        self.ui.cb_widgets.setCurrentIndex(0)
 
         # countdown
         if self.default_cfg:
@@ -185,8 +195,11 @@ class ProfileConfigUI(QWidget):
         self.last_style_widget = text
 
     def load_widget_style(self, widget):
+        import function
         style_root = self.cfg.cfg['style'][widget]
         state_root = self.cfg.cfg['style_enabled'][widget]
+        style_root = function.default_pass(style_root, properties.default_widget_style)
+        state_root = function.default_pass(state_root, properties.default_widget_enabled)
         # value
         self.ui.btn_bgcolor.setText(style_root['background-color'])
         self.ui.le_bgpic.setText(style_root['background-image'][4:-1])

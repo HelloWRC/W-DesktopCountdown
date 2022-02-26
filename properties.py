@@ -52,7 +52,7 @@ countdown_config_default = {
         'qss_priority': 1
     },
     'style': {
-        'Countdown': {},
+        'window_bg': {},
         'hl_description': {},
         'lb_event': {},
         'lb_targetddate': {},
@@ -62,7 +62,7 @@ countdown_config_default = {
         'progressBar': {}
     },
     'style_enabled': {
-        'Countdown': {},
+        'window_bg': {},
         'hl_description': {},
         'lb_event': {},
         'lb_targetddate': {},
@@ -119,6 +119,8 @@ default_config = {
         }
     }
 }
+
+exp_flags = False
 
 LIGHT_THEME_TEMPLE = '''
 <!--?xml version="1.0" encoding="UTF-8"?-->
