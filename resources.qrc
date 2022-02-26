@@ -5,5 +5,60 @@
         <file>doc/cmdline.md</file>
         <file>doc/contributors.md</file>
         <file>doc/development.md</file>
+        <file>resources/icons/breeze-dark/actions/16/align-horizontal-center.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/align-horizontal-left.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/align-horizontal-right.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/align-vertical-bottom.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/align-vertical-center.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/align-vertical-top.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/color-fill.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/edit-clear.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/edit-copy.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/format-text-bold.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/format-text-color.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/go-down.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/go-up.svg</file>
+        <file>resources/icons/breeze-dark/actions/22/arrow-left-double.svg</file>
+        <file>resources/icons/breeze-dark/actions/22/arrow-left.svg</file>
+        <file>resources/icons/breeze-dark/actions/22/arrow-right-double.svg</file>
+        <file>resources/icons/breeze-dark/actions/22/arrow-right.svg</file>
+        <file>resources/icons/breeze-dark/actions/22/folder.svg</file>
+        <file>resources/icons/breeze-dark/actions/22/list-add.svg</file>
+        <file>resources/icons/breeze-dark/actions/22/list-remove.svg</file>
+        <file>resources/icons/breeze-dark/actions/24/zoom-in.svg</file>
+        <file>resources/icons/breeze-dark/actions/32/configure.svg</file>
+        <file>resources/icons/breeze-dark/actions/icon.ico</file>
+        <file>resources/icons/breeze-dark/actions/icon.svg</file>
+        <file>resources/icons/breeze-dark/index.theme</file>
+        <file>resources/icons/breeze-light/actions/16/align-horizontal-center.svg</file>
+        <file>resources/icons/breeze-light/actions/16/align-horizontal-left.svg</file>
+        <file>resources/icons/breeze-light/actions/16/align-horizontal-right.svg</file>
+        <file>resources/icons/breeze-light/actions/16/align-vertical-bottom.svg</file>
+        <file>resources/icons/breeze-light/actions/16/align-vertical-center.svg</file>
+        <file>resources/icons/breeze-light/actions/16/align-vertical-top.svg</file>
+        <file>resources/icons/breeze-light/actions/16/edit-clear.svg</file>
+        <file>resources/icons/breeze-light/actions/16/edit-copy.svg</file>
+        <file>resources/icons/breeze-light/actions/16/format-text-bold.svg</file>
+        <file>resources/icons/breeze-light/actions/16/format-text-color.svg</file>
+        <file>resources/icons/breeze-light/actions/16/go-down.svg</file>
+        <file>resources/icons/breeze-light/actions/16/go-up.svg</file>
+        <file>resources/icons/breeze-light/actions/22/arrow-left-double.svg</file>
+        <file>resources/icons/breeze-light/actions/22/arrow-left.svg</file>
+        <file>resources/icons/breeze-light/actions/22/arrow-right-double.svg</file>
+        <file>resources/icons/breeze-light/actions/22/arrow-right.svg</file>
+        <file>resources/icons/breeze-light/actions/22/folder.svg</file>
+        <file>resources/icons/breeze-light/actions/22/list-add.svg</file>
+        <file>resources/icons/breeze-light/actions/22/list-remove.svg</file>
+        <file>resources/icons/breeze-light/actions/24/zoom-in.svg</file>
+        <file>resources/icons/breeze-light/actions/32/configure.svg</file>
+        <file>resources/icons/breeze-light/index.theme</file>
+        <file>resources/icons/colorful/applogo.psd</file>
+        <file>resources/icons/breeze-dark/actions/32/document-import.svg</file>
+        <file>resources/icons/breeze-dark/actions/32/document-new.svg</file>
+        <file>resources/icons/breeze-dark/actions/32/multiple.svg</file>
+        <file>resources/icons/breeze-light/actions/32/document-import.svg</file>
+        <file>resources/icons/breeze-light/actions/32/document-new.svg</file>
+        <file>resources/icons/breeze-light/actions/32/multiple.svg</file>
     </qresource>
+    <qresource prefix="/icons"/>
 </RCC>

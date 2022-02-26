@@ -17,8 +17,7 @@
    <string>设置</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/res/icons/icon.svg</normaloff>:/res/icons/icon.svg</iconset>
+   <iconset theme="configure"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

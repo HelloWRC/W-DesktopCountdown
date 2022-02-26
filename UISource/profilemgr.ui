@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>W-DesktopCountdown {}</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../resources.qrc">
+    <normaloff>:/resources/icons/colorful/logo.svg</normaloff>:/resources/icons/colorful/logo.svg</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
@@ -69,7 +73,7 @@
     <bool>false</bool>
    </property>
    <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonIconOnly</enum>
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
    <property name="floatable">
     <bool>false</bool>
@@ -85,21 +89,32 @@
    <addaction name="action_settings"/>
   </widget>
   <action name="action_new_profile">
+   <property name="icon">
+    <iconset theme="document-new"/>
+   </property>
    <property name="text">
     <string>新建倒计时</string>
    </property>
   </action>
   <action name="action_import_countdown">
+   <property name="icon">
+    <iconset theme="document-import"/>
+   </property>
    <property name="text">
     <string>导入倒计时</string>
    </property>
   </action>
   <action name="action_settings">
+   <property name="icon">
+    <iconset theme="configure"/>
+   </property>
    <property name="text">
     <string>设置</string>
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -16,6 +16,9 @@
   <property name="windowTitle">
    <string>倒计时配置：{}</string>
   </property>
+  <property name="windowIcon">
+   <iconset theme="configure"/>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="content">

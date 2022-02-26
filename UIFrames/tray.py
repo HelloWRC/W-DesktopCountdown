@@ -36,7 +36,6 @@ class SystemTray(QSystemTrayIcon):
 
         self.setContextMenu(self.menu)
         self.activated.connect(self.on_SystemTray_activated)
-        self.show()
 
     def on_SystemTray_activated(self, reason):
         logging.debug('tray clicked, reason: %s', reason)

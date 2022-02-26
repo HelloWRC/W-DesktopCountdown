@@ -10,11 +10,14 @@
     <x>0</x>
     <y>0</y>
     <width>474</width>
-    <height>197</height>
+    <height>233</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>创建倒计时</string>
+  </property>
+  <property name="windowIcon">
+   <iconset theme="document-new"/>
   </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="1" column="1">
