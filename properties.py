@@ -1,4 +1,4 @@
-version = '参赛版本'
+version = '0.3.2 alpha'
 log_styles = '[%(asctime)s] [%(threadName)s/%(module)s.%(funcName)s(%(lineno)s)/%(levelname)s] %(message)s'
 datefmt = '%Y/%m/%d %H:%M:%S'
 work_root = './'
@@ -34,8 +34,7 @@ countdown_config_default = {
         'pos_x': 0,
         'pos_y': 0,
         'show_title_bar': True,
-        'no_background': False,
-        'mouse_tran': False
+
     },
     'countdown': {
         'start': 0,
@@ -44,7 +43,7 @@ countdown_config_default = {
     },
     'display': {
         'target_format': '%Y/%m/%d %H:%M:%S',
-        'countdown_format': '%D天%H小时%M分钟%S秒',
+        'countdown_format': '%D天%H:%M:%S',
         'show_progress_bar': True,
         'reverse_progress_bar': False,
         'end_text': '计时结束',
@@ -120,7 +119,7 @@ default_config = {
     }
 }
 
-exp_flags = False
+exp_flags = True
 
 LIGHT_THEME_TEMPLE = '''
 <!--?xml version="1.0" encoding="UTF-8"?-->

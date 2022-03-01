@@ -34,15 +34,6 @@ class ProfileConfigUI(QWidget):
         self.ui = Ui_ProfileConfigUI()
         self.ui.setupUi(self)
         self.ui.cb_widgets.clear()
-        if not properties.exp_flags:
-            for i in (
-                        self.ui.lb_radius, self.ui.sb_radius,
-                        self.ui.lb_border_style, self.ui.cb_border_style,
-                        self.ui.lb_border_size, self.ui.sb_bordersize,
-                        self.ui.lb_border_color, self.ui.btn_bordercolor,
-                        self.ui.cb_no_background, self.ui.cb_mouse_tran
-            ):
-                i.setVisible(False)
         for i in self.cfg.cfg['style']:
             function.default_pass(self.cfg.cfg['style'][i], properties.default_widget_style)
             function.default_pass(self.cfg.cfg['style_enabled'][i], properties.default_widget_enabled)
@@ -119,20 +110,18 @@ class ProfileConfigUI(QWidget):
         rect = self.desktop.screenGeometry()
         maxw = rect.width()
         maxh = rect.height()
-        self.setWindowTitle('配置倒计时：{}'.format(self.cfg.cfg['countdown']['title']))
+        self.setWindowTitle(self.windowTitle().format(self.cfg.cfg['countdown']['title']))
         self.ui.lb_gernal_description.setText(self.ui.lb_gernal_description.text().format(self.cfg.filename))
-        self.ui.cb_widgets.setCurrentIndex(0)
 
         # countdown
         if self.default_cfg:
             self.ui.tab_countdown.setEnabled(False)
-            self.ui.le_event_name.setText('')
             self.ui.btn_save_as_default.setEnabled(False)
         else:
-            self.ui.lb_defaultcfg_warn.setVisible(False)
             self.ui.le_event_name.setText(self.cfg.cfg['countdown']['title'])
             self.ui.dte_starttime.setDateTime(datetime.datetime.fromtimestamp(self.cfg.cfg['countdown']['start']))
             self.ui.dte_endtime.setDateTime(datetime.datetime.fromtimestamp(self.cfg.cfg['countdown']['end']))
+            self.ui.lb_defaultcfg_warn.setVisible(False)
         # display
         self.ui.le_target_format.setText(self.cfg.cfg['display']['target_format'])
         self.ui.le_countdown_format.setText(self.cfg.cfg['display']['countdown_format'])
@@ -151,8 +140,6 @@ class ProfileConfigUI(QWidget):
         self.ui.winsize_w.setValue(self.cfg.cfg['window']['width'])
         self.ui.cbl_win_mode.setCurrentIndex(self.cfg.cfg['window']['window_mode'] + 1)
         self.ui.cb_titlebar.setChecked(self.cfg.cfg['window']['show_title_bar'])
-        self.ui.cb_no_background.setChecked(self.cfg.cfg['window']['no_background'])
-        self.ui.cb_mouse_tran.setChecked(self.cfg.cfg['window']['mouse_tran'])
         # style
         self.load_widget_style(self.ui.cb_widgets.currentText())
 
@@ -177,13 +164,10 @@ class ProfileConfigUI(QWidget):
         self.cfg.cfg['window']['width'] = self.ui.winsize_w.value()
         self.cfg.cfg['window']['window_mode'] = self.ui.cbl_win_mode.currentIndex() - 1
         self.cfg.cfg['window']['show_title_bar'] = self.ui.cb_titlebar.isChecked()
-        self.cfg.cfg['window']['no_background'] = self.ui.cb_no_background.isChecked()
-        self.cfg.cfg['window']['mouse_tran'] = self.ui.cb_mouse_tran.isChecked()
         # style
         self.save_widget_style(self.last_style_widget)
 
         self.cfg.write()
-        self.load_val()
         if self.update_trigger is not None:
             self.update_trigger()
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))
@@ -196,11 +180,8 @@ class ProfileConfigUI(QWidget):
         self.last_style_widget = text
 
     def load_widget_style(self, widget):
-        import function
         style_root = self.cfg.cfg['style'][widget]
         state_root = self.cfg.cfg['style_enabled'][widget]
-        style_root = function.default_pass(style_root, properties.default_widget_style)
-        state_root = function.default_pass(state_root, properties.default_widget_enabled)
         # value
         self.ui.btn_bgcolor.setText(style_root['background-color'])
         self.ui.le_bgpic.setText(style_root['background-image'][4:-1])
@@ -288,11 +269,5 @@ class ProfileConfigUI(QWidget):
         # print(font)
         if font[1]:
             self.ui.btn_font.setText(' '.join([str(i) for i in [font[0].styleName(),
-                                                                str(font[0].pointSize()) + 'px', '"{}"'.format(font[0].family())]]))
+                                                                str(font[0].pointSize()) + 'px', font[0].family()]]))
 
-    def on_cb_no_background_toggled(self, state):
-        if state:
-            self.ui.cb_titlebar.setChecked(False)
-            self.ui.cb_titlebar.setEnabled(False)
-        else:
-            self.ui.cb_titlebar.setEnabled(True)
