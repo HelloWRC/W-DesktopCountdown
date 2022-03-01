@@ -288,7 +288,7 @@ class ProfileConfigUI(QWidget):
         # print(font)
         if font[1]:
             self.ui.btn_font.setText(' '.join([str(i) for i in [font[0].styleName(),
-                                                                str(font[0].pointSize()) + 'px', font[0].family()]]))
+                                                                str(font[0].pointSize()) + 'px', '"{}"'.format(font[0].family())]]))
 
     def on_cb_no_background_toggled(self, state):
         if state:

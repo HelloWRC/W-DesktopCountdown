@@ -128,6 +128,8 @@ class CountdownWin(QWidget):
                                                      time.localtime(self.cfg.cfg['countdown']['end'])))  # target
         if time.time() > self.cfg.cfg['countdown']['end']:  # 计时是否结束
             self.ui.lb_CountDown.setText(self.cfg.cfg['display']['end_text'])  # show end text
+        elif time.time() < self.cfg.cfg['countdown']['start']:
+            self.ui.lb_CountDown.setText(self.cfg.cfg['display']['start_text'])  # show start text
         else:
             end_dt = datetime.datetime.fromtimestamp(self.cfg.cfg['countdown']['end'])
             now_dt: datetime = datetime.datetime.now()
