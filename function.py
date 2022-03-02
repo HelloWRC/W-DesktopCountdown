@@ -222,10 +222,6 @@ class EffectManager:
         self.countdown: UIFrames.countdown.CountdownWin = countdown
         self.app: wcdapp.WDesktopCD = app
         self.config: ConfigFileMgr = config
-        self.known_effects = {}
-
-        for i in effects.effects:
-            self.known_effects[i.effect_id] = i
 
 
 def mk_qss(style: dict, states: dict):

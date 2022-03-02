@@ -1,8 +1,10 @@
+import copy
 import datetime
 import logging
 import os
 import time
 
+import effects
 import properties
 from UIFrames.ui_profile_config_ui import Ui_ProfileConfigUI
 from PyQt5.QtWidgets import QWidget
@@ -12,10 +14,12 @@ from PyQt5.QtCore import QEvent
 from PyQt5.QtWidgets import QColorDialog
 from PyQt5.QtWidgets import QFontDialog
 from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QListWidgetItem
 from PyQt5.QtGui import QColor
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.Qt import QApplication
+from UIFrames.effect_configure import EffectConfigure
 
 
 class ProfileConfigUI(QWidget):
@@ -29,6 +33,9 @@ class ProfileConfigUI(QWidget):
         self.update_trigger = update_trigger
         self.default_cfg = default_cfg
         self.name = name
+        self.enabled_effects = []
+        self.disabled_effects = []
+        self.local_effect = {}
         self.last_style_widget = None
         super(ProfileConfigUI, self).__init__()
         self.ui = Ui_ProfileConfigUI()
@@ -140,8 +147,28 @@ class ProfileConfigUI(QWidget):
         self.ui.winsize_w.setValue(self.cfg.cfg['window']['width'])
         self.ui.cbl_win_mode.setCurrentIndex(self.cfg.cfg['window']['window_mode'] + 1)
         self.ui.cb_titlebar.setChecked(self.cfg.cfg['window']['show_title_bar'])
+        # effects
+        self.enabled_effects = list(self.cfg.cfg['effects'].keys())
+        self.local_effect = copy.deepcopy(self.cfg.cfg['effects'])
+        self.update_effects()
+        self.on_lst_enabled_effect_currentRowChanged()
         # style
         self.load_widget_style(self.ui.cb_widgets.currentText())
+
+    def update_effects(self):
+        self.ui.lst_disabled_effect.clear()
+        self.ui.lst_enabled_effect.clear()
+        self.disabled_effects.clear()
+        for i in self.enabled_effects:
+            if i in effects.effects:
+                self.ui.lst_enabled_effect.addItem(effects.effects[i].effect_friendly_name)
+            else:
+                self.ui.lst_enabled_effect.addItem(i)
+        for i in effects.effects:
+            if i in self.enabled_effects:
+                continue
+            self.ui.lst_disabled_effect.addItem(effects.effects[i].effect_friendly_name)
+            self.disabled_effects.append(i)
 
     def save_val(self):
         import wcdapp
@@ -164,6 +191,8 @@ class ProfileConfigUI(QWidget):
         self.cfg.cfg['window']['width'] = self.ui.winsize_w.value()
         self.cfg.cfg['window']['window_mode'] = self.ui.cbl_win_mode.currentIndex() - 1
         self.cfg.cfg['window']['show_title_bar'] = self.ui.cb_titlebar.isChecked()
+        # effects
+        self.cfg.cfg['effects'] = copy.deepcopy(self.local_effect)
         # style
         self.save_widget_style(self.last_style_widget)
 
@@ -171,6 +200,36 @@ class ProfileConfigUI(QWidget):
         if self.update_trigger is not None:
             self.update_trigger()
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))
+
+    def on_btn_effect_enable_released(self):
+        if len(self.ui.lst_disabled_effect.selectedItems()) <= 0:
+            return
+        eid = self.disabled_effects[self.ui.lst_disabled_effect.currentIndex().row()]
+        self.enabled_effects.append(eid)
+        self.local_effect[eid] = {}
+        self.update_effects()
+
+    def on_btn_effect_disable_released(self):
+        if len(self.ui.lst_enabled_effect.selectedItems()) <= 0:
+            return
+        eid = self.enabled_effects[self.ui.lst_enabled_effect.currentIndex().row()]
+        self.enabled_effects.remove(eid)
+        self.local_effect.pop(eid)
+        self.update_effects()
+
+    def on_btn_effect_configure_released(self):
+        eid = self.enabled_effects[self.ui.lst_enabled_effect.currentIndex().row()]
+        self.econfigure = EffectConfigure(self.local_effect[eid], effects.effects[eid].default_config)
+        self.econfigure.show()
+
+    def on_lst_enabled_effect_currentRowChanged(self):
+        if len(self.enabled_effects) <= 0:
+            self.ui.btn_effect_configure.setEnabled(False)
+            return
+        if self.enabled_effects[self.ui.lst_enabled_effect.currentIndex().row()] in effects.effects:
+            self.ui.btn_effect_configure.setEnabled(bool(effects.effects[self.enabled_effects[self.ui.lst_enabled_effect.currentIndex().row()]].default_config))
+        else:
+            self.ui.btn_effect_configure.setEnabled(False)
 
     def on_cb_widgets_currentTextChanged(self, text):
         if not self._final:

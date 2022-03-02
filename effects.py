@@ -1,3 +1,6 @@
+effects = {}
+
+
 class SampleEffect:
     effect_id = 'wdcd.sample_effect'
     effect_friendly_name = '测试效果'
@@ -63,4 +66,26 @@ class SampleEffect:
         pass
 
 
-effects = [SampleEffect]
+class SampleEffect2:
+    effect_id = 'wdcd.sample_effect2'
+    effect_friendly_name = '测试效果2'
+    effect_description = '这是一个用于测试的特效。'
+    default_config = {
+    }
+
+    def __init__(self, app, countdown, config):
+        pass
+
+    def set_enabled(self):
+        pass
+
+    def update_config(self, config):
+        pass
+
+
+def add_effect(effect):
+    effects[effect.effect_id] = effect
+
+
+for i in (SampleEffect, ):
+    add_effect(i)

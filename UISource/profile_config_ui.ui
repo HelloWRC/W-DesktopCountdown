@@ -27,7 +27,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_gernal">
       <attribute name="title">
@@ -411,7 +411,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="listWidget"/>
+        <widget class="QListWidget" name="lst_enabled_effect"/>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -429,20 +429,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset theme="go-down"/>
-           </property>
-           <property name="flat">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="btn_effect_enable">
            <property name="text">
             <string/>
            </property>
@@ -455,7 +442,20 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_3">
+          <widget class="QPushButton" name="btn_effect_disable">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset theme="go-down"/>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_effect_configure">
            <property name="text">
             <string/>
            </property>
@@ -490,7 +490,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="listWidget_2"/>
+        <widget class="QListWidget" name="lst_disabled_effect"/>
        </item>
       </layout>
      </widget>
@@ -800,8 +800,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>477</x>
-     <y>586</y>
+     <x>474</x>
+     <y>584</y>
     </hint>
     <hint type="destinationlabel">
      <x>467</x>
