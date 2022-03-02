@@ -15,6 +15,8 @@ class EffectConfigure(QWidget):
         self.config_temple = config_temple
         self.config = config
         self.gen_ui = {}
+        self.set_val = {}
+        self.get_val = {}
 
         # Generate UI
         for i in self.config_temple:
@@ -26,6 +28,8 @@ class EffectConfigure(QWidget):
                     checkbox.setToolTip(root['description'])
                 self.ui.container.addRow(checkbox)
                 self.gen_ui['cb_' + i] = checkbox
+                self.set_val[i] = checkbox.setChecked
+                self.get_val[i] = checkbox.isChecked
             else:
                 label = QLabel(root['name'])
                 if 'description' in root:
@@ -38,6 +42,9 @@ class EffectConfigure(QWidget):
                     content.setObjectName('le_' + i)
                     if 'placeholder' in root:
                         content.setPlaceholderText(root['placeholder'])
+                    self.gen_ui['le_' + i] = content
+                    self.set_val[i] = content.setText
+                    self.get_val[i] = content.text
                 elif root['type'] == 'int' or root['type'] == 'float':
                     if root['type'] == 'int':
                         content = QSpinBox()
@@ -52,15 +59,38 @@ class EffectConfigure(QWidget):
                         content.setPrefix(root['prefix'])
                     if 'step' in root:
                         content.setSingleStep(root['step'])
+                    self.gen_ui['sb_' + i] = content
+                    self.set_val[i] = content.setValue
+                    self.get_val[i] = content.value
                 elif root['type'] == 'combo_box':
                     content = QComboBox()
+                    content.setObjectName('cb_' + i)
                     content.addItems(root['items'])
+                    self.gen_ui['cb_' + i] = content
+                    self.set_val[i] = content.setCurrentIndex
+                    self.get_val[i] = content.currentIndex
                 else:
                     content = QLineEdit()
                     content.setEnabled(False)
                 if 'description' in root:
                     content.setToolTip(root['description'])
                 self.ui.container.addRow(label, content)
+
+        self.load_val()
+
+    def load_val(self):
+        for i in self.config_temple:
+            if i not in self.config:
+                self.config[i] = self.config_temple[i]['default']
+            self.set_val[i](self.config[i])
+
+    def save_val(self):
+        for i in self.config_temple:
+            self.config[i] = self.get_val[i]()
+
+    def on_btn_confirm_released(self):
+        self.save_val()
+        self.close()
 
 
 if __name__ == '__main__':
@@ -72,6 +102,8 @@ if __name__ == '__main__':
     logger = logging.getLogger(__name__)
     logger.info('Welcome to W-DesktopCountdown %s.', properties.version)
     app = QApplication([])
-    effect_config = EffectConfigure({}, effects.SampleEffect.default_config)
+    config = {}
+    effect_config = EffectConfigure(config, effects.SampleEffect.default_config)
     effect_config.show()
-    sys.exit(app.exec_())
+    app.exec_()
+    print(config)
