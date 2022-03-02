@@ -40,6 +40,7 @@ class CountdownWin(QWidget):
         self.update_thread = UpdateThread()
         self.update_thread.setPriority(QThread.IdlePriority)
         self.update_thread.sig_update.connect(self.update_content)
+        self.em = function.EffectManager(self, self.app, self.cfg)
         self.ui = Ui_Countdown()
         self.ui.setupUi(self)
         self.setWindowFlag(Qt.WindowCloseButtonHint, False)

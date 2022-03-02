@@ -11,6 +11,7 @@ import UIFrames.new_countdown
 import UIFrames.profile_config_ui
 import properties
 import wcdapp
+import effects
 import platform
 from properties import *
 
@@ -216,9 +217,15 @@ class ProfileMgr(QObject):
             self.config_mgr[i].mapping = self.config_mgr[default_profile_name].cfg
 
 
-def get_qss(path: str):
-    with open(path, 'r') as qss:
-        return qss.read()
+class EffectManager:
+    def __init__(self, countdown, app, config):
+        self.countdown: UIFrames.countdown.CountdownWin = countdown
+        self.app: wcdapp.WDesktopCD = app
+        self.config: ConfigFileMgr = config
+        self.known_effects = {}
+
+        for i in effects.effects:
+            self.known_effects[i.effect_id] = i
 
 
 def mk_qss(style: dict, states: dict):
@@ -230,33 +237,6 @@ def mk_qss(style: dict, states: dict):
                 main_section.append('  {}: {}'.format(k, style[i][k]))
         result.append('#' + i + '{\n' + ';\n'.join(main_section) + '}')
     return '\n'.join(result)
-
-
-# ========== TEST ==========
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG,
-                        format=log_styles,
-                        datefmt=datefmt)
-    mapping = {
-        'foo': 1,
-        'hello': {
-            'test': 1
-        }
-    }
-    # assert default_pass({}, mapping) == mapping
-    # assert default_pass({'foo': 11}, mapping) == {
-    #     'foo': 11,
-    #     'hello': {
-    #         'test': 1
-    #     }
-    # }
-    assert default_pass({'foo': 11, 'hello': {'k': 233}}, mapping) == {
-        'foo': 11,
-        'hello': {
-            'test': 1,
-            'k': 233
-        }
-    }
 
 
 def filename_chk(name):

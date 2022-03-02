@@ -1,4 +1,4 @@
-version = '0.3.2 alpha'
+version = 'pre-0.4.0 alpha'
 log_styles = '[%(asctime)s] [%(threadName)s/%(module)s.%(funcName)s(%(lineno)s)/%(levelname)s] %(message)s'
 datefmt = '%Y/%m/%d %H:%M:%S'
 work_root = './'
@@ -50,6 +50,7 @@ countdown_config_default = {
         'start_text': '计时未开始',
         'qss_priority': 1
     },
+    'effects': {},
     'style': {
         'window_bg': {},
         'hl_description': {},
