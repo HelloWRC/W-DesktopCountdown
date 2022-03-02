@@ -222,6 +222,35 @@ class EffectManager:
         self.countdown: UIFrames.countdown.CountdownWin = countdown
         self.app: wcdapp.WDesktopCD = app
         self.config: ConfigFileMgr = config
+        self.effects = {}
+
+    def load_config(self, config=None):
+        if config is None:
+            config = self.config
+        else:
+            self.config = copy.deepcopy(config)
+        new_effects = []
+        rm_effects = []
+        changed_effects = []
+        for i in config:
+            if i not in self.effects:
+                new_effects.append(i)
+        for i in self.effects:
+            if i not in config:
+                rm_effects.append(i)
+        for i in config:
+            if i in new_effects:
+                continue
+            changed_effects.append(i)
+
+        for i in rm_effects:
+            self.effects[i].unload()
+            self.effects.pop(i)
+        for i in new_effects:
+            self.effects[i] = effects.effects[i](self.app, self.countdown, config[i])
+            self.effects[i].set_enabled()
+        for i in changed_effects:
+            self.effects[i].update_config(config[i])
 
 
 def mk_qss(style: dict, states: dict):

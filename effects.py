@@ -1,3 +1,5 @@
+import logging
+
 effects = {}
 
 
@@ -57,13 +59,16 @@ class SampleEffect:
     }
 
     def __init__(self, app, countdown, config):
-        pass
+        logging.info('effect init')
 
     def set_enabled(self):
-        pass
+        logging.info('effect enabled')
 
     def update_config(self, config):
-        pass
+        logging.info('effect reload')
+
+    def unload(self):
+        logging.info('effect unload')
 
 
 class SampleEffect2:
@@ -80,6 +85,9 @@ class SampleEffect2:
         pass
 
     def update_config(self, config):
+        pass
+
+    def unload(self):
         pass
 
 

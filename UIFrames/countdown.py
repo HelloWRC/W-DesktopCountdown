@@ -64,6 +64,7 @@ class CountdownWin(QWidget):
 
     def load_config(self):
         self.cfg.load()
+        self.em.load_config(self.cfg.cfg['effects'])
         # 应用配置
         # 窗口
         self.setWindowTitle(self.cfg.cfg['countdown']['title'])
