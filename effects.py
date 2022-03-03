@@ -1,4 +1,6 @@
 import logging
+import blur_effects
+import properties
 
 effects = {}
 
@@ -8,6 +10,13 @@ class SampleEffect:
     effect_friendly_name = '测试效果'
     effect_description = '这是一个用于测试的特效。'
     default_config = {
+        'label': {
+            'type': 'label',
+            'text': '这是一个标签',
+            # 可选
+            'word_warp': False,
+            'selectable': True
+        },
         'string': {
             'type': 'string',
             'name': '这是一个字符串',
@@ -71,29 +80,139 @@ class SampleEffect:
         logging.info('effect unload')
 
 
-class SampleEffect2:
-    effect_id = 'wdcd.sample_effect2'
-    effect_friendly_name = '测试效果2'
-    effect_description = '这是一个用于测试的特效。'
+class RollingTexts:
+    effect_id = 'wdcd.rolling_texts'
+    effect_friendly_name = '滚动标语'
+    effect_description = '向倒计时页面添加自定义标语，可以从文件读取，随机展示。'
     default_config = {
+        'filename': {
+            'type': 'string',
+            'name': '文件路径',
+            'default': '',
+            'description': '包含要显示的标语的文本文件，编码为UTF-8，一行一条。'
+        },
+        'format': {
+            'type': 'string',
+            'name': '标语格式',
+            'default': '{}',
+            'description': '标语格式，“{}”将被替换为要显示的标语，可以使用HTML。'
+        }
     }
 
     def __init__(self, app, countdown, config):
-        pass
+        import UIFrames.countdown
+        from PyQt5.QtWidgets import QLabel
+        self.app = app
+        self.countdown: UIFrames.countdown.CountdownWin = countdown
+        self.config = config
+        self.texts = []
+        self.label = QLabel()
+        self.countdown.ui.verticalLayout_2.addWidget(self.label)
 
     def set_enabled(self):
-        pass
+        self.label.show()
+        self.update_config(self.config)
 
     def update_config(self, config):
-        pass
+        import random
+        self.config = config
+        try:
+            with open(config['filename']) as texts:
+                self.texts = texts.read().split('\n')
+            self.label.setText(self.config['format'].format(random.choice(self.texts)))
+        except Exception as exp:
+            self.label.setText(self.config['format'].format('出现错误：{}'.format(exp)))
 
     def unload(self):
-        pass
+        self.label.setVisible(False)
+        del self.label
+
+
+class ArcylicEffect:
+    effect_id = 'wdcd.arcylic'
+    effect_friendly_name = '亚克力效果'
+    effect_description = '将倒计时页面背景应用亚克力效果。需要Windows10以及更新版本的Windows。'
+    default_config = {
+        'description': {
+            'type': 'label',
+            'text': '本特效利用了dwm内置的api，由zhiyiyo提供的基于MIT协议开源代码调用。本特效仅能在Windows 10以及更新版本的Windows上工作。',
+            'word_warp': True
+        },
+        'background_color_type': {
+            'type': 'combo_box',
+            'name': '背景色来源',
+            'items': [
+                '当前主题',
+                '自定义'
+            ],
+            'default': 0,
+            'description': '选择背景色的来源。'
+        },
+        'background_color': {
+            'type': 'string',
+            'name': '自定义背景色（RRGGBB）',
+            'default': '000000',
+            'description': '输入背景色色号，格式是RRGGBB。'
+        },
+        'transparent': {
+            'type': 'int',
+            'name': '不透明度',
+            'default': 128,
+            'min': 0,
+            'max': 255,
+            'description': '背景颜色不透明度，范围0-255。'
+        }
+    }
+    light_bg = 'f5f5f5'
+    dark_bg = '31363b'
+
+    def __init__(self, app, countdown, config):
+        import UIFrames.countdown
+        import wcdapp
+        self.app: wcdapp.WDesktopCD = app
+        self.countdown: UIFrames.countdown.CountdownWin = countdown
+        self.config = config
+        self.bg_color = '00000000'
+
+    def set_enabled(self):
+        from PyQt5.Qt import Qt
+        self.load_config()
+        self.countdown.setAttribute(Qt.WA_NoSystemBackground)
+        self.countdown.ui.window_bg.setStyleSheet('background:rgba(0,0,0,0)')
+        blur_effects.WindowEffect().setAcrylicEffect(int(self.countdown.winId()), self.bg_color)
+        self.countdown.show()
+
+    def update_config(self, config):
+        self.load_config(config)
+        blur_effects.WindowEffect().setAcrylicEffect(int(self.countdown.winId()), self.bg_color)
+        self.countdown.show()
+
+    def unload(self):
+        from PyQt5.Qt import Qt
+        self.countdown.setAttribute(Qt.WA_NoSystemBackground, False)
+        self.countdown.ui.window_bg.setStyleSheet('')
+        blur_effects.WindowEffect().removeBackgroundEffect(int(self.countdown.winId()))
+        self.countdown.show()
+
+    def load_config(self, config=None):
+        if config is None:
+            config = self.config
+        else:
+            self.config = config
+
+        if config['background_color_type'] == 0:
+            if properties.ld_themes[self.app.app_cfg.cfg['appearance']['ld_style']] == 'light':
+                self.bg_color = self.light_bg
+            else:
+                self.bg_color = self.dark_bg
+        else:
+            self.bg_color = self.config['background_color']
+        self.bg_color += str(hex(self.config['transparent']))[2:]
 
 
 def add_effect(effect):
     effects[effect.effect_id] = effect
 
 
-for i in (SampleEffect, ):
+for i in (SampleEffect, RollingTexts, ArcylicEffect):
     add_effect(i)

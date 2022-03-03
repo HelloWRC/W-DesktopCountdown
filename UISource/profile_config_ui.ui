@@ -265,6 +265,13 @@
        <string>窗口</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout_4">
+       <item row="0" column="0">
+        <widget class="QLabel" name="lb_winpos">
+         <property name="text">
+          <string>窗口坐标（X/Y）</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="1">
         <layout class="QHBoxLayout" name="winpos">
          <item>
@@ -349,50 +356,17 @@
          </item>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="lb_winpos">
-         <property name="text">
-          <string>窗口坐标（X/Y）</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QCheckBox" name="cb_mouse_tran">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;若启用本选项，窗口将不接受鼠标事件。鼠标的点击动作会穿透到窗口后面的窗口。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>鼠标穿透</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="2">
-        <widget class="QCheckBox" name="cb_no_background">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;窗口的背景会是透明的。若要启用此选项，必须禁用“窗口有边框”。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>透明窗口背景</string>
-         </property>
-        </widget>
-       </item>
        <item row="3" column="0" colspan="2">
         <widget class="QCheckBox" name="cb_titlebar">
          <property name="text">
           <string>窗口有边框</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </item>
@@ -434,7 +408,8 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset theme="go-up"/>
+            <iconset theme="go-up">
+             <normaloff>.</normaloff>.</iconset>
            </property>
            <property name="flat">
             <bool>true</bool>
@@ -447,7 +422,8 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset theme="go-down"/>
+            <iconset theme="go-down">
+             <normaloff>.</normaloff>.</iconset>
            </property>
            <property name="flat">
             <bool>true</bool>
@@ -460,7 +436,8 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset theme="configure"/>
+            <iconset theme="configure">
+             <normaloff>.</normaloff>.</iconset>
            </property>
            <property name="flat">
             <bool>true</bool>
@@ -491,6 +468,47 @@
        </item>
        <item>
         <widget class="QListWidget" name="lst_disabled_effect"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_automatic">
+      <attribute name="title">
+       <string>自动化</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QPushButton" name="btn_new_action">
+           <property name="text">
+            <string>新建</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_import_action">
+           <property name="text">
+            <string>导入</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QListWidget" name="lst_action_list"/>
        </item>
       </layout>
      </widget>

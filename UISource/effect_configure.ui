@@ -14,7 +14,10 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>效果设置</string>
+  </property>
+  <property name="windowIcon">
+   <iconset theme="configure"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
