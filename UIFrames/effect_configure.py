@@ -1,6 +1,6 @@
 from UIFrames.ui_effect_configure import Ui_Configure
 from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QCheckBox, QSpinBox, QDoubleSpinBox, QComboBox
-from PyQt5.Qt import QApplication
+from PyQt5.Qt import QApplication, Qt
 import logging
 import properties
 import sys
@@ -21,7 +21,15 @@ class EffectConfigure(QWidget):
         # Generate UI
         for i in self.config_temple:
             root = self.config_temple[i]
-            if root['type'] == 'bool':
+            if root['type'] == 'label':
+                label = QLabel(root['text'])
+                if 'word_warp' in root:
+                    label.setWordWrap(root['word_warp'])
+                if 'selectable' in root:
+                    if root['selectable']:
+                        label.setTextInteractionFlags(Qt.TextSelectableByMouse | Qt.TextSelectableByKeyboard)
+                self.ui.container.addRow(label)
+            elif root['type'] == 'bool':
                 checkbox = QCheckBox(root['name'])
                 checkbox.setObjectName('cb_' + i)
                 if 'description' in root:
@@ -70,8 +78,7 @@ class EffectConfigure(QWidget):
                     self.set_val[i] = content.setCurrentIndex
                     self.get_val[i] = content.currentIndex
                 else:
-                    content = QLineEdit()
-                    content.setEnabled(False)
+                    continue
                 if 'description' in root:
                     content.setToolTip(root['description'])
                 self.ui.container.addRow(label, content)
@@ -81,11 +88,15 @@ class EffectConfigure(QWidget):
     def load_val(self):
         for i in self.config_temple:
             if i not in self.config:
+                if self.config_temple[i]['type'] == 'label':
+                    continue
                 self.config[i] = self.config_temple[i]['default']
             self.set_val[i](self.config[i])
 
     def save_val(self):
         for i in self.config_temple:
+            if self.config_temple[i]['type'] == 'label':
+                continue
             self.config[i] = self.get_val[i]()
 
     def on_btn_confirm_released(self):

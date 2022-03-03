@@ -6,6 +6,7 @@ import time
 import datetime
 import threading
 import ctypes
+import blur_effects
 
 import properties
 from UIFrames.ui_countdown import Ui_Countdown
@@ -37,12 +38,12 @@ class CountdownWin(QWidget):
         self.cfg = config
         self.app.logger.info('created countdown window')
 
+        self.ui = Ui_Countdown()
+        self.ui.setupUi(self)
         self.update_thread = UpdateThread()
         self.update_thread.setPriority(QThread.IdlePriority)
         self.update_thread.sig_update.connect(self.update_content)
         self.em = function.EffectManager(self, self.app, self.cfg)
-        self.ui = Ui_Countdown()
-        self.ui.setupUi(self)
         self.setWindowFlag(Qt.WindowCloseButtonHint, False)
         self.setWindowFlag(Qt.WindowTitleHint, False)
         self.enabled = None
@@ -55,6 +56,7 @@ class CountdownWin(QWidget):
         self.load_config()
         self.config_ui = ProfileConfigUI(self.app, self.name, self.cfg, self.load_config)
         self.installEventFilter(self)
+        self.show()
 
     def show(self) -> None:
         if not self.cfg.cfg['enabled']:
@@ -74,29 +76,12 @@ class CountdownWin(QWidget):
         self.set_win_mode(self.cfg.cfg['window']['window_mode'])
         self.set_window_title_visible(self.cfg.cfg['window']['show_title_bar'])
         self.set_countdown_enabled(self.cfg.cfg['enabled'])
-        self.set_background_invisible(self.cfg.cfg['window']['no_background'])
-        self.set_mouse_tran(self.cfg.cfg['window']['mouse_tran'])
 
+        self.setAttribute(Qt.WA_NoSystemBackground, True)
         self.update_content()
         self.write_config()
         logging.info('loaded config of %s', self.cfg.filename)
         self.setStyleSheet(function.mk_qss(self.cfg.cfg['style'], self.cfg.cfg['style_enabled']))
-
-    def set_background_invisible(self, stat: bool):
-        if stat == self.no_bg:
-            return
-        if stat:
-            self.setAttribute(Qt.WA_TranslucentBackground, True)
-        else:
-            self.setAttribute(Qt.WA_TintedBackground, True)
-        self.no_bg = stat
-        self.show()
-
-    def set_mouse_tran(self, stat: bool):
-        self.setAttribute(Qt.WA_TransparentForMouseEvents, stat)
-        self.mouse_tran = stat
-        self.show()
-
 
     def set_window_title_visible(self, stat: bool):
         if stat:

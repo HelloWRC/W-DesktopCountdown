@@ -161,13 +161,17 @@ class ProfileConfigUI(QWidget):
         self.disabled_effects.clear()
         for i in self.enabled_effects:
             if i in effects.effects:
-                self.ui.lst_enabled_effect.addItem(effects.effects[i].effect_friendly_name)
+                item = QListWidgetItem(effects.effects[i].effect_friendly_name)
+                item.setToolTip(effects.effects[i].effect_description)
+                self.ui.lst_enabled_effect.addItem(item)
             else:
                 self.ui.lst_enabled_effect.addItem(i)
         for i in effects.effects:
             if i in self.enabled_effects:
                 continue
-            self.ui.lst_disabled_effect.addItem(effects.effects[i].effect_friendly_name)
+            item = QListWidgetItem(effects.effects[i].effect_friendly_name)
+            item.setToolTip(effects.effects[i].effect_description)
+            self.ui.lst_disabled_effect.addItem(item)
             self.disabled_effects.append(i)
 
     def save_val(self):
@@ -239,8 +243,9 @@ class ProfileConfigUI(QWidget):
         self.last_style_widget = text
 
     def load_widget_style(self, widget):
-        style_root = self.cfg.cfg['style'][widget]
-        state_root = self.cfg.cfg['style_enabled'][widget]
+        import function
+        style_root = function.default_pass(self.cfg.cfg['style'][widget], properties.default_widget_style)
+        state_root = function.default_pass(self.cfg.cfg['style_enabled'][widget], properties.default_widget_enabled)
         # value
         self.ui.btn_bgcolor.setText(style_root['background-color'])
         self.ui.le_bgpic.setText(style_root['background-image'][4:-1])

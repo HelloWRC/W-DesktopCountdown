@@ -233,12 +233,18 @@ class EffectManager:
         rm_effects = []
         changed_effects = []
         for i in config:
+            if i not in effects.effects:
+                continue
             if i not in self.effects:
                 new_effects.append(i)
         for i in self.effects:
+            if i not in effects.effects:
+                continue
             if i not in config:
                 rm_effects.append(i)
         for i in config:
+            if i not in effects.effects:
+                continue
             if i in new_effects:
                 continue
             changed_effects.append(i)
@@ -247,9 +253,19 @@ class EffectManager:
             self.effects[i].unload()
             self.effects.pop(i)
         for i in new_effects:
+            for k in effects.effects[i].default_config:
+                if effects.effects[i].default_config[k]['type'] == 'label':
+                    continue
+                if k not in config[i]:
+                    config[i][k] = effects.effects[i].default_config[k]['default']
             self.effects[i] = effects.effects[i](self.app, self.countdown, config[i])
             self.effects[i].set_enabled()
         for i in changed_effects:
+            for k in effects.effects[i].default_config:
+                if effects.effects[i].default_config[k]['type'] == 'label':
+                    continue
+                if k not in config[i]:
+                    config[i][k] = effects.effects[i].default_config[k]['default']
             self.effects[i].update_config(config[i])
 
 
