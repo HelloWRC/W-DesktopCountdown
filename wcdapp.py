@@ -38,7 +38,6 @@ class WDesktopCD(QApplication):
         self.logger = logger
         self.logger.info('init phase 1')
         self.installEventFilter(self)
-        qt_material.apply_stylesheet(self, 'dark_blue.xml', extra={'font_family': 'Microsoft YaHei UI'})
         res.qInitResources()
         self.sig_phase2_triggered.connect(self.init_phase2)
         self.setQuitOnLastWindowClosed(False)

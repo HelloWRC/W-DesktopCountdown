@@ -252,6 +252,7 @@ class EffectManager:
         for i in rm_effects:
             self.effects[i].unload()
             self.effects.pop(i)
+            logging.info('unloaded effects: %s', i)
         for i in new_effects:
             for k in effects.effects[i].default_config:
                 if effects.effects[i].default_config[k]['type'] == 'label':
@@ -260,6 +261,7 @@ class EffectManager:
                     config[i][k] = effects.effects[i].default_config[k]['default']
             self.effects[i] = effects.effects[i](self.app, self.countdown, config[i])
             self.effects[i].set_enabled()
+            logging.info('enabled effect: %s', i)
         for i in changed_effects:
             for k in effects.effects[i].default_config:
                 if effects.effects[i].default_config[k]['type'] == 'label':
@@ -267,6 +269,7 @@ class EffectManager:
                 if k not in config[i]:
                     config[i][k] = effects.effects[i].default_config[k]['default']
             self.effects[i].update_config(config[i])
+            logging.info('updated effects: %s', i)
 
 
 def mk_qss(style: dict, states: dict):
@@ -277,7 +280,7 @@ def mk_qss(style: dict, states: dict):
             if states[i][k]:
                 main_section.append('  {}: {}'.format(k, style[i][k]))
         result.append('#' + i + '{\n' + ';\n'.join(main_section) + '}')
-    return '\n'.join(result)
+    return '\n'.join(result) + '#Countdown{background: rgba(0, 0, 0, 0)}'
 
 
 def filename_chk(name):

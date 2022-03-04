@@ -173,12 +173,14 @@ class ArcylicEffect:
         self.countdown: UIFrames.countdown.CountdownWin = countdown
         self.config = config
         self.bg_color = '00000000'
+        self.raw_style = self.countdown.styleSheet()
 
     def set_enabled(self):
         from PyQt5.Qt import Qt
         self.load_config()
-        self.countdown.setAttribute(Qt.WA_NoSystemBackground)
+        # self.countdown.ui.window_bg.setAttribute(Qt.WA_paint, False)
         self.countdown.ui.window_bg.setStyleSheet('background:rgba(0,0,0,0)')
+        self.countdown.setAutoFillBackground(True)
         blur_effects.WindowEffect().setAcrylicEffect(int(self.countdown.winId()), self.bg_color)
         self.countdown.show()
 
@@ -189,8 +191,9 @@ class ArcylicEffect:
 
     def unload(self):
         from PyQt5.Qt import Qt
-        self.countdown.setAttribute(Qt.WA_NoSystemBackground, False)
-        self.countdown.ui.window_bg.setStyleSheet('')
+        # self.countdown.setAttribute(Qt.WA_TranslucentBackground, False)
+        self.countdown.setUpdatesEnabled(True)
+        self.countdown.ui.window_bg.setStyleSheet(self.raw_style)
         blur_effects.WindowEffect().removeBackgroundEffect(int(self.countdown.winId()))
         self.countdown.show()
 

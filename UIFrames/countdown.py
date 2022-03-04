@@ -6,7 +6,6 @@ import time
 import datetime
 import threading
 import ctypes
-import blur_effects
 
 import properties
 from UIFrames.ui_countdown import Ui_Countdown
@@ -15,7 +14,9 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import QEvent, QObject, Qt, QThread, pyqtSignal
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QMouseEvent
+from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtCore import Qt
+from PyQt5.Qt import QRectF
 from PyQt5.QtGui import QCursor
 
 window_update_event = QEvent.registerEventType()
@@ -37,6 +38,7 @@ class CountdownWin(QWidget):
         self.title_visible = True
         self.cfg = config
         self.app.logger.info('created countdown window')
+        # self.windowHandle().screenChanged.connect(self.__onScreenChanged)
 
         self.ui = Ui_Countdown()
         self.ui.setupUi(self)
@@ -77,7 +79,7 @@ class CountdownWin(QWidget):
         self.set_window_title_visible(self.cfg.cfg['window']['show_title_bar'])
         self.set_countdown_enabled(self.cfg.cfg['enabled'])
 
-        self.setAttribute(Qt.WA_NoSystemBackground, True)
+        # self.setAttribute(Qt.WA_NoSystemBackground, True)
         self.update_content()
         self.write_config()
         logging.info('loaded config of %s', self.cfg.filename)
@@ -133,6 +135,8 @@ class CountdownWin(QWidget):
                 self.ui.progressBar.setValue(self.cfg.cfg['countdown']['end'] - time.time())
             else:
                 self.ui.progressBar.setValue(time.time() - self.cfg.cfg['countdown']['start'])
+        painter = QPainter(self)
+        painter.setBackgroundMode(0)
 
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
         if watched == self and event.type() == event.Close:
@@ -144,6 +148,9 @@ class CountdownWin(QWidget):
             self.write_config()
         # print(watched, event)
         return super(CountdownWin, self).eventFilter(watched, event)
+
+    def paintEvent(self, event):
+        pass
 
     def set_win_mode(self, level: int):
         """
