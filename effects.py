@@ -128,8 +128,8 @@ class RollingTexts:
         del self.label
 
 
-class ArcylicEffect:
-    effect_id = 'wdcd.arcylic'
+class AcrylicEffect:
+    effect_id = 'wdcd.acrylic'
     effect_friendly_name = '亚克力效果'
     effect_description = '将倒计时页面背景应用亚克力效果。需要Windows10以及更新版本的Windows。'
     default_config = {
@@ -217,5 +217,5 @@ def add_effect(effect):
     effects[effect.effect_id] = effect
 
 
-for i in (SampleEffect, RollingTexts, ArcylicEffect):
+for i in (SampleEffect, RollingTexts, AcrylicEffect):
     add_effect(i)
