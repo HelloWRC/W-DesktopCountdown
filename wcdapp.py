@@ -8,6 +8,7 @@ from PyQt5.QtGui import QIcon
 import functions.appearance
 import functions.base
 import functions.countdown
+import functions.plugins
 import properties
 from UIFrames.countdown import CountdownWin
 from UIFrames.settings import Settings
@@ -29,6 +30,7 @@ class WDesktopCD(QApplication):
     def __init__(self, argv, logger: logging.Logger):
         # 程序开始，初始化基本套件
         super().__init__(argv)
+        self.plugin_mgr = functions.plugins.PluginMgr()
         self.profile_mgr_ui = None
         self.profile_mgr: functions.countdown.ProfileMgr
         self.cdtest: CountdownWin

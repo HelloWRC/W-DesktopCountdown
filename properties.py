@@ -4,6 +4,7 @@ datefmt = '%Y/%m/%d %H:%M:%S'
 work_root = './'
 profile_prefix = work_root + 'profiles/'
 qss_prefix = work_root + 'qss-styles/'
+plugins_prefix = work_root + 'plugins/'
 default_profile_name = '@@_default_@@.json'
 
 extra_ui_cfg = {'font_family': 'Microsoft YaHei UI',

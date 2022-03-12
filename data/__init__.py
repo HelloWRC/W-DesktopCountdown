@@ -17,3 +17,5 @@ provided_actions = (
 
 provided_triggers = (
 )
+
+print('loaded!')
