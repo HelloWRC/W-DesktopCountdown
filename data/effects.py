@@ -1,8 +1,7 @@
 import logging
 import blur_effects
 import properties
-
-effects = {}
+from functions.plugins import add_effect
 
 
 class SampleEffect:
@@ -176,7 +175,6 @@ class AcrylicEffect:
         self.raw_style = self.countdown.styleSheet()
 
     def set_enabled(self):
-        from PyQt5.Qt import Qt
         self.load_config()
         # self.countdown.ui.window_bg.setAttribute(Qt.WA_paint, False)
         self.countdown.ui.window_bg.setStyleSheet('background:rgba(0,0,0,0)')
@@ -190,7 +188,6 @@ class AcrylicEffect:
         self.countdown.show()
 
     def unload(self):
-        from PyQt5.Qt import Qt
         # self.countdown.setAttribute(Qt.WA_TranslucentBackground, False)
         self.countdown.setUpdatesEnabled(True)
         self.countdown.ui.window_bg.setStyleSheet(self.raw_style)
@@ -211,10 +208,6 @@ class AcrylicEffect:
         else:
             self.bg_color = self.config['background_color']
         self.bg_color += str(hex(self.config['transparent']))[2:]
-
-
-def add_effect(effect):
-    effects[effect.effect_id] = effect
 
 
 for i in (SampleEffect, RollingTexts, AcrylicEffect):

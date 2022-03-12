@@ -3,7 +3,7 @@ import sys
 
 import properties
 import wcdapp as wdcd_app
-import function, logging
+import logging
 from PyQt5.QtCore import QEvent
 
 if __name__ == "__main__":

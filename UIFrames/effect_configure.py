@@ -3,8 +3,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QCheckBox, QSpinBox, QDo
 from PyQt5.Qt import QApplication, Qt
 import logging
 import properties
-import sys
-import effects
+from data import effects
 
 
 class EffectConfigure(QWidget):

@@ -5,13 +5,15 @@ from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QSystemTrayIcon
 from PyQt5.QtGui import QIcon
 
+import functions.appearance
+import functions.base
+import functions.countdown
 import properties
 from UIFrames.countdown import CountdownWin
 from UIFrames.settings import Settings
 from UIFrames.tray import SystemTray
 from UIFrames.profilemgr import ProfileMgrUI
 import resources_rc as res
-import function
 import logging
 import qt_material
 import threading as thd
@@ -28,9 +30,9 @@ class WDesktopCD(QApplication):
         # 程序开始，初始化基本套件
         super().__init__(argv)
         self.profile_mgr_ui = None
-        self.profile_mgr: function.ProfileMgr
+        self.profile_mgr: functions.countdown.ProfileMgr
         self.cdtest: CountdownWin
-        self.app_cfg = function.ConfigFileMgr('settings.json', properties.default_config)
+        self.app_cfg = functions.base.ConfigFileMgr('settings.json', properties.default_config)
         self.app_cfg.load()
         self.settings_ui: Settings = Settings(self.app_cfg, self)
         self.tray: QSystemTrayIcon
@@ -47,7 +49,7 @@ class WDesktopCD(QApplication):
         QIcon.setThemeSearchPaths(QIcon.themeSearchPaths() + [':/resources/icons'])
         self.update_theme()
         self.logger.info('init phase 2')
-        self.profile_mgr = function.ProfileMgr(self)
+        self.profile_mgr = functions.countdown.ProfileMgr(self)
         self.profile_mgr_ui = ProfileMgrUI(self)
         self.tray = SystemTray(self)
         self.tray.show()
@@ -81,7 +83,7 @@ class WDesktopCD(QApplication):
                 dark_mode = True
             else:
                 dark_mode = False
-            function.gen_custom_theme('custom-theme.xml', accent_color, dark_mode)
+            functions.appearance.gen_custom_theme('custom-theme.xml', accent_color, dark_mode)
             theme_name = 'custom-theme.xml'
         qt_material.apply_stylesheet(self,
                                      theme=theme_name,

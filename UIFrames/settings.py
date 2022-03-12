@@ -8,9 +8,11 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import QColorDialog
 from PyQt5.Qt import pyqtSignal
+
+import functions.appearance
+import functions.base
 from UIFrames.license import LicenseRead
 
-import function
 import json
 import os
 import platform
@@ -20,7 +22,7 @@ from UIFrames.ui_settings import Ui_Form
 
 
 class Settings(QWidget):
-    def __init__(self, config_mgr: function.ConfigFileMgr, app):
+    def __init__(self, config_mgr: functions.base.ConfigFileMgr, app):
         import wcdapp
         QWidget.__init__(self)
         self.__finished_init = False
@@ -50,7 +52,7 @@ class Settings(QWidget):
     def on_btn_selcolor_released(self):
         self.colr_sel = QColorDialog.getColor(initial=QColor(self.ui.btn_selcolor.text()), title='选择主题色')
         rgb = self.colr_sel.getRgb()
-        self.ui.btn_selcolor.setText(function.rgb2hex(rgb[0], rgb[1], rgb[2]))
+        self.ui.btn_selcolor.setText(functions.appearance.rgb2hex(rgb[0], rgb[1], rgb[2]))
 
     def on_btn_close_released(self):
         self.close()

@@ -4,12 +4,15 @@ import logging
 import os
 import time
 
-import effects
+import functions.plugins
+from data import effects
+import functions.appearance
+import functions.base
+import functions.countdown
 import properties
 from UIFrames.ui_profile_config_ui import Ui_ProfileConfigUI
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtWidgets import QInputDialog
 from PyQt5.QtCore import QEvent
 from PyQt5.QtWidgets import QColorDialog
 from PyQt5.QtWidgets import QFontDialog
@@ -17,8 +20,6 @@ from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtWidgets import QListWidgetItem
 from PyQt5.QtGui import QColor
 from PyQt5.QtGui import QFont
-from PyQt5.QtCore import pyqtSignal
-from PyQt5.Qt import QApplication
 from UIFrames.effect_configure import EffectConfigure
 
 
@@ -26,10 +27,9 @@ class ProfileConfigUI(QWidget):
     def __init__(self, app, name, cfg, update_trigger=None, default_cfg=False):
         self.desktop = None
         self._final = False
-        import function
         import wcdapp
         self.app: wcdapp.WDesktopCD = app
-        self.cfg: function.ConfigFileMgr = cfg
+        self.cfg: functions.base.ConfigFileMgr = cfg
         self.update_trigger = update_trigger
         self.default_cfg = default_cfg
         self.name = name
@@ -42,8 +42,8 @@ class ProfileConfigUI(QWidget):
         self.ui.setupUi(self)
         self.ui.cb_widgets.clear()
         for i in self.cfg.cfg['style']:
-            function.default_pass(self.cfg.cfg['style'][i], properties.default_widget_style)
-            function.default_pass(self.cfg.cfg['style_enabled'][i], properties.default_widget_enabled)
+            functions.base.default_pass(self.cfg.cfg['style'][i], properties.default_widget_style)
+            functions.base.default_pass(self.cfg.cfg['style_enabled'][i], properties.default_widget_enabled)
             self.ui.cb_widgets.addItem(i)
         self.last_style_widget = self.ui.cb_widgets.currentText()
         self._final = True
@@ -98,21 +98,19 @@ class ProfileConfigUI(QWidget):
         os.startfile(os.getcwd() + properties.profile_prefix)
 
     def check_val(self) -> bool:
-        import function
         start_time = int(time.mktime(self.ui.dte_starttime.dateTime().toPyDateTime().timetuple()))
         end_time = int(time.mktime(self.ui.dte_endtime.dateTime().toPyDateTime().timetuple()))
 
         if start_time > end_time:
             return False
         try:
-            function.strfdelta(datetime.datetime.now()-datetime.datetime.now(), self.ui.le_countdown_format.text())
+            functions.countdown.strfdelta(datetime.datetime.now() - datetime.datetime.now(), self.ui.le_countdown_format.text())
         except KeyError:
             return False
 
         return True
 
     def load_val(self):
-        import function
         self.desktop = self.app.desktop()
         rect = self.desktop.screenGeometry()
         maxw = rect.width()
@@ -160,17 +158,17 @@ class ProfileConfigUI(QWidget):
         self.ui.lst_enabled_effect.clear()
         self.disabled_effects.clear()
         for i in self.enabled_effects:
-            if i in effects.effects:
-                item = QListWidgetItem(effects.effects[i].effect_friendly_name)
-                item.setToolTip(effects.effects[i].effect_description)
+            if i in functions.plugins.effects:
+                item = QListWidgetItem(functions.plugins.effects[i].effect_friendly_name)
+                item.setToolTip(functions.plugins.effects[i].effect_description)
                 self.ui.lst_enabled_effect.addItem(item)
             else:
                 self.ui.lst_enabled_effect.addItem(i)
-        for i in effects.effects:
+        for i in functions.plugins.effects:
             if i in self.enabled_effects:
                 continue
-            item = QListWidgetItem(effects.effects[i].effect_friendly_name)
-            item.setToolTip(effects.effects[i].effect_description)
+            item = QListWidgetItem(functions.plugins.effects[i].effect_friendly_name)
+            item.setToolTip(functions.plugins.effects[i].effect_description)
             self.ui.lst_disabled_effect.addItem(item)
             self.disabled_effects.append(i)
 
@@ -223,15 +221,16 @@ class ProfileConfigUI(QWidget):
 
     def on_btn_effect_configure_released(self):
         eid = self.enabled_effects[self.ui.lst_enabled_effect.currentIndex().row()]
-        self.econfigure = EffectConfigure(self.local_effect[eid], effects.effects[eid].default_config)
+        self.econfigure = EffectConfigure(self.local_effect[eid], functions.plugins.effects[eid].default_config)
         self.econfigure.show()
 
     def on_lst_enabled_effect_currentRowChanged(self):
         if len(self.enabled_effects) <= 0:
             self.ui.btn_effect_configure.setEnabled(False)
             return
-        if self.enabled_effects[self.ui.lst_enabled_effect.currentIndex().row()] in effects.effects:
-            self.ui.btn_effect_configure.setEnabled(bool(effects.effects[self.enabled_effects[self.ui.lst_enabled_effect.currentIndex().row()]].default_config))
+        if self.enabled_effects[self.ui.lst_enabled_effect.currentIndex().row()] in functions.plugins.effects:
+            self.ui.btn_effect_configure.setEnabled(bool(
+                functions.plugins.effects[self.enabled_effects[self.ui.lst_enabled_effect.currentIndex().row()]].default_config))
         else:
             self.ui.btn_effect_configure.setEnabled(False)
 
@@ -243,9 +242,8 @@ class ProfileConfigUI(QWidget):
         self.last_style_widget = text
 
     def load_widget_style(self, widget):
-        import function
-        style_root = function.default_pass(self.cfg.cfg['style'][widget], properties.default_widget_style)
-        state_root = function.default_pass(self.cfg.cfg['style_enabled'][widget], properties.default_widget_enabled)
+        style_root = functions.base.default_pass(self.cfg.cfg['style'][widget], properties.default_widget_style)
+        state_root = functions.base.default_pass(self.cfg.cfg['style_enabled'][widget], properties.default_widget_enabled)
         # value
         self.ui.btn_bgcolor.setText(style_root['background-color'])
         self.ui.le_bgpic.setText(style_root['background-image'][4:-1])
@@ -300,22 +298,19 @@ class ProfileConfigUI(QWidget):
             state_root[att[i]] = wid[i].isChecked()
 
     def on_btn_bgcolor_released(self):
-        import function
         colr_sel = QColorDialog.getColor(initial=QColor(self.ui.btn_bgcolor.text()), title='选择背景颜色')
         rgb = colr_sel.getRgb()
-        self.ui.btn_bgcolor.setText(function.rgb2hex(rgb[0], rgb[1], rgb[2]))
+        self.ui.btn_bgcolor.setText(functions.appearance.rgb2hex(rgb[0], rgb[1], rgb[2]))
 
     def on_btn_color_released(self):
-        import function
         colr_sel = QColorDialog.getColor(initial=QColor(self.ui.btn_color.text()), title='选择颜色')
         rgb = colr_sel.getRgb()
-        self.ui.btn_color.setText(function.rgb2hex(rgb[0], rgb[1], rgb[2]))
+        self.ui.btn_color.setText(functions.appearance.rgb2hex(rgb[0], rgb[1], rgb[2]))
 
     def on_btn_bordercolor_released(self):
-        import function
         colr_sel = QColorDialog.getColor(initial=QColor(self.ui.btn_bordercolor.text()), title='选择边框颜色')
         rgb = colr_sel.getRgb()
-        self.ui.btn_bordercolor.setText(function.rgb2hex(rgb[0], rgb[1], rgb[2]))
+        self.ui.btn_bordercolor.setText(functions.appearance.rgb2hex(rgb[0], rgb[1], rgb[2]))
 
     def on_btn_browse_bgpic_released(self):
         path = QFileDialog.getOpenFileName(self, '打开图片文件', filter='图片文件(*.png *.svg *.bmp *.jpg *.jpeg *.gif);;所有文件(*.*)')

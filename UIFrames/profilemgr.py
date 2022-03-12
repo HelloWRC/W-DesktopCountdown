@@ -1,8 +1,8 @@
 import logging
-import function
 import time
 import shutil
 
+import functions.base
 import properties
 import wcdapp
 from UIFrames.ui_profilemgr import Ui_ProfileMgr
@@ -30,7 +30,7 @@ class CountdownCard(QWidget):
         self.name = name
         self.cfg_ui = cfgui
         self.app: wcdapp.WDesktopCD = app
-        self.cfg: function.ConfigFileMgr = cfg
+        self.cfg: functions.base.ConfigFileMgr = cfg
         self.countdown: CountdownWin = countdown
         self.default_cfg = default_cfg
         self.ui = Ui_CountdownCard()

@@ -8,7 +8,6 @@ from UIFrames.profilemgr import ProfileMgrUI
 import resources_rc as res
 import time
 import logging
-import function
 
 
 class SystemTray(QSystemTrayIcon):

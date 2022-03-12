@@ -1,12 +1,14 @@
 import logging
 from datetime import datetime
 
-import function
 import time
 import datetime
 import threading
 import ctypes
 
+import functions.appearance
+import functions.base
+import functions.countdown
 import properties
 from UIFrames.ui_countdown import Ui_Countdown
 from UIFrames.profile_config_ui import ProfileConfigUI
@@ -25,7 +27,7 @@ window_update_event = QEvent.registerEventType()
 class CountdownWin(QWidget):
     countdown_config_default = properties.countdown_config_default
 
-    def __init__(self, app, name, config: function.ConfigFileMgr):
+    def __init__(self, app, name, config: functions.base.ConfigFileMgr):
         self.app = app
         self.name = name
         super(CountdownWin, self).__init__()
@@ -45,7 +47,7 @@ class CountdownWin(QWidget):
         self.update_thread = UpdateThread()
         self.update_thread.setPriority(QThread.IdlePriority)
         self.update_thread.sig_update.connect(self.update_content)
-        self.em = function.EffectManager(self, self.app, self.cfg)
+        self.em = functions.appearance.EffectManager(self, self.app, self.cfg)
         self.setWindowFlag(Qt.WindowCloseButtonHint, False)
         self.setWindowFlag(Qt.WindowTitleHint, False)
         self.enabled = None
@@ -83,7 +85,7 @@ class CountdownWin(QWidget):
         self.update_content()
         self.write_config()
         logging.info('loaded config of %s', self.cfg.filename)
-        self.setStyleSheet(function.mk_qss(self.cfg.cfg['style'], self.cfg.cfg['style_enabled']))
+        self.setStyleSheet(functions.appearance.mk_qss(self.cfg.cfg['style'], self.cfg.cfg['style_enabled']))
 
     def set_window_title_visible(self, stat: bool):
         if stat:
@@ -123,7 +125,8 @@ class CountdownWin(QWidget):
             end_dt = datetime.datetime.fromtimestamp(self.cfg.cfg['countdown']['end'])
             now_dt: datetime = datetime.datetime.now()
             delta = end_dt - now_dt
-            self.ui.lb_CountDown.setText(function.strfdelta(delta, self.cfg.cfg['display']['countdown_format']))
+            self.ui.lb_CountDown.setText(
+                functions.countdown.strfdelta(delta, self.cfg.cfg['display']['countdown_format']))
 
         # progressbar
         self.ui.progressBar.setVisible(self.cfg.cfg['display']['show_progress_bar'])
