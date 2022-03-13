@@ -30,7 +30,7 @@ class WDesktopCD(QApplication):
     def __init__(self, argv, logger: logging.Logger):
         # 程序开始，初始化基本套件
         super().__init__(argv)
-        self.plugin_mgr = functions.plugins.PluginMgr()
+        logging.info('init phase 1')
         self.profile_mgr_ui = None
         self.profile_mgr: functions.countdown.ProfileMgr
         self.cdtest: CountdownWin
@@ -40,11 +40,11 @@ class WDesktopCD(QApplication):
         self.tray: QSystemTrayIcon
         self.countdown_win_cls = CountdownWin
         self.logger = logger
-        self.logger.info('init phase 1')
         self.installEventFilter(self)
         res.qInitResources()
         self.sig_phase2_triggered.connect(self.init_phase2)
         self.setQuitOnLastWindowClosed(False)
+        self.plugin_mgr = functions.plugins.PluginMgr(self)
 
     def init_phase2(self):
         # Qt事件处理器启动完毕，开始初始化qt套件
@@ -57,6 +57,7 @@ class WDesktopCD(QApplication):
         self.tray.show()
         if len(self.profile_mgr.profiles) <= 1:
             self.tray.showMessage('W-DesktopCountdown正在后台运行。', '双击系统托盘图标以显示本应用。')
+        self.plugin_mgr.load_v2()
         # self.cdtest = CountdownWin(self, 'style.qss', function.ConfigFileMgr('config.json',
         #                                                                      CountdownWin.countdown_config_default))
         

@@ -1,7 +1,6 @@
 import logging
 import blur_effects
 import properties
-from functions.plugins import add_effect
 
 
 class SampleEffect:
@@ -208,7 +207,3 @@ class AcrylicEffect:
         else:
             self.bg_color = self.config['background_color']
         self.bg_color += str(hex(self.config['transparent']))[2:]
-
-
-for i in (SampleEffect, RollingTexts, AcrylicEffect):
-    add_effect(i)
