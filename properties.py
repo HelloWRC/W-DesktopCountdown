@@ -119,6 +119,9 @@ default_config = {
             'dpi': 1,
             'force_app_dpi': False
         }
+    },
+    'plugins': {
+
     }
 }
 

@@ -206,6 +206,9 @@
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
           <widget class="QPushButton" name="btn_configure_plug">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>设置</string>
            </property>
@@ -233,6 +236,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="btn_plug_func">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>插件功能</string>
            </property>
@@ -241,7 +247,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="btn_plugin_folder">
          <property name="text">
           <string>打开插件文件夹</string>
          </property>

@@ -67,11 +67,7 @@ class EffectManager:
             self.effects.pop(i)
             logging.info('unloaded effects: %s', i)
         for i in new_effects:
-            for k in functions.plugins.effects[i].default_config:
-                if functions.plugins.effects[i].default_config[k]['type'] == 'label':
-                    continue
-                if k not in config[i]:
-                    config[i][k] = functions.plugins.effects[i].default_config[k]['default']
+            functions.base.rich_default_pass(functions.plugins.effects[i].default_config, config[i])
             self.effects[i] = functions.plugins.effects[i](self.app, self.countdown, config[i])
             self.effects[i].set_enabled()
             logging.info('enabled effect: %s', i)

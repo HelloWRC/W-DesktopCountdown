@@ -20,7 +20,7 @@ from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtWidgets import QListWidgetItem
 from PyQt5.QtGui import QColor
 from PyQt5.QtGui import QFont
-from UIFrames.effect_configure import EffectConfigure
+from UIFrames.universe_configure import UniverseConfigure
 
 
 class ProfileConfigUI(QWidget):
@@ -221,7 +221,7 @@ class ProfileConfigUI(QWidget):
 
     def on_btn_effect_configure_released(self):
         eid = self.enabled_effects[self.ui.lst_enabled_effect.currentIndex().row()]
-        self.econfigure = EffectConfigure(self.local_effect[eid], functions.plugins.effects[eid].default_config)
+        self.econfigure = UniverseConfigure(self.local_effect[eid], functions.plugins.effects[eid].default_config)
         self.econfigure.show()
 
     def on_lst_enabled_effect_currentRowChanged(self):

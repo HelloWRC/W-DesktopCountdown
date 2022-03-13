@@ -67,3 +67,12 @@ def filename_chk(name):
     if os.path.exists(properties.profile_prefix + name):
         name = name + '_'
     return name
+
+
+def rich_default_pass(default_config, config):
+    for k in default_config:
+        if default_config[k]['type'] == 'label':
+            continue
+        if k not in config:
+            config[k] = default_config[k]['default']
+    return config

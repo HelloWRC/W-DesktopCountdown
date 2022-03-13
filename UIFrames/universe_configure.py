@@ -6,9 +6,9 @@ import properties
 from data import effects
 
 
-class EffectConfigure(QWidget):
+class UniverseConfigure(QWidget):
     def __init__(self, config, config_temple):
-        super(EffectConfigure, self).__init__()
+        super(UniverseConfigure, self).__init__()
         self.ui = Ui_Configure()
         self.ui.setupUi(self)
         self.config_temple = config_temple
@@ -113,7 +113,7 @@ if __name__ == '__main__':
     logger.info('Welcome to W-DesktopCountdown %s.', properties.version)
     app = QApplication([])
     config = {}
-    effect_config = EffectConfigure(config, effects.SampleEffect.default_config)
+    effect_config = UniverseConfigure(config, effects.SampleEffect.default_config)
     effect_config.show()
     app.exec_()
     print(config)

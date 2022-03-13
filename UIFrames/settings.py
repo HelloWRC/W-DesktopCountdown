@@ -1,5 +1,6 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QListWidgetItem
 from PyQt5.QtGui import QFont
 from PyQt5.QtGui import QColor
 from PyQt5.QtCore import QObject
@@ -57,6 +58,20 @@ class Settings(QWidget):
     def on_btn_close_released(self):
         self.close()
 
+    def on_btn_plugin_folder_released(self):
+        os.startfile(os.getcwd() + properties.plugins_prefix)
+
+    def on_lst_plugins_currentRowChanged(self, row):
+        if self.ui.lst_plugins.count() <= 0:
+            return
+        if self.app.plugin_mgr.plugins[row].plugin_config_ui is None:
+            self.ui.btn_configure_plug.setEnabled(False)
+        else:
+            self.ui.btn_configure_plug.setEnabled(True)
+
+    def on_btn_configure_plug_released(self):
+        self.app.plugin_mgr.plugins[self.ui.lst_plugins.currentRow()].plugin_config_ui.show()
+
     def update_theme(self):
         if not self.__finished_init:
             return
@@ -103,6 +118,13 @@ class Settings(QWidget):
         self.ui.rb_customcolor.setChecked(self.cfg['appearance']['color_theme']['type'] == 2)
         self.ui.btn_selcolor.setText(self.cfg['appearance']['color_theme']['color'])
         self.ui.cb_custom_font.setCurrentFont(QFont(self.cfg['appearance']['custom_font']))
+        # plugins
+        self.ui.lst_plugins.clear()
+        for i in self.app.plugin_mgr.plugins:
+            item = QListWidgetItem(i.plugin_name)
+            tooltip = i.description
+            item.setToolTip(tooltip)
+            self.ui.lst_plugins.addItem(item)
 
     def save_val(self):
         # appearance

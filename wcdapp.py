@@ -36,7 +36,6 @@ class WDesktopCD(QApplication):
         self.cdtest: CountdownWin
         self.app_cfg = functions.base.ConfigFileMgr('settings.json', properties.default_config)
         self.app_cfg.load()
-        self.settings_ui: Settings = Settings(self.app_cfg, self)
         self.tray: QSystemTrayIcon
         self.countdown_win_cls = CountdownWin
         self.logger = logger
@@ -48,6 +47,7 @@ class WDesktopCD(QApplication):
 
     def init_phase2(self):
         # Qt事件处理器启动完毕，开始初始化qt套件
+        self.settings_ui: Settings = Settings(self.app_cfg, self)
         QIcon.setThemeSearchPaths(QIcon.themeSearchPaths() + [':/resources/icons'])
         self.update_theme()
         self.logger.info('init phase 2')

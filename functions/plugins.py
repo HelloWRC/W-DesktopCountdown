@@ -1,4 +1,6 @@
 import importlib
+
+import UIFrames.universe_configure
 import properties
 import os
 import logging
@@ -31,7 +33,19 @@ class Plugin:
         self.module = importlib.import_module(self.module_path)
         self.plugin_id = self.module.plugin_id
         self.plugin_name = self.module.plugin_name
-        self.plugin_config = {}  # reversed
+        if 'plugin_default_config' in dir(self.module):
+            self.plugin_default_cfg = self.module.plugin_default_config
+        if self.plugin_id not in self.app.app_cfg.cfg['plugins']:
+            self.app.app_cfg.cfg['plugins'][self.plugin_id] = {}
+        self.plugin_config = functions.base.rich_default_pass(self.plugin_default_cfg, self.app.app_cfg.cfg['plugins'][self.plugin_id])
+        if 'plugin_configure_ui' in dir(self.module) and self.module.plugin_configure_ui is not None:
+            self.plugin_config_ui = self.module.plugin_configure_ui
+        else:
+            if self.plugin_default_cfg:
+                self.plugin_config_ui = UIFrames.universe_configure.UniverseConfigure(self.plugin_config, self.plugin_default_cfg)
+            else:
+                self.plugin_config_ui = None
+
         if 'plugin_author' in dir(self.module):
             self.author = self.module.plugin_author
         if 'plugin_description' in dir(self.module):
@@ -60,6 +74,7 @@ class Plugin:
             self.app.tray.menu.addActions(self.module.app_menu_actions)
 
         logging.info('completed v2 load for plugin %s', self.plugin_id)
+
 
 class PluginMgr:
     plugin_module_prefix = 'plugins.'
