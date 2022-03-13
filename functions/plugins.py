@@ -71,7 +71,10 @@ class PluginMgr:
 
         self.plugins = [Plugin(self.app, 'data')]
         for i in os.listdir(properties.plugins_prefix):
-            self.plugins.append(Plugin(self.app, self.plugin_module_prefix + i))
+            if os.path.isdir(properties.plugins_prefix + i):
+                self.plugins.append(Plugin(self.app, self.plugin_module_prefix + i))
+            else:
+                logging.info('skipped invalid plugin: %s', i)
 
         for i in self.plugins:
             i.load_plugin()
