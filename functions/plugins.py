@@ -1,6 +1,8 @@
 import importlib
+import sys
 
 import UIFrames.universe_configure
+import UIFrames.plugin_info
 import properties
 import os
 import logging
@@ -19,6 +21,7 @@ class Plugin:
         self.module_path = module_path
         self.module = None
         self.plugin_config_ui = None
+        self.plugin_info_ui = None
         self.plugin_default_cfg = {}
         self.plugin_config = {}
 
@@ -30,6 +33,8 @@ class Plugin:
         self.plugin_actions = []
 
     def load_plugin(self):
+        logging.info('loading plugin as py package: %s', self.module_path
+                     )
         self.module = importlib.import_module(self.module_path)
         self.plugin_id = self.module.plugin_id
         self.plugin_name = self.module.plugin_name
@@ -73,6 +78,7 @@ class Plugin:
         if 'app_menu_actions' in dir(self.module):
             self.app.tray.menu.addActions(self.module.app_menu_actions)
 
+        self.plugin_info_ui = UIFrames.plugin_info.PluginInfo(self)
         logging.info('completed v2 load for plugin %s', self.plugin_id)
 
 
@@ -83,6 +89,7 @@ class PluginMgr:
         self.app = app
         if not os.path.exists(properties.plugins_prefix):
             os.mkdir(properties.plugins_prefix)
+        sys.path.append(os.getcwd())
 
         self.plugins = [Plugin(self.app, 'data')]
         for i in os.listdir(properties.plugins_prefix):

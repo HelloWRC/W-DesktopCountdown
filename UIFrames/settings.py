@@ -13,6 +13,7 @@ from PyQt5.Qt import pyqtSignal
 import functions.appearance
 import functions.base
 from UIFrames.license import LicenseRead
+from UIFrames.plugin_info import PluginInfo
 
 import json
 import os
@@ -71,6 +72,9 @@ class Settings(QWidget):
 
     def on_btn_configure_plug_released(self):
         self.app.plugin_mgr.plugins[self.ui.lst_plugins.currentRow()].plugin_config_ui.show()
+
+    def on_btn_plug_info_released(self):
+        self.app.plugin_mgr.plugins[self.ui.lst_plugins.currentRow()].plugin_info_ui.show()
 
     def update_theme(self):
         if not self.__finished_init:

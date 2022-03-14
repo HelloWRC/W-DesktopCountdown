@@ -19,13 +19,13 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="tab_gernel">
       <attribute name="title">
        <string>概述</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="lb_plugin_info">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;插件id：{}&lt;/p&gt;&lt;p&gt;插件名称：{}&lt;/p&gt;&lt;p&gt;插件描述：{}&lt;/p&gt;&lt;p&gt;插件作者：{}&lt;/p&gt;&lt;p&gt;插件网站：{}&lt;/p&gt;&lt;p&gt;插件包名：{}&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -45,7 +45,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="btn_browse_plugin">
          <property name="text">
           <string>浏览插件文件</string>
          </property>
@@ -53,7 +53,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_3">
+     <widget class="QWidget" name="tab_functions">
       <attribute name="title">
        <string>功能贡献</string>
       </attribute>
@@ -63,7 +63,7 @@
          <property name="currentIndex">
           <number>0</number>
          </property>
-         <widget class="QWidget" name="page">
+         <widget class="QWidget" name="pg_effects">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -76,22 +76,22 @@
            <string>特效</string>
           </attribute>
          </widget>
-         <widget class="QWidget" name="page_3">
+         <widget class="QWidget" name="pg_triggers">
           <attribute name="label">
            <string>触发器</string>
           </attribute>
          </widget>
-         <widget class="QWidget" name="page_4">
+         <widget class="QWidget" name="pg_actions">
           <attribute name="label">
            <string>动作</string>
           </attribute>
          </widget>
-         <widget class="QWidget" name="page_5">
+         <widget class="QWidget" name="pg_tray_actions">
           <attribute name="label">
            <string>托盘动作</string>
           </attribute>
          </widget>
-         <widget class="QWidget" name="page_2">
+         <widget class="QWidget" name="pg_pmgr_actions">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -126,7 +126,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="btn_close">
        <property name="text">
         <string>关闭</string>
        </property>
