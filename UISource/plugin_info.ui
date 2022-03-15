@@ -11,7 +11,10 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>插件信息：{}</string>
+  </property>
+  <property name="windowIcon">
+   <iconset theme="configure"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -28,6 +31,9 @@
         <widget class="QLabel" name="lb_plugin_info">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;插件id：{}&lt;/p&gt;&lt;p&gt;插件名称：{}&lt;/p&gt;&lt;p&gt;插件描述：{}&lt;/p&gt;&lt;p&gt;插件作者：{}&lt;/p&gt;&lt;p&gt;插件网站：{}&lt;/p&gt;&lt;p&gt;插件包名：{}&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
          </property>
         </widget>
        </item>
@@ -75,21 +81,65 @@
           <attribute name="label">
            <string>特效</string>
           </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QListWidget" name="lst_effects"/>
+           </item>
+          </layout>
          </widget>
          <widget class="QWidget" name="pg_triggers">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>526</width>
+            <height>275</height>
+           </rect>
+          </property>
           <attribute name="label">
            <string>触发器</string>
           </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QListWidget" name="lst_triggers"/>
+           </item>
+          </layout>
          </widget>
          <widget class="QWidget" name="pg_actions">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>526</width>
+            <height>275</height>
+           </rect>
+          </property>
           <attribute name="label">
            <string>动作</string>
           </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QListWidget" name="lst_actions"/>
+           </item>
+          </layout>
          </widget>
          <widget class="QWidget" name="pg_tray_actions">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>526</width>
+            <height>275</height>
+           </rect>
+          </property>
           <attribute name="label">
            <string>托盘动作</string>
           </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <item>
+            <widget class="QListWidget" name="lst_tray_actions"/>
+           </item>
+          </layout>
          </widget>
          <widget class="QWidget" name="pg_pmgr_actions">
           <property name="geometry">
@@ -103,6 +153,11 @@
           <attribute name="label">
            <string>倒计时管理页动作</string>
           </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <widget class="QListWidget" name="lst_pm_actions"/>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>
@@ -137,5 +192,22 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btn_close</sender>
+   <signal>released()</signal>
+   <receiver>PluginInfo</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>523</x>
+     <y>543</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>563</x>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

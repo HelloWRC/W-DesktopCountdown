@@ -32,6 +32,12 @@ class Plugin:
         self.website = ''
         self.plugin_actions = []
 
+        self.provided_effects = {}
+        self.provided_triggers = {}
+        self.provided_actions = {}
+        self.tray_actions = {}
+        self.pm_actions = {}
+
     def load_plugin(self):
         logging.info('loading plugin as py package: %s', self.module_path
                      )
@@ -61,12 +67,15 @@ class Plugin:
         if 'provided_effects' in dir(self.module):
             for effect in self.module.provided_effects:
                 effects[effect.effect_id] = effect
+                self.provided_effects[effect.effect_id] = effect
         if 'provided_actions' in dir(self.module):
             for action in self.module.provided_actions:
                 actions[action.action_id] = action
+                self.provided_actions[action.action_id] = action
         if 'provided_triggers' in dir(self.module):
             for trigger in self.module.provided_triggers:
                 triggers[trigger.trigger_id] = trigger
+                self.provided_triggers[trigger.trigger_id] = trigger
 
         self.module.on_load(self.plugin_config, self.app)
 
@@ -75,8 +84,10 @@ class Plugin:
     def load_v2(self):
         if 'countdownmgr_toolbar_actions' in dir(self.module):
             self.app.profile_mgr_ui.ui.toolBar.addActions(self.module.countdownmgr_toolbar_actions)
+            self.pm_actions = self.module.countdownmgr_toolbar_actions
         if 'app_menu_actions' in dir(self.module):
             self.app.tray.menu.addActions(self.module.app_menu_actions)
+            self.tray_actions = self.module.app_menu_actions
 
         self.plugin_info_ui = UIFrames.plugin_info.PluginInfo(self)
         logging.info('completed v2 load for plugin %s', self.plugin_id)
