@@ -4,7 +4,12 @@ import os
 import platform
 
 import properties
+from functions.hook import hook_target
 
+path_root = 'functions.base.'
+
+
+@hook_target(path_root + 'call_browser')
 def call_browser(link: str):
     if platform.system() == 'Windows':
         os.system('start {}'.format(link))
@@ -12,6 +17,7 @@ def call_browser(link: str):
         os.system('call-browser {} &'.format(link))
 
 
+@hook_target(path_root + 'default_pass')
 def default_pass(raw: dict, default_val: dict):
     # print(default_val)
     for i in default_val.keys():
@@ -26,11 +32,13 @@ def default_pass(raw: dict, default_val: dict):
 
 
 class ConfigFileMgr:
+    @hook_target(path_root + 'ConfigFileMgr.__init__')
     def __init__(self, filename, mapping):
         self.filename = filename
         self.mapping = mapping
         self.cfg = {}
 
+    @hook_target(path_root + 'ConfigFileMgr.load')
     def load(self, default=True):
         try:
             with open(self.filename, 'r') as cf:
@@ -41,23 +49,28 @@ class ConfigFileMgr:
             self.cfg = default_pass(self.cfg, self.mapping)
         self.write()
 
+    @hook_target(path_root + 'ConfigFileMgr.write')
     def write(self):
         with open(self.filename, 'w') as cf:
             json.dump(self.cfg, cf)
             logging.info('successfully saved to %s', self.filename)
 
+    @hook_target(path_root + 'ConfigFileMgr.remove')
     def remove(self):
         os.remove(self.filename)
 
+    @hook_target(path_root + 'ConfigFileMgr.copy_to')
     def copy_to(self, path):
         self.filename = path
         self.write()
 
+    @hook_target(path_root + 'ConfigFileMgr.set_default')
     def set_default(self):
         self.cfg = default_pass({}, self.mapping)
         self.write()
 
 
+@hook_target(path_root + 'filename_chk')
 def filename_chk(name):
     if name == '':
         name = 'countdown'
@@ -69,6 +82,7 @@ def filename_chk(name):
     return name
 
 
+@hook_target(path_root + 'rich_default_pass')
 def rich_default_pass(default_config, config):
     for k in default_config:
         if default_config[k]['type'] == 'label':

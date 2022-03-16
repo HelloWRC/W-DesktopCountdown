@@ -8,8 +8,12 @@ from data import effects
 import properties
 import wcdapp
 from functions.base import ConfigFileMgr
+from functions.hook import hook_target
+
+path_root = 'functions.appearance.'
 
 
+@hook_target(path_root + 'rgb2hex')
 def rgb2hex(r, g, b):
     hexc = []
     for i in (r, g, b):
@@ -20,6 +24,7 @@ def rgb2hex(r, g, b):
     return '#{}{}{}'.format(hexc[0], hexc[1], hexc[2])
 
 
+@hook_target(path_root + 'gen_custom_theme')
 def gen_custom_theme(filename, accent_color, is_dark_theme):
     if is_dark_theme:
         temple = properties.DARK_THEME_TEMPLE
@@ -31,12 +36,14 @@ def gen_custom_theme(filename, accent_color, is_dark_theme):
 
 
 class EffectManager:
+    @hook_target(path_root + 'EffectManager.__init__')
     def __init__(self, countdown, app, config):
         self.countdown: UIFrames.countdown.CountdownWin = countdown
         self.app: wcdapp.WDesktopCD = app
         self.config: ConfigFileMgr = config
         self.effects = {}
 
+    @hook_target(path_root + 'EffectManager.load_config')
     def load_config(self, config=None):
         if config is None:
             config = self.config
@@ -81,6 +88,7 @@ class EffectManager:
             logging.info('updated effects: %s', i)
 
 
+@hook_target(path_root + 'mk_qss')
 def mk_qss(style: dict, states: dict):
     result = []
     for i in style:
@@ -92,6 +100,7 @@ def mk_qss(style: dict, states: dict):
     return '\n'.join(result) + '#Countdown{background: rgba(0, 0, 0, 0)}'
 
 
+@hook_target(path_root + 'hexcnv')
 def hexcnv(color: int):
     t1 = re.search(r'(?<=0x[0-f]{2})([0-f]{6})', str(hex(color))).groups()[0]
     # print(t1)

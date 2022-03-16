@@ -10,6 +10,9 @@ import UIFrames.profile_config_ui
 import wcdapp
 from functions.base import ConfigFileMgr, filename_chk
 from properties import profile_prefix, default_profile_name, qss_prefix
+from functions.hook import hook_target
+
+path_root = 'functions.countdown.'
 
 QEventLoopInit_Type = QEvent.registerEventType()  # 注册事件
 
@@ -18,6 +21,7 @@ class DeltaTemplate(Template):
     delimiter = "%"
 
 
+@hook_target(path_root + 'strfdelta')
 def strfdelta(tdelta, fmt):
     d = {"D": tdelta.days}
     d["H"], rem = divmod(tdelta.seconds, 3600)
@@ -32,7 +36,7 @@ class QEventLoopInit(QEvent):
 
 
 class ProfileMgr(QObject):
-
+    @hook_target(path_root + 'ProfileMgr.__init__')
     def __init__(self, app):
         import wcdapp
         self.countdown_cfg_default = UIFrames.countdown.CountdownWin.countdown_config_default
@@ -64,10 +68,12 @@ class ProfileMgr(QObject):
             self.countdowns_win[i] = UIFrames.countdown.CountdownWin(self.app, i, self.config_mgr[i])
             self.config_ui[i] = self.countdowns_win[i].config_ui
 
+    @hook_target(path_root + 'ProfileMgr.load_profiles_list')
     def load_profiles_list(self):
         self.profiles = os.listdir(profile_prefix)
         logging.info('loaded configs: %s', self.profiles)
 
+    @hook_target(path_root + 'ProfileMgr.spawn_countdown_win')
     def spawn_countdown_win(self, name: str):
         self.config_mgr[name] = ConfigFileMgr(profile_prefix +
                                               name, self.countdown_cfg_default)
@@ -75,9 +81,11 @@ class ProfileMgr(QObject):
         self.config_ui[name] = self.countdowns_win[name].config_ui
         logging.info('spawned window: %s', name)
 
+    @hook_target(path_root + 'ProfileMgr.close_countdown_win')
     def close_countdown_win(self, name: str):
         self.countdowns_win[name].close()
 
+    @hook_target(path_root + 'ProfileMgr.create_profile')
     def create_profile(self, name: str, start_time=0, end_time=0):
         logging.info('creating new profile: %s', name)
         self.profiles.append(name)
@@ -92,6 +100,7 @@ class ProfileMgr(QObject):
         self.config_ui[name].show()
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileFileEvent))
 
+    @hook_target(path_root + 'ProfileMgr.import_profile')
     def import_profile(self, path):
         logging.info('importing profile %s', path)
         cfm = ConfigFileMgr(path, self.countdown_cfg_default)
@@ -105,8 +114,9 @@ class ProfileMgr(QObject):
         self.config_ui[name].show()
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileFileEvent))
 
+    @hook_target(path_root + 'ProfileMgr.remove_profile')
     def remove_profile(self, name: str):
-        logging.info('removing new profile: %s', name)
+        logging.info('removing profile: %s', name)
         self.config_mgr[name].write()
         self.countdowns_win[name].close()
         self.config_ui[name].close()
@@ -117,6 +127,7 @@ class ProfileMgr(QObject):
         self.profiles.remove(name)
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileFileEvent))
 
+    @hook_target(path_root + 'ProfileMgr.reset_profile')
     def reset_profile(self, name):
         title = self.config_mgr[name].cfg['countdown']['title']
         start = self.config_mgr[name].cfg['countdown']['start']
@@ -129,10 +140,12 @@ class ProfileMgr(QObject):
 
         self.update_all_defaults()
 
+    @hook_target(path_root + 'ProfileMgr.set_as_default')
     def set_as_default(self, name):
         self.config_mgr[default_profile_name].cfg = copy.deepcopy(self.config_mgr[name].cfg)
         self.update_all_defaults()
 
+    @hook_target(path_root + 'ProfileMgr.update_all_defaults')
     def update_all_defaults(self):
         for i in self.profiles:
             if i == default_profile_name:

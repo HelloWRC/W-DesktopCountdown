@@ -8,6 +8,9 @@ import os
 import logging
 
 import functions.base
+from functions.hook import hook_target
+
+path_root = 'functions.plugins.'
 
 effects = {}
 actions = {}
@@ -15,6 +18,7 @@ triggers = {}
 
 
 class Plugin:
+    @hook_target(path_root + 'Plugin.__init__')
     def __init__(self, app, module_path):
         import wcdapp
         self.app: wcdapp.WDesktopCD = app
@@ -38,6 +42,7 @@ class Plugin:
         self.tray_actions = {}
         self.pm_actions = {}
 
+    @hook_target(path_root + 'Plugin.load_plugin')
     def load_plugin(self):
         logging.info('loading plugin as py package: %s', self.module_path
                      )
@@ -83,6 +88,7 @@ class Plugin:
 
         logging.info('Loaded plugin: %s', self.plugin_id)
 
+    @hook_target(path_root + 'Plugin.load_v2')
     def load_v2(self):
         if 'countdownmgr_toolbar_actions' in dir(self.module):
             self.app.profile_mgr_ui.ui.toolBar.addActions(self.module.countdownmgr_toolbar_actions)
@@ -98,6 +104,7 @@ class Plugin:
 class PluginMgr:
     plugin_module_prefix = 'plugins.'
 
+    @hook_target(path_root + 'PluginMgr.__init__')
     def __init__(self, app):
         self.app = app
         if not os.path.exists(properties.plugins_prefix):
@@ -114,6 +121,7 @@ class PluginMgr:
         for i in self.plugins:
             i.load_plugin()
 
+    @hook_target(path_root + 'PluginMgr.load_v2')
     def load_v2(self):
         for i in self.plugins:
             i.load_v2()

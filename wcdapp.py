@@ -14,6 +14,7 @@ from UIFrames.countdown import CountdownWin
 from UIFrames.settings import Settings
 from UIFrames.tray import SystemTray
 from UIFrames.profilemgr import ProfileMgrUI
+from functions.hook import hook_target
 import resources_rc as res
 import logging
 import qt_material
@@ -27,6 +28,7 @@ ProfileFileEvent = QEvent.registerEventType()
 class WDesktopCD(QApplication):
     sig_phase2_triggered = pyqtSignal()
 
+    @hook_target('wdcd_app.init_v1')
     def __init__(self, argv, logger: logging.Logger):
         # 程序开始，初始化基本套件
         super().__init__(argv)
@@ -45,6 +47,7 @@ class WDesktopCD(QApplication):
         self.setQuitOnLastWindowClosed(False)
         self.plugin_mgr = functions.plugins.PluginMgr(self)
 
+    @hook_target('wdcd_app.init_v2')
     def init_phase2(self):
         # Qt事件处理器启动完毕，开始初始化qt套件
         self.settings_ui: Settings = Settings(self.app_cfg, self)
@@ -64,6 +67,7 @@ class WDesktopCD(QApplication):
     def on_tray_clicked(self, reason):
         logging.debug('tray clicked, reason: %s', reason)
 
+    @hook_target('wdcd_app.update_theme')
     def update_theme(self, config=None):
         logging.info('Updating app theme')
         if config is None:
