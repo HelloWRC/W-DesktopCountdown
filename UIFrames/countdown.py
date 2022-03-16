@@ -103,6 +103,7 @@ class CountdownWin(QWidget):
         else:
             self.close()
         self.enabled = stat
+        self.app.plugin_mgr.on_countdown_state_changed(self, stat)
 
     def write_config(self):
         self.cfg.cfg['window']['width'] = self.geometry().width()

@@ -99,6 +99,7 @@ class ProfileMgr(QObject):
         self.config_ui[name] = self.countdowns_win[name].config_ui
         self.config_ui[name].show()
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileFileEvent))
+        self.app.plugin_mgr.on_countdown_created(self.countdowns_win[name])
 
     @hook_target(path_root + 'ProfileMgr.import_profile')
     def import_profile(self, path):
@@ -126,6 +127,7 @@ class ProfileMgr(QObject):
         del self.config_ui[name]
         self.profiles.remove(name)
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileFileEvent))
+        self.app.plugin_mgr.on_countdown_removed(self.countdowns_win[name])
 
     @hook_target(path_root + 'ProfileMgr.reset_profile')
     def reset_profile(self, name):

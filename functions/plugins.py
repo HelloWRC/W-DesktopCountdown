@@ -98,7 +98,21 @@ class Plugin:
             self.tray_actions = self.module.app_menu_actions
 
         self.plugin_info_ui = UIFrames.plugin_info.PluginInfo(self)
+        if 'on_appinit_p2' in dir(self.module):
+            self.module.on_appinit_p2(self.app)
         logging.info('completed v2 load for plugin %s', self.plugin_id)
+
+    def on_countdown_created(self, countdown):
+        if 'on_countdown_created' in dir(self.module):
+            self.module.on_countdown_created(self.app, countdown)
+
+    def on_countdown_removed(self, countdown):
+        if 'on_countdown_removed' in dir(self.module):
+            self.module.on_countdown_removed(self.app, countdown)
+
+    def on_countdown_state_changed(self, countdown, enabled):
+        if 'on_countdown_state_changed' in dir(self.module):
+            self.module.on_countdown_state_changed(self.app, countdown, enabled)
 
 
 class PluginMgr:
@@ -125,3 +139,15 @@ class PluginMgr:
     def load_v2(self):
         for i in self.plugins:
             i.load_v2()
+
+    def on_countdown_created(self, countdown):
+        for i in self.plugins:
+            i.on_countdown_created(countdown)
+
+    def on_countdown_removed(self, countdown):
+        for i in self.plugins:
+            i.on_countdown_removed(countdown)
+
+    def on_countdown_state_changed(self, countdown, enabled):
+        for i in self.plugins:
+            i.on_countdown_state_changed(countdown, enabled)
