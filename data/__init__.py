@@ -20,3 +20,6 @@ provided_actions = (
 provided_triggers = (
 )
 
+
+def on_load(config, app):
+    pass

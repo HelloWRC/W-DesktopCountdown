@@ -49,12 +49,14 @@ class Plugin:
             self.plugin_default_cfg = self.module.plugin_default_config
         if self.plugin_id not in self.app.app_cfg.cfg['plugins']:
             self.app.app_cfg.cfg['plugins'][self.plugin_id] = {}
-        self.plugin_config = functions.base.rich_default_pass(self.plugin_default_cfg, self.app.app_cfg.cfg['plugins'][self.plugin_id])
+        self.plugin_config = functions.base.rich_default_pass(self.plugin_default_cfg,
+                                                              self.app.app_cfg.cfg['plugins'][self.plugin_id])
         if 'plugin_configure_ui' in dir(self.module) and self.module.plugin_configure_ui is not None:
             self.plugin_config_ui = self.module.plugin_configure_ui
         else:
             if self.plugin_default_cfg:
-                self.plugin_config_ui = UIFrames.universe_configure.UniverseConfigure(self.plugin_config, self.plugin_default_cfg)
+                self.plugin_config_ui = UIFrames.universe_configure.UniverseConfigure(self.plugin_config,
+                                                                                      self.plugin_default_cfg)
             else:
                 self.plugin_config_ui = None
 
@@ -204,5 +206,7 @@ def hook_target(path):
                 return last_return
             else:
                 return func(*args, **kwargs)
+
         return run
+
     return wrapper
