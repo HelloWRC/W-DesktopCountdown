@@ -1,4 +1,4 @@
-from UIFrames.ui_effect_configure import Ui_Configure
+from UIFrames.ui_universe_configure import Ui_Configure
 from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QCheckBox, QSpinBox, QDoubleSpinBox, QComboBox
 from PyQt5.Qt import QApplication, Qt
 import logging
