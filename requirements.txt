@@ -1,0 +1,4 @@
+PyQt5~=5.15.6
+future~=0.18.2
+pywin32
+qt_material
