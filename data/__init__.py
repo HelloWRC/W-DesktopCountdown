@@ -20,9 +20,3 @@ provided_actions = (
 provided_triggers = (
 )
 
-countdownmgr_toolbar_actions = (
-    QAction('test'),
-)
-
-def on_load(config, app):
-    print('on load')
