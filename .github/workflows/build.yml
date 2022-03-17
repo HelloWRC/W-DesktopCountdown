@@ -23,6 +23,8 @@ jobs:
       
       - name: Setup Python
         uses: actions/setup-python@v2.3.2
+        with:
+          python-version: '3.9'
 
       # Runs a single command using the runners shell
       - name: Setup python packages
