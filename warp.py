@@ -16,4 +16,6 @@ if __name__ == "__main__":
     logger.info('Welcome to W-DesktopCountdown %s.', properties.version)
     app = wdcd_app.WDesktopCD([], logger)
     app.sig_phase2_triggered.emit()
-    sys.exit(app.exec_())  # 启动事件循环
+    exit_code = app.exec_()  # 启动事件循环
+    logging.info('bye! (return code is %s)', exit_code)
+    sys.exit(exit_code)

@@ -70,6 +70,8 @@ class Plugin:
             self.description = self.module.plugin_description
         if 'plugin_website' in dir(self.module):
             self.website = self.module.plugin_website
+        if 'plugin_actions' in dir(self.module):
+            self.plugin_actions = self.module.plugin_actions
 
         if 'provided_effects' in dir(self.module):
             for effect in self.module.provided_effects:
@@ -114,6 +116,9 @@ class Plugin:
         if 'on_countdown_state_changed' in dir(self.module):
             self.module.on_countdown_state_changed(self.app, countdown, enabled)
 
+    def on_app_quit(self):
+        if 'on_app_quit' in dir(self.module):
+            self.module.on_app_quit(self.app)
 
 class PluginMgr:
     plugin_module_prefix = 'plugins.'
@@ -151,3 +156,7 @@ class PluginMgr:
     def on_countdown_state_changed(self, countdown, enabled):
         for i in self.plugins:
             i.on_countdown_state_changed(countdown, enabled)
+
+    def on_app_quit(self):
+        for i in self.plugins:
+            i.on_app_quit()

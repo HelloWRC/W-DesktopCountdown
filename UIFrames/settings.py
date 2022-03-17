@@ -1,5 +1,6 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QMenu, QAction
 from PyQt5.QtWidgets import QListWidgetItem
 from PyQt5.QtGui import QFont
 from PyQt5.QtGui import QColor
@@ -25,6 +26,7 @@ from UIFrames.ui_settings import Ui_Form
 
 class Settings(QWidget):
     def __init__(self, config_mgr: functions.base.ConfigFileMgr, app):
+        self.description = None
         import wcdapp
         QWidget.__init__(self)
         self.__finished_init = False
@@ -33,6 +35,8 @@ class Settings(QWidget):
         self.cfg = config_mgr.cfg
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+        self.plug_func_menu = QMenu()
+        self.ui.btn_plug_func.setMenu(self.plug_func_menu)
         self.ui.lb_version.setText(self.ui.lb_version.text().format(properties.version))
         self.ui.lb_platform.setText(self.ui.lb_platform.text().format('Python {} on {}'.format(
             platform.python_version(),
@@ -65,10 +69,23 @@ class Settings(QWidget):
     def on_lst_plugins_currentRowChanged(self, row):
         if self.ui.lst_plugins.count() <= 0:
             return
-        if self.app.plugin_mgr.plugins[row].plugin_config_ui is None:
+        plugin = self.app.plugin_mgr.plugins[row]
+        if plugin.plugin_config_ui is None:
             self.ui.btn_configure_plug.setEnabled(False)
         else:
             self.ui.btn_configure_plug.setEnabled(True)
+        self.plug_func_menu.clear()
+        self.description = QAction('以下动作由插件“{}”提供'.format(plugin.plugin_name))
+        self.description.setEnabled(False)
+        self.plug_func_menu.addAction(self.description)
+        self.plug_func_menu.addSeparator()
+        if plugin.plugin_actions:
+            self.ui.btn_plug_func.setEnabled(True)
+            self.plug_func_menu.addActions(plugin.plugin_actions)
+        else:
+            self.ui.btn_plug_func.setEnabled(False)
+        # print(self.app.plugin_mgr.plugins[row].plugin_actions)
+
 
     def on_btn_configure_plug_released(self):
         self.app.plugin_mgr.plugins[self.ui.lst_plugins.currentRow()].plugin_config_ui.show()
@@ -126,8 +143,7 @@ class Settings(QWidget):
         self.ui.lst_plugins.clear()
         for i in self.app.plugin_mgr.plugins:
             item = QListWidgetItem(i.plugin_name)
-            tooltip = i.description
-            item.setToolTip(tooltip)
+            item.setToolTip(i.description)
             self.ui.lst_plugins.addItem(item)
 
     def save_val(self):

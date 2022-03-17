@@ -24,7 +24,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <property name="tabBarAutoHide">
       <bool>true</bool>
@@ -278,6 +278,9 @@
           <widget class="QPushButton" name="btn_plug_func">
            <property name="enabled">
             <bool>false</bool>
+           </property>
+           <property name="contextMenuPolicy">
+            <enum>Qt::NoContextMenu</enum>
            </property>
            <property name="text">
             <string>插件功能</string>

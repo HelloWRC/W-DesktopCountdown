@@ -30,7 +30,7 @@ class SystemTray(QSystemTrayIcon):
         self.settings = QAction('应用设置', triggered=self.app.settings_ui.show)
         self.menu.addAction(self.settings)
 
-        self.exit = QAction('退出', triggered=self.app.exit)
+        self.exit = QAction('退出', triggered=self.app.quit)
         self.menu.addAction(self.exit)
 
         self.setContextMenu(self.menu)

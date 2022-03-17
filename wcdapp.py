@@ -98,3 +98,8 @@ class WDesktopCD(QApplication):
                                      extra=properties.extra_ui_cfg)
         QIcon.setThemeName('breeze-{}'.format(properties.ld_themes[config['appearance']['ld_style']]))
 
+    @hook_target('wdcd_app.quit')
+    def quit(self, stat) -> None:
+        logging.info('Stopping!')
+        self.plugin_mgr.on_app_quit()
+        super(WDesktopCD, self).quit()
