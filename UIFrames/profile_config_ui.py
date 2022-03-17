@@ -21,6 +21,7 @@ from PyQt5.QtWidgets import QListWidgetItem
 from PyQt5.QtGui import QColor
 from PyQt5.QtGui import QFont
 from UIFrames.universe_configure import UniverseConfigure
+from UIFrames.automate_cfg import AutomateConfigure
 
 
 class ProfileConfigUI(QWidget):
@@ -240,6 +241,9 @@ class ProfileConfigUI(QWidget):
         self.save_widget_style(self.last_style_widget)
         self.load_widget_style(text)
         self.last_style_widget = text
+
+    def on_btn_action_cfg_released(self):
+        self.auto_cfg = AutomateConfigure(self.app)
 
     def load_widget_style(self, widget):
         style_root = functions.base.default_pass(self.cfg.cfg['style'][widget], properties.default_widget_style)
