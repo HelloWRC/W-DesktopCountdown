@@ -14,13 +14,14 @@
    <string>插件信息：{}</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="configure"/>
+   <iconset theme="configure">
+    <normaloff>.</normaloff>.</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_gernel">
       <attribute name="title">
@@ -66,6 +67,9 @@
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <widget class="QToolBox" name="toolBox">
+         <property name="contextMenuPolicy">
+          <enum>Qt::NoContextMenu</enum>
+         </property>
          <property name="currentIndex">
           <number>0</number>
          </property>
@@ -79,7 +83,7 @@
            </rect>
           </property>
           <attribute name="label">
-           <string>特效</string>
+           <string>倒计时效果</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
@@ -97,7 +101,7 @@
            </rect>
           </property>
           <attribute name="label">
-           <string>触发器</string>
+           <string>倒计时触发器</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
@@ -115,7 +119,7 @@
            </rect>
           </property>
           <attribute name="label">
-           <string>动作</string>
+           <string>倒计时动作</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
@@ -128,8 +132,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>526</width>
-            <height>275</height>
+            <width>107</width>
+            <height>107</height>
            </rect>
           </property>
           <attribute name="label">

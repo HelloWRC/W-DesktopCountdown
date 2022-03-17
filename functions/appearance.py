@@ -87,6 +87,16 @@ class EffectManager:
             self.effects[i].update_config(config[i])
             logging.info('updated effects: %s', i)
 
+    def on_event(self, watched, event):
+        for effect in self.effects.values():
+            if 'on_event' in dir(effect):
+                effect.on_event(watched, event)
+
+    def on_state_changed(self, stat):
+        for effect in self.effects.values():
+            if 'on_state_changed' in dir(effect):
+                effect.on_state_changed(stat)
+
 
 @hook_target(path_root + 'mk_qss')
 def mk_qss(style: dict, states: dict):

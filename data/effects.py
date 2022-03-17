@@ -1,4 +1,6 @@
 import logging
+
+import UIFrames.countdown
 import blur_effects
 import properties
 
@@ -67,6 +69,8 @@ class SampleEffect:
 
     def __init__(self, app, countdown, config):
         logging.info('effect init')
+        self.countdown: UIFrames.countdown.CountdownWin = countdown
+        # self.hook = self.countdown.hook_mgr.hook(self.hint, 'show', 1)
 
     def set_enabled(self):
         logging.info('effect enabled')
@@ -76,6 +80,7 @@ class SampleEffect:
 
     def unload(self):
         logging.info('effect unload')
+        # self.countdown.hook_mgr.unhook(self.hook)
 
 
 class RollingTexts:

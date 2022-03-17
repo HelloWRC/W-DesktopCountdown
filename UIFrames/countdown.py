@@ -21,14 +21,20 @@ from PyQt5.QtCore import Qt
 from PyQt5.Qt import QRectF
 from PyQt5.QtGui import QCursor
 
+from functions.hook import hook_target, class_hook_target
+
+path_root = 'ui.countdown.'
+
 window_update_event = QEvent.registerEventType()
 
 
 class CountdownWin(QWidget):
     countdown_config_default = properties.countdown_config_default
 
+    @hook_target(path_root + 'win.__init__')
     def __init__(self, app, name, config: functions.base.ConfigFileMgr):
         self.app = app
+        self.hook_mgr = functions.hook.ClassHookMgr()
         self.name = name
         super(CountdownWin, self).__init__()
         self.stopped: bool = False
@@ -62,12 +68,16 @@ class CountdownWin(QWidget):
         self.installEventFilter(self)
         self.show()
 
+    @hook_target(path_root + 'win.show')
+    @class_hook_target('show')
     def show(self) -> None:
         if not self.cfg.cfg['enabled']:
             return
         self.update_thread.start()
         super(CountdownWin, self).show()
 
+    @hook_target(path_root + 'win.load_config')
+    @class_hook_target('load_config')
     def load_config(self):
         self.cfg.load()
         self.em.load_config(self.cfg.cfg['effects'])
@@ -104,7 +114,10 @@ class CountdownWin(QWidget):
             self.close()
         self.enabled = stat
         self.app.plugin_mgr.on_countdown_state_changed(self, stat)
+        self.em.on_state_changed(self.enabled)
 
+    @hook_target(path_root + 'win.write_config')
+    @class_hook_target('write_config')
     def write_config(self):
         self.cfg.cfg['window']['width'] = self.geometry().width()
         self.cfg.cfg['window']['height'] = self.geometry().height()
@@ -115,6 +128,8 @@ class CountdownWin(QWidget):
         self.cfg.write()
         logging.info('saved config of %s', self.cfg.filename)
 
+    @hook_target(path_root + 'win.update_content')
+    @class_hook_target('update_content')
     def update_content(self):
         self.ui.lb_targetddate.setText(time.strftime(self.cfg.cfg['display']['target_format'],
                                                      time.localtime(self.cfg.cfg['countdown']['end'])))  # target
@@ -142,6 +157,8 @@ class CountdownWin(QWidget):
         painter = QPainter(self)
         painter.setBackgroundMode(0)
 
+    @hook_target(path_root + 'win.eventFilter')
+    @class_hook_target('eventFilter')
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
         if watched == self and event.type() == event.Close:
             self.update_thread.sig_stop.emit()
@@ -151,6 +168,7 @@ class CountdownWin(QWidget):
             self.set_window_title_visible(not self.title_visible)
             self.write_config()
         # print(watched, event)
+        self.em.on_event(watched, event)
         return super(CountdownWin, self).eventFilter(watched, event)
 
     def paintEvent(self, event):
@@ -210,11 +228,13 @@ class UpdateThread(QThread):
     sig_update = pyqtSignal()
     sig_stop = pyqtSignal()
 
+    @hook_target(path_root + 'upd_thread.__init__')
     def __init__(self):
         super(UpdateThread, self).__init__()
         self.stopped = False
         self.sig_stop.connect(self.stop)
 
+    @hook_target(path_root + 'upd_thread.run')
     def run(self):
         past = int(time.time())
         self.stopped = False
@@ -226,5 +246,6 @@ class UpdateThread(QThread):
                 break
             self.sleep(1)
 
+    @hook_target(path_root + 'upd_thread.stop')
     def stop(self):
         self.stopped = True
