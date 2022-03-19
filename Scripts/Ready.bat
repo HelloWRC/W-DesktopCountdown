@@ -1,9 +1,11 @@
 @echo off
 
-echo ÕýÔÚ±àÒëUI...
+call ../venv/Scripts/activate.bat
+
+echo ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½UI...
 python .\CompUI.py
 
-echo ÕýÔÚ±àÒë×ÊÔ´ÎÄ¼þ
+echo ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½Ä¼ï¿½
 pyrcc5 -o ..\resources_rc.py ..\resources.qrc
 
-echo ========== ÎÄ¼þ±àÒëÍê³É ==========
+echo ========== ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ==========

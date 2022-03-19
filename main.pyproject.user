@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 6.0.1, 2022-03-15T15:38:00. -->
+<!-- Written by QtCreator 6.84.0, 2022-03-19T07:34:04. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
-  <value type="QByteArray">{b15d22da-9df2-482b-a7a9-11cb2d05d233}</value>
+  <value type="QByteArray">{552ef783-de91-405b-bcef-7f490e4efbca}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -79,7 +79,7 @@
     <value type="bool" key="ClangTools.AnalyzeOpenFiles">true</value>
     <value type="bool" key="ClangTools.BuildBeforeAnalysis">true</value>
     <value type="QString" key="ClangTools.DiagnosticConfig">Builtin.DefaultTidyAndClazy</value>
-    <value type="int" key="ClangTools.ParallelJobs">4</value>
+    <value type="int" key="ClangTools.ParallelJobs">8</value>
     <valuelist type="QVariantList" key="ClangTools.SelectedDirs"/>
     <valuelist type="QVariantList" key="ClangTools.SelectedFiles"/>
     <valuelist type="QVariantList" key="ClangTools.SuppressedDiagnostics"/>
@@ -91,9 +91,9 @@
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
    <value type="QString" key="DeviceType">Desktop</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop (x86-windows-msvc2019-pe-32bit)</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop (x86-windows-msvc2019-pe-32bit)</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{f29f5066-5c7c-447e-9bdf-f443727dbc48}</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">桌面</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">桌面</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{f5e9d5e4-9af3-4adf-bfab-421c72f9c253}</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveBuildConfiguration">-1</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
@@ -118,16 +118,16 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">D:/Python/W-DesktopCountdown/warp.py</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.D:/Python/W-DesktopCountdown/warp.py</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/Python/W-DesktopCountdown/warp.py</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{930a169b-b391-49cd-9db9-24118eb5b5de}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">D:\Python\W-DesktopCountdown\warp.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/README.md</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/README.md</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/README.md</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{c47e4e64-fe99-432e-8d39-2e258721d56f}</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\README.md</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Python/W-DesktopCountdown</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">E:/Coding/W-DesktopCountdown</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.1">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -136,16 +136,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">D:/Python/W-DesktopCountdown/README.md</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.D:/Python/W-DesktopCountdown/README.md</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/Python/W-DesktopCountdown/README.md</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{930a169b-b391-49cd-9db9-24118eb5b5de}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">D:\Python\W-DesktopCountdown\README.md</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/Scripts/CompRes.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/Scripts/CompRes.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/Scripts/CompRes.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\Scripts\CompRes.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Python/W-DesktopCountdown</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">E:/Coding/W-DesktopCountdown/Scripts</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.10">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -154,16 +153,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">D:/Python/W-DesktopCountdown/doc/cmdline.md</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.D:/Python/W-DesktopCountdown/doc/cmdline.md</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/Python/W-DesktopCountdown/doc/cmdline.md</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{930a169b-b391-49cd-9db9-24118eb5b5de}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">D:\Python\W-DesktopCountdown\doc\cmdline.md</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/Scripts/build.sh</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/Scripts/build.sh</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/Scripts/build.sh</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\Scripts\build.sh</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Python/W-DesktopCountdown/doc</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">E:/Coding/W-DesktopCountdown/Scripts</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.2">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -172,16 +170,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">D:/Python/W-DesktopCountdown/resources/icons/colorful/logo.svg</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.D:/Python/W-DesktopCountdown/resources/icons/colorful/logo.svg</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/Python/W-DesktopCountdown/resources/icons/colorful/logo.svg</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{930a169b-b391-49cd-9db9-24118eb5b5de}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">D:\Python\W-DesktopCountdown\resources\icons\colorful\logo.svg</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/Scripts/Ready.bat</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/Scripts/Ready.bat</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/Scripts/Ready.bat</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\Scripts\Ready.bat</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Python/W-DesktopCountdown/resources/icons/colorful</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">E:/Coding/W-DesktopCountdown/Scripts</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.3">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -190,16 +187,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">D:/Python/W-DesktopCountdown/Scripts/CompUI.py</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.D:/Python/W-DesktopCountdown/Scripts/CompUI.py</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/Python/W-DesktopCountdown/Scripts/CompUI.py</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{930a169b-b391-49cd-9db9-24118eb5b5de}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">D:\Python\W-DesktopCountdown\Scripts\CompUI.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/doc/contributors.md</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/doc/contributors.md</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/doc/contributors.md</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\doc\contributors.md</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Python/W-DesktopCountdown/Scripts</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">E:/Coding/W-DesktopCountdown/doc</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.4">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -208,16 +204,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">D:/Python/W-DesktopCountdown/Scripts/Build.bat</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.D:/Python/W-DesktopCountdown/Scripts/Build.bat</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/Python/W-DesktopCountdown/Scripts/Build.bat</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{930a169b-b391-49cd-9db9-24118eb5b5de}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">D:\Python\W-DesktopCountdown\Scripts\Build.bat</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/resources/icons/colorful/logo.svg</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/resources/icons/colorful/logo.svg</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/resources/icons/colorful/logo.svg</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\resources\icons\colorful\logo.svg</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Python/W-DesktopCountdown/Scripts</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">E:/Coding/W-DesktopCountdown/resources/icons/colorful</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.5">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -226,16 +221,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">D:/Python/W-DesktopCountdown/Scripts/CompRes.py</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.D:/Python/W-DesktopCountdown/Scripts/CompRes.py</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/Python/W-DesktopCountdown/Scripts/CompRes.py</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{930a169b-b391-49cd-9db9-24118eb5b5de}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">D:\Python\W-DesktopCountdown\Scripts\CompRes.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/Scripts/CompUI.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/Scripts/CompUI.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/Scripts/CompUI.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\Scripts\CompUI.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Python/W-DesktopCountdown/Scripts</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">E:/Coding/W-DesktopCountdown/Scripts</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.6">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -244,16 +238,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">D:/Python/W-DesktopCountdown/Scripts/build.sh</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.D:/Python/W-DesktopCountdown/Scripts/build.sh</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/Python/W-DesktopCountdown/Scripts/build.sh</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{930a169b-b391-49cd-9db9-24118eb5b5de}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">D:\Python\W-DesktopCountdown\Scripts\build.sh</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/warp.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/warp.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/warp.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\warp.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Python/W-DesktopCountdown/Scripts</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">E:/Coding/W-DesktopCountdown</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.7">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -262,16 +255,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">D:/Python/W-DesktopCountdown/Scripts/Ready.bat</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.D:/Python/W-DesktopCountdown/Scripts/Ready.bat</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/Python/W-DesktopCountdown/Scripts/Ready.bat</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{930a169b-b391-49cd-9db9-24118eb5b5de}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">D:\Python\W-DesktopCountdown\Scripts\Ready.bat</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/doc/development.md</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/doc/development.md</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/doc/development.md</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\doc\development.md</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Python/W-DesktopCountdown/Scripts</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">E:/Coding/W-DesktopCountdown/doc</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.8">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -280,16 +272,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">D:/Python/W-DesktopCountdown/doc/contributors.md</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.D:/Python/W-DesktopCountdown/doc/contributors.md</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/Python/W-DesktopCountdown/doc/contributors.md</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{930a169b-b391-49cd-9db9-24118eb5b5de}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">D:\Python\W-DesktopCountdown\doc\contributors.md</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/doc/cmdline.md</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/doc/cmdline.md</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/doc/cmdline.md</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\doc\cmdline.md</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Python/W-DesktopCountdown/doc</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">E:/Coding/W-DesktopCountdown/doc</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.9">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -298,16 +289,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">D:/Python/W-DesktopCountdown/doc/development.md</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.D:/Python/W-DesktopCountdown/doc/development.md</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/Python/W-DesktopCountdown/doc/development.md</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{930a169b-b391-49cd-9db9-24118eb5b5de}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">D:\Python\W-DesktopCountdown\doc\development.md</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/Scripts/Build.bat</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/Scripts/Build.bat</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/Scripts/Build.bat</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\Scripts\Build.bat</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Python/W-DesktopCountdown/doc</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">E:/Coding/W-DesktopCountdown/Scripts</value>
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">11</value>
   </valuemap>
