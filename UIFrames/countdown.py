@@ -63,6 +63,7 @@ class CountdownWin(QWidget):
         ):
             self.addAction(i)
 
+        self.auto_mgr = functions.countdown.AutomateMgr(self.app, self)
         self.load_config()
         self.config_ui = ProfileConfigUI(self.app, self.name, self.cfg, self.load_config)
         self.installEventFilter(self)
@@ -80,6 +81,7 @@ class CountdownWin(QWidget):
     @class_hook_target('load_config')
     def load_config(self):
         self.cfg.load()
+        self.auto_mgr.load_config(self.cfg.cfg['automate'])
         self.em.load_config(self.cfg.cfg['effects'])
         # 应用配置
         # 窗口
@@ -154,6 +156,7 @@ class CountdownWin(QWidget):
                 self.ui.progressBar.setValue(self.cfg.cfg['countdown']['end'] - time.time())
             else:
                 self.ui.progressBar.setValue(time.time() - self.cfg.cfg['countdown']['start'])
+        self.auto_mgr.update()
         painter = QPainter(self)
         painter.setBackgroundMode(0)
 

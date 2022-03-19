@@ -118,6 +118,7 @@ class ProfileMgr(QObject):
     @hook_target(path_root + 'ProfileMgr.remove_profile')
     def remove_profile(self, name: str):
         logging.info('removing profile: %s', name)
+        self.app.plugin_mgr.on_countdown_removed(self.countdowns_win[name])
         self.config_mgr[name].write()
         self.countdowns_win[name].close()
         self.config_ui[name].close()
@@ -127,7 +128,6 @@ class ProfileMgr(QObject):
         del self.config_ui[name]
         self.profiles.remove(name)
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileFileEvent))
-        self.app.plugin_mgr.on_countdown_removed(self.countdowns_win[name])
 
     @hook_target(path_root + 'ProfileMgr.reset_profile')
     def reset_profile(self, name):
@@ -153,3 +153,24 @@ class ProfileMgr(QObject):
             if i == default_profile_name:
                 continue
             self.config_mgr[i].mapping = self.config_mgr[default_profile_name].cfg
+
+
+class AutomateMgr:
+    @hook_target(path_root + 'AutomateMgr.__init__')
+    def __init__(self, app, countdown):
+        self.app = app
+        self.countdown: UIFrames.countdown.CountdownWin = countdown
+        self.config = []
+        logging.info('loaded automate manager of %s.', self.countdown.name)
+
+    @hook_target(path_root + 'AutomateMgr.load_config')
+    def load_config(self, config):
+        self.config = config
+
+    @hook_target(path_root + 'AutomateMgr.update')
+    def update(self):
+        pass
+
+    @hook_target(path_root + 'AutomateMgr.create_automate')
+    def create_automate(self):
+        pass

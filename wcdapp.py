@@ -10,6 +10,7 @@ import functions.base
 import functions.countdown
 import functions.plugins
 import properties
+import time
 from UIFrames.countdown import CountdownWin
 from UIFrames.settings import Settings
 from UIFrames.tray import SystemTray
@@ -33,6 +34,7 @@ class WDesktopCD(QApplication):
         # 程序开始，初始化基本套件
         super().__init__(argv)
         logging.info('init phase 1')
+        self.starttime = time.time()
         self.profile_mgr_ui = None
         self.profile_mgr: functions.countdown.ProfileMgr
         self.cdtest: CountdownWin
@@ -46,6 +48,7 @@ class WDesktopCD(QApplication):
         self.sig_phase2_triggered.connect(self.init_phase2)
         self.setQuitOnLastWindowClosed(False)
         self.plugin_mgr = functions.plugins.PluginMgr(self)
+        self.p1_time = time.time() - self.starttime
 
     @hook_target('wdcd_app.init_v2')
     def init_phase2(self):
@@ -63,7 +66,10 @@ class WDesktopCD(QApplication):
         self.plugin_mgr.load_v2()
         # self.cdtest = CountdownWin(self, 'style.qss', function.ConfigFileMgr('config.json',
         #                                                                      CountdownWin.countdown_config_default))
-        
+        self.p2_time = time.time() - self.starttime - self.p1_time
+        self.final_time = time.time() - self.starttime
+        print('加载时间：{}s，p1：{}s，p2：{}s'.format(self.final_time, self.p1_time, self.p2_time))
+
     def on_tray_clicked(self, reason):
         logging.debug('tray clicked, reason: %s', reason)
 
