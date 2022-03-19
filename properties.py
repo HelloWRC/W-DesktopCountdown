@@ -54,6 +54,7 @@ countdown_config_default = {
         'qss_priority': 1
     },
     'effects': {},
+    'automate': [],
     'style': {
         'window_bg': {},
         'hl_description': {},
@@ -74,7 +75,8 @@ countdown_config_default = {
         'lb_CountDown': {},
         'progressBar': {}
     },
-    'enabled': True
+    'enabled': True,
+    'automate_enabled': True
 }
 
 default_widget_style = {
@@ -102,6 +104,12 @@ default_widget_enabled = {
     'border-color': False,
     'border-style': False
 
+}
+
+default_automate_section = {
+    'trigger_type': 0,
+    'triggers': [],
+    'actions': []
 }
 
 default_config = {
