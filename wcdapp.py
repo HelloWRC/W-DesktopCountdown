@@ -1,10 +1,14 @@
 from PyQt5.Qt import QApplication
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtCore import QEvent
-from PyQt5.QtCore import QThread
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QSystemTrayIcon
+from PyQt5.QtWidgets import QSplashScreen
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtGui import QIcon
+import qt_material
 
+import UIFrames.splash
 import functions.appearance
 import functions.base
 import functions.countdown
@@ -18,7 +22,6 @@ from UIFrames.profilemgr import ProfileMgrUI
 from functions.hook import hook_target
 import resources_rc as res
 import logging
-import qt_material
 import threading as thd
 
 QEventLoopInit_Type = QEvent.registerEventType()
@@ -34,12 +37,17 @@ class WDesktopCD(QApplication):
         # 程序开始，初始化基本套件
         super().__init__(argv)
         logging.info('init phase 1')
+        self.processEvents()
         self.starttime = time.time()
+        self.app_cfg = functions.base.ConfigFileMgr('settings.json', properties.default_config)
+        self.app_cfg.load()
+        self.splash = UIFrames.splash.Splash(self)
+        if self.app_cfg.cfg['basic']['splash']:
+            self.splash.show()
+        self.splash.update_status(10, '初始化…')
         self.profile_mgr_ui = None
         self.profile_mgr: functions.countdown.ProfileMgr
         self.cdtest: CountdownWin
-        self.app_cfg = functions.base.ConfigFileMgr('settings.json', properties.default_config)
-        self.app_cfg.load()
         self.tray: QSystemTrayIcon
         self.countdown_win_cls = CountdownWin
         self.logger = logger
@@ -49,14 +57,17 @@ class WDesktopCD(QApplication):
         self.setQuitOnLastWindowClosed(False)
         self.plugin_mgr = functions.plugins.PluginMgr(self)
         self.p1_time = time.time() - self.starttime
+        # self.splash.update_status(30, '第一阶段初始化完成')
 
     @hook_target('wdcd_app.init_v2')
     def init_phase2(self):
         # Qt事件处理器启动完毕，开始初始化qt套件
-        self.settings_ui: Settings = Settings(self.app_cfg, self)
+        self.logger.info('init phase 2')
+        self.splash.update_status(30, '加载主题…')
         QIcon.setThemeSearchPaths(QIcon.themeSearchPaths() + [':/resources/icons'])
         self.update_theme()
-        self.logger.info('init phase 2')
+        self.splash.update_status(50, '加载内置页面')
+        self.settings_ui: Settings = Settings(self.app_cfg, self)
         self.profile_mgr = functions.countdown.ProfileMgr(self)
         self.profile_mgr_ui = ProfileMgrUI(self)
         self.tray = SystemTray(self)
@@ -69,6 +80,8 @@ class WDesktopCD(QApplication):
         self.p2_time = time.time() - self.starttime - self.p1_time
         self.final_time = time.time() - self.starttime
         print('加载时间：{}s，p1：{}s，p2：{}s'.format(self.final_time, self.p1_time, self.p2_time))
+        self.splash.update_status(100, '完成')
+        self.splash.close()
 
     def on_tray_clicked(self, reason):
         logging.debug('tray clicked, reason: %s', reason)

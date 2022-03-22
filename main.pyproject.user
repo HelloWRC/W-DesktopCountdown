@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 6.84.0, 2022-03-19T07:34:04. -->
+<!-- Written by QtCreator 6.0.2, 2022-03-19T18:24:50. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -139,6 +139,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/Scripts/CompRes.py</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/Scripts/CompRes.py</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/Scripts/CompRes.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{c47e4e64-fe99-432e-8d39-2e258721d56f}</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\Scripts\CompRes.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -156,6 +157,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/Scripts/build.sh</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/Scripts/build.sh</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/Scripts/build.sh</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{c47e4e64-fe99-432e-8d39-2e258721d56f}</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\Scripts\build.sh</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -173,6 +175,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/Scripts/Ready.bat</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/Scripts/Ready.bat</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/Scripts/Ready.bat</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{c47e4e64-fe99-432e-8d39-2e258721d56f}</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\Scripts\Ready.bat</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -190,6 +193,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/doc/contributors.md</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/doc/contributors.md</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/doc/contributors.md</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{c47e4e64-fe99-432e-8d39-2e258721d56f}</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\doc\contributors.md</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -207,6 +211,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/resources/icons/colorful/logo.svg</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/resources/icons/colorful/logo.svg</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/resources/icons/colorful/logo.svg</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{c47e4e64-fe99-432e-8d39-2e258721d56f}</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\resources\icons\colorful\logo.svg</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -224,6 +229,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/Scripts/CompUI.py</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/Scripts/CompUI.py</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/Scripts/CompUI.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{c47e4e64-fe99-432e-8d39-2e258721d56f}</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\Scripts\CompUI.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -241,6 +247,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/warp.py</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/warp.py</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/warp.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{c47e4e64-fe99-432e-8d39-2e258721d56f}</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\warp.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -258,6 +265,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/doc/development.md</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/doc/development.md</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/doc/development.md</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{c47e4e64-fe99-432e-8d39-2e258721d56f}</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\doc\development.md</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -275,6 +283,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/doc/cmdline.md</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/doc/cmdline.md</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/doc/cmdline.md</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{c47e4e64-fe99-432e-8d39-2e258721d56f}</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\doc\cmdline.md</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -292,6 +301,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">E:/Coding/W-DesktopCountdown/Scripts/Build.bat</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.E:/Coding/W-DesktopCountdown/Scripts/Build.bat</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/Coding/W-DesktopCountdown/Scripts/Build.bat</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{c47e4e64-fe99-432e-8d39-2e258721d56f}</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">E:\Coding\W-DesktopCountdown\Scripts\Build.bat</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>

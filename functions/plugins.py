@@ -131,7 +131,14 @@ class PluginMgr:
         sys.path.append(os.getcwd())
 
         self.plugins = [Plugin(self.app, 'data')]
+        status = 10
+        if (len(os.listdir(properties.plugins_prefix)) - 1) > 0:
+            step = 20 / (len(os.listdir(properties.plugins_prefix)) - 1)
+        else:
+            step = 20
         for i in os.listdir(properties.plugins_prefix):
+            status += step
+            self.app.splash.update_status(status, '正在初始化插件：{}'.format(i))
             if os.path.isdir(properties.plugins_prefix + i):
                 self.plugins.append(Plugin(self.app, self.plugin_module_prefix + i))
             else:
@@ -142,8 +149,12 @@ class PluginMgr:
 
     @hook_target(path_root + 'PluginMgr.load_v2')
     def load_v2(self):
+        status = 85
+        step = 15 / len(self.plugins)
         for i in self.plugins:
             i.load_v2()
+            status += step
+            self.app.splash.update_status(status, '完成插件第二阶段加载：{}'.format(i.plugin_id))
 
     def on_countdown_created(self, countdown):
         for i in self.plugins:

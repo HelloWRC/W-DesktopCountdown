@@ -61,7 +61,14 @@ class ProfileMgr(QObject):
                                                                                           default_profile_name,
                                                                                           self.config_mgr[default_profile_name],
                                                                                           default_cfg=True)
+        status = 50
+        if (len(self.profiles)-1) > 0:
+            step = 35 / (len(self.profiles)-1)
+        else:
+            step = 35
         for i in self.profiles:
+            status += step
+            self.app.splash.update_status(status, '正在加载倒计时：{}'.format(i))
             if i == default_profile_name:
                 continue
             self.config_mgr[i] = ConfigFileMgr(profile_prefix + i, self.config_mgr[default_profile_name].cfg)

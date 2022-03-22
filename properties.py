@@ -113,6 +113,11 @@ default_automate_section = {
 }
 
 default_config = {
+    'basic': {
+        'splash': False,
+        'auto_start': False,
+        'exp_flags': True
+    },
     'appearance': {
         'language': 'zhs',
         'ld_style': 2,  # 0:亮色;1:暗色;2:跟随系统
