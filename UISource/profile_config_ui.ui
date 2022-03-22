@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>574</width>
-    <height>597</height>
+    <width>613</width>
+    <height>668</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -524,28 +524,162 @@
        <string>样式</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout_2">
-       <item row="0" column="0" colspan="2">
+       <item row="1" column="0" colspan="2">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>从下面选择一个组件</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QFrame" name="style_preview">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QWidget" name="window_bg" native="true">
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <layout class="QHBoxLayout" name="hl_description">
+               <item>
+                <widget class="QLabel" name="lb_text1">
+                 <property name="text">
+                  <string>距离</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="lb_event">
+                 <property name="text">
+                  <string>XXX</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="lb_text2">
+                 <property name="text">
+                  <string>还有</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_5">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="lb_targetddate">
+                 <property name="text">
+                  <string>XXXXXX</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <widget class="QLabel" name="lb_CountDown">
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="text">
+                  <string>XXXXXX</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_6">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QProgressBar" name="progressBar">
+               <property name="value">
+                <number>24</number>
+               </property>
+               <property name="textVisible">
+                <bool>true</bool>
+               </property>
+               <property name="invertedAppearance">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
         <widget class="QLabel" name="lb_description">
          <property name="text">
           <string>您可以在这里修改每一个组件的样式。不是每一个组件都支持以下所有的样式。</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="lb_widgets">
          <property name="text">
           <string>组件</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="5" column="1">
         <widget class="QComboBox" name="cb_widgets">
          <property name="styleSheet">
           <string notr="true"/>
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="2">
+       <item row="8" column="0" colspan="2">
         <widget class="Line" name="line">
          <property name="minimumSize">
           <size>
@@ -558,218 +692,249 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="1">
-        <widget class="QPushButton" name="btn_bgcolor">
-         <property name="text">
-          <string>{}</string>
+       <item row="10" column="0" colspan="2">
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="widgetResizable">
+          <bool>true</bool>
          </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QLineEdit" name="le_bgpic">
-           <property name="inputMask">
-            <string/>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>546</width>
+            <height>354</height>
+           </rect>
+          </property>
+          <layout class="QFormLayout" name="formLayout_5">
+           <property name="leftMargin">
+            <number>2</number>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_browse_bgpic">
-           <property name="text">
-            <string>浏览</string>
+           <property name="topMargin">
+            <number>2</number>
            </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="8" column="0" colspan="2">
-        <widget class="QCheckBox" name="cb_clip_bg">
-         <property name="text">
-          <string>平铺为图案</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="1">
-        <widget class="QPushButton" name="btn_font">
-         <property name="text">
-          <string>{}</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="1">
-        <widget class="QPushButton" name="btn_color">
-         <property name="text">
-          <string>{}</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="1">
-        <widget class="QSpinBox" name="sb_radius">
-         <property name="suffix">
-          <string>px</string>
-         </property>
-         <property name="maximum">
-          <number>256</number>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QCheckBox" name="lb_bgcolor">
-         <property name="text">
-          <string>背景颜色</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QCheckBox" name="lb_bgpic">
-         <property name="text">
-          <string>背景图片</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0">
-        <widget class="QCheckBox" name="lb_font">
-         <property name="text">
-          <string>字体</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="0">
-        <widget class="QCheckBox" name="lb_color">
-         <property name="text">
-          <string>颜色</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="0">
-        <widget class="QCheckBox" name="lb_radius">
-         <property name="text">
-          <string>圆角</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="0">
-        <widget class="QCheckBox" name="lb_border_size">
-         <property name="text">
-          <string>边框大小</string>
-         </property>
-        </widget>
-       </item>
-       <item row="16" column="0">
-        <widget class="QCheckBox" name="lb_border_color">
-         <property name="text">
-          <string>边框颜色</string>
-         </property>
-        </widget>
-       </item>
-       <item row="17" column="0">
-        <widget class="QCheckBox" name="lb_border_style">
-         <property name="text">
-          <string>边框样式</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="1">
-        <widget class="QSpinBox" name="sb_bordersize">
-         <property name="suffix">
-          <string>px</string>
-         </property>
-        </widget>
-       </item>
-       <item row="17" column="1">
-        <widget class="QComboBox" name="cb_border_style">
-         <item>
-          <property name="text">
-           <string>solid</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>dotted</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>dashed</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>groove</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>ridge</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>inset</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>outset</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="16" column="1">
-        <widget class="QPushButton" name="btn_bordercolor">
-         <property name="text">
-          <string>{}</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QComboBox" name="cb_bgpos1">
-           <item>
-            <property name="text">
-             <string>left</string>
-            </property>
+           <property name="rightMargin">
+            <number>5</number>
+           </property>
+           <property name="bottomMargin">
+            <number>2</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="QCheckBox" name="lb_bgcolor">
+             <property name="text">
+              <string>背景颜色</string>
+             </property>
+            </widget>
            </item>
-           <item>
-            <property name="text">
-             <string>center</string>
-            </property>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="btn_bgcolor">
+             <property name="text">
+              <string>{}</string>
+             </property>
+            </widget>
            </item>
-           <item>
-            <property name="text">
-             <string>right</string>
-            </property>
+           <item row="1" column="0">
+            <widget class="QCheckBox" name="lb_bgpic">
+             <property name="text">
+              <string>背景图片</string>
+             </property>
+            </widget>
            </item>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="cb_bgpos2">
-           <item>
-            <property name="text">
-             <string>top</string>
-            </property>
+           <item row="1" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QLineEdit" name="le_bgpic">
+               <property name="inputMask">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_browse_bgpic">
+               <property name="text">
+                <string>浏览</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
-           <item>
-            <property name="text">
-             <string>center</string>
-            </property>
+           <item row="2" column="0" colspan="2">
+            <widget class="QCheckBox" name="cb_clip_bg">
+             <property name="text">
+              <string>平铺为图案</string>
+             </property>
+            </widget>
            </item>
-           <item>
-            <property name="text">
-             <string>bottom</string>
-            </property>
+           <item row="3" column="0">
+            <widget class="QCheckBox" name="lb_bgpos">
+             <property name="text">
+              <string>背景图片位置</string>
+             </property>
+            </widget>
            </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="9" column="0">
-        <widget class="QCheckBox" name="lb_bgpos">
-         <property name="text">
-          <string>背景图片位置</string>
-         </property>
+           <item row="3" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QComboBox" name="cb_bgpos1">
+               <item>
+                <property name="text">
+                 <string>left</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>center</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>right</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="cb_bgpos2">
+               <item>
+                <property name="text">
+                 <string>top</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>center</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>bottom</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="4" column="0">
+            <widget class="QCheckBox" name="lb_font">
+             <property name="text">
+              <string>字体</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QPushButton" name="btn_font">
+             <property name="text">
+              <string>{}</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QCheckBox" name="lb_color">
+             <property name="text">
+              <string>颜色</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QPushButton" name="btn_color">
+             <property name="text">
+              <string>{}</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QCheckBox" name="lb_radius">
+             <property name="text">
+              <string>圆角</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QSpinBox" name="sb_radius">
+             <property name="suffix">
+              <string>px</string>
+             </property>
+             <property name="maximum">
+              <number>256</number>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QCheckBox" name="lb_border_size">
+             <property name="text">
+              <string>边框大小</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <widget class="QSpinBox" name="sb_bordersize">
+             <property name="suffix">
+              <string>px</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QCheckBox" name="lb_border_color">
+             <property name="text">
+              <string>边框颜色</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="1">
+            <widget class="QPushButton" name="btn_bordercolor">
+             <property name="text">
+              <string>{}</string>
+             </property>
+            </widget>
+           </item>
+           <item row="9" column="0">
+            <widget class="QCheckBox" name="lb_border_style">
+             <property name="text">
+              <string>边框样式</string>
+             </property>
+            </widget>
+           </item>
+           <item row="9" column="1">
+            <widget class="QComboBox" name="cb_border_style">
+             <item>
+              <property name="text">
+               <string>solid</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>dotted</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>dashed</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>groove</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>ridge</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>inset</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>outset</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>

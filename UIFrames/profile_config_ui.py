@@ -14,6 +14,7 @@ from UIFrames.ui_profile_config_ui import Ui_ProfileConfigUI
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QEvent
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QColorDialog
 from PyQt5.QtWidgets import QFontDialog
 from PyQt5.QtWidgets import QFileDialog
@@ -26,6 +27,7 @@ from UIFrames.automate_cfg import AutomateConfigure
 
 class ProfileConfigUI(QWidget):
     def __init__(self, app, name, cfg, update_trigger=None, default_cfg=False):
+        self.last_sel_time = time.time()
         self.desktop = None
         self._final = False
         import wcdapp
@@ -42,14 +44,19 @@ class ProfileConfigUI(QWidget):
         self.ui = Ui_ProfileConfigUI()
         self.ui.setupUi(self)
         self.ui.cb_widgets.clear()
-        for i in self.cfg.cfg['style']:
-            functions.base.default_pass(self.cfg.cfg['style'][i], properties.default_widget_style)
-            functions.base.default_pass(self.cfg.cfg['style_enabled'][i], properties.default_widget_enabled)
-            self.ui.cb_widgets.addItem(i)
-        self.last_style_widget = self.ui.cb_widgets.currentText()
+        for i in range(len(properties.countdown_widget_id)):
+            functions.base.default_pass(self.cfg.cfg['style'][properties.countdown_widget_id[i]], properties.default_widget_style)
+            functions.base.default_pass(self.cfg.cfg['style_enabled'][properties.countdown_widget_id[i]], properties.default_widget_enabled)
+            self.ui.cb_widgets.addItem(properties.countdown_widget_name[i])
+        self.last_style_widget = properties.countdown_widget_id[self.ui.cb_widgets.currentIndex()]
         self._final = True
         self.ui.cb_widgets.setCurrentIndex(0)
         self.load_val()
+        self.widgets = (self.ui.window_bg, self.ui.lb_event, self.ui.lb_targetddate, self.ui.lb_text1,
+                        self.ui.lb_text2, self.ui.lb_CountDown, self.ui.progressBar)
+        for i in self.widgets:
+            i.installEventFilter(self)
+
 
     def ghost(self):
         pass
@@ -58,6 +65,19 @@ class ProfileConfigUI(QWidget):
         logging.info('showed profile config ui')
         self.load_val()
         super(ProfileConfigUI, self).show()
+
+    def eventFilter(self, target, event: QEvent) -> bool:
+        if event.type() == event.MouseButtonPress:
+            if time.time() - self.last_sel_time >= 0.0001:
+                print(target, event)
+                for i in range(len(self.widgets)):
+                    if self.widgets[i] is target:
+                        self.ui.cb_widgets.setCurrentIndex(i)
+                self.last_sel_time = time.time()
+
+            event.ignore()
+            return True
+        return False
 
     def on_btn_confirm_released(self):
         if not self.check_val():
@@ -152,7 +172,8 @@ class ProfileConfigUI(QWidget):
         self.update_effects()
         self.on_lst_enabled_effect_currentRowChanged()
         # style
-        self.load_widget_style(self.ui.cb_widgets.currentText())
+        self.load_widget_style(properties.countdown_widget_id[self.ui.cb_widgets.currentIndex()])
+        self.ui.style_preview.setStyleSheet(functions.appearance.mk_qss(self.cfg.cfg['style'], self.cfg.cfg['style_enabled']))
 
     def update_effects(self):
         self.ui.lst_disabled_effect.clear()
@@ -202,6 +223,7 @@ class ProfileConfigUI(QWidget):
         self.cfg.write()
         if self.update_trigger is not None:
             self.update_trigger()
+        self.ui.style_preview.setStyleSheet(functions.appearance.mk_qss(self.cfg.cfg['style'], self.cfg.cfg['style_enabled']))
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))
 
     def on_btn_effect_enable_released(self):
@@ -239,8 +261,8 @@ class ProfileConfigUI(QWidget):
         if not self._final:
             return
         self.save_widget_style(self.last_style_widget)
-        self.load_widget_style(text)
-        self.last_style_widget = text
+        self.load_widget_style(properties.countdown_widget_id[self.ui.cb_widgets.currentIndex()])
+        self.last_style_widget = properties.countdown_widget_id[self.ui.cb_widgets.currentIndex()]
 
     def on_btn_action_cfg_released(self):
         self.auto_cfg = AutomateConfigure(self.app)

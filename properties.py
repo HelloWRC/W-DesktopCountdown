@@ -1,5 +1,5 @@
-version = '0.4.3 alpha'
-version_code = '0.4.3a'
+version = '0.4.4 alpha'
+version_code = '0.4.4a'
 log_styles = '[%(asctime)s] [%(threadName)s/%(module)s.%(funcName)s(%(lineno)s)/%(levelname)s] %(message)s'
 datefmt = '%Y/%m/%d %H:%M:%S'
 work_root = './'
@@ -105,6 +105,20 @@ default_widget_enabled = {
     'border-style': False
 
 }
+
+countdown_widget_id = [
+    'window_bg',
+    'lb_event',
+    'lb_targetddate',
+    'lb_text1',
+    'lb_text2',
+    'lb_CountDown',
+    'progressBar',
+]
+
+countdown_widget_name = [
+    '倒计时背景', '文字：倒计时标题', '文字：结束日期', '文字：“距离”', '文字：“还有”', '倒计时文字', '进度条'
+]
 
 default_automate_section = {
     'trigger_type': 0,
