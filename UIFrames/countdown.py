@@ -153,9 +153,9 @@ class CountdownWin(QWidget):
             self.ui.progressBar.setValue(self.ui.progressBar.maximum())
         else:
             if self.cfg.cfg['display']['reverse_progress_bar']:
-                self.ui.progressBar.setValue(self.cfg.cfg['countdown']['end'] - time.time())
+                self.ui.progressBar.setValue(int(self.cfg.cfg['countdown']['end'] - time.time()))
             else:
-                self.ui.progressBar.setValue(time.time() - self.cfg.cfg['countdown']['start'])
+                self.ui.progressBar.setValue(int(time.time() - self.cfg.cfg['countdown']['start']))
         self.auto_mgr.update()
         painter = QPainter(self)
         painter.setBackgroundMode(0)

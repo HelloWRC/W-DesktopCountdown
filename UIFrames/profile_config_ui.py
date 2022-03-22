@@ -57,7 +57,6 @@ class ProfileConfigUI(QWidget):
         for i in self.widgets:
             i.installEventFilter(self)
 
-
     def ghost(self):
         pass
 
@@ -143,11 +142,13 @@ class ProfileConfigUI(QWidget):
         if self.default_cfg:
             self.ui.tab_countdown.setEnabled(False)
             self.ui.btn_save_as_default.setEnabled(False)
+            self.setWindowTitle('默认倒计时配置')
         else:
             self.ui.le_event_name.setText(self.cfg.cfg['countdown']['title'])
             self.ui.dte_starttime.setDateTime(datetime.datetime.fromtimestamp(self.cfg.cfg['countdown']['start']))
             self.ui.dte_endtime.setDateTime(datetime.datetime.fromtimestamp(self.cfg.cfg['countdown']['end']))
             self.ui.lb_defaultcfg_warn.setVisible(False)
+            self.setWindowTitle('倒计时配置：{}'.format(self.cfg.cfg['countdown']['title']))
         # display
         self.ui.le_target_format.setText(self.cfg.cfg['display']['target_format'])
         self.ui.le_countdown_format.setText(self.cfg.cfg['display']['countdown_format'])

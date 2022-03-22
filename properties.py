@@ -46,12 +46,11 @@ countdown_config_default = {
     },
     'display': {
         'target_format': '%Y/%m/%d %H:%M:%S',
-        'countdown_format': '%D天%H:%M:%S',
+        'countdown_format': '%D天',
         'show_progress_bar': True,
         'reverse_progress_bar': False,
         'end_text': '计时结束',
-        'start_text': '计时未开始',
-        'qss_priority': 1
+        'start_text': '计时未开始'
     },
     'effects': {},
     'automate': [],
