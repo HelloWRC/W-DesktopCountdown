@@ -122,8 +122,8 @@ countdown_widget_name = [
 default_automate_section = {
     'name': '',
     'trigger_type': 0,
-    'triggers': [],
-    'actions': []
+    'triggers': {},
+    'actions': {}
 }
 
 default_config = {
