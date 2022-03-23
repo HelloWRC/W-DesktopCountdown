@@ -8,6 +8,7 @@ from PyQt5.QtCore import QEvent, QObject
 import UIFrames.countdown
 import UIFrames.profile_config_ui
 import functions.plugins
+import properties
 import wcdapp
 from functions.base import ConfigFileMgr, filename_chk
 from properties import profile_prefix, default_profile_name, qss_prefix
@@ -60,7 +61,8 @@ class ProfileMgr(QObject):
         self.config_mgr[default_profile_name].load()
         self.config_ui[default_profile_name] = UIFrames.profile_config_ui.ProfileConfigUI(self.app,
                                                                                           default_profile_name,
-                                                                                          self.config_mgr[default_profile_name],
+                                                                                          self.config_mgr[
+                                                                                              default_profile_name],
                                                                                           default_cfg=True)
         status = 50
         if (len(self.profiles)-1) > 0:
@@ -153,6 +155,7 @@ class ProfileMgr(QObject):
     @hook_target(path_root + 'ProfileMgr.set_as_default')
     def set_as_default(self, name):
         self.config_mgr[default_profile_name].cfg = copy.deepcopy(self.config_mgr[name].cfg)
+        self.config_mgr[default_profile_name].cfg['automate'].clear()
         self.update_all_defaults()
 
     @hook_target(path_root + 'ProfileMgr.update_all_defaults')
@@ -169,7 +172,7 @@ class Automate:
         self.countdown = countdown
         self.triggers = []
         self.actions = []
-        self.config = config
+        self.config = functions.base.default_pass(config, properties.default_automate_section)
         self.trigger_type = 0
 
         for i in self.config['triggers']:
@@ -222,3 +225,29 @@ class AutomateMgr:
     def update(self):
         for auto in self.autos:
             auto.update()
+
+
+def make_auto_sentence(config):
+    triggers = config['triggers']
+    actions = config['actions']
+    trigger_type = config['trigger_type']
+    trigger_paras = []
+    action_paras = []
+
+    for trigger in triggers:
+        if trigger not in functions.plugins.triggers:
+            trigger_paras.append(trigger)
+        else:
+            trigger_paras.append(functions.plugins.triggers[trigger].trigger_name)
+    for action in actions:
+        if action not in functions.plugins.actions:
+            action_paras.append(action)
+        else:
+            action_paras.append(functions.plugins.actions[action].action_name)
+
+    if trigger_type == 1:
+        trigger_sentence = '，并且'.join(trigger_paras)
+    else:
+        trigger_sentence = '，或者'.join(trigger_paras)
+    action_sentence = '，然后'.join(action_paras)
+    return '当{}，就{}。'.format(trigger_sentence, action_sentence)

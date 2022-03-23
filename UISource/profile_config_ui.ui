@@ -27,7 +27,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="tab_gernal">
       <attribute name="title">
@@ -489,6 +489,13 @@
           <widget class="QPushButton" name="btn_action_cfg">
            <property name="text">
             <string>设置</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_rm_action">
+           <property name="text">
+            <string>删除</string>
            </property>
           </widget>
          </item>
@@ -1002,8 +1009,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>474</x>
-     <y>584</y>
+     <x>513</x>
+     <y>655</y>
     </hint>
     <hint type="destinationlabel">
      <x>467</x>

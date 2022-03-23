@@ -4,6 +4,7 @@ import logging
 import os
 import time
 
+import UIFrames.countdown
 import functions.plugins
 from data import effects
 import functions.appearance
@@ -39,6 +40,8 @@ class ProfileConfigUI(QWidget):
         self.enabled_effects = []
         self.disabled_effects = []
         self.local_effect = {}
+        self.local_automate = []
+        self.auto_cfg = []
         self.last_style_widget = None
         super(ProfileConfigUI, self).__init__()
         self.ui = Ui_ProfileConfigUI()
@@ -131,6 +134,7 @@ class ProfileConfigUI(QWidget):
         return True
 
     def load_val(self):
+        self.local_automate = copy.deepcopy(self.cfg.cfg['automate'])
         self.desktop = self.app.desktop()
         rect = self.desktop.screenGeometry()
         maxw = rect.width()
@@ -172,9 +176,21 @@ class ProfileConfigUI(QWidget):
         self.local_effect = copy.deepcopy(self.cfg.cfg['effects'])
         self.update_effects()
         self.on_lst_enabled_effect_currentRowChanged()
+        # auto
+        self.refresh_automate_ui()
         # style
         self.load_widget_style(properties.countdown_widget_id[self.ui.cb_widgets.currentIndex()])
         self.ui.style_preview.setStyleSheet(functions.appearance.mk_qss(self.cfg.cfg['style'], self.cfg.cfg['style_enabled']))
+
+    def refresh_automate_ui(self):
+        self.ui.lst_action_list.clear()
+        self.auto_cfg.clear()
+        for i in self.local_automate:
+            self.auto_cfg.append(AutomateConfigure(i, self))
+            if i['name']:
+                self.ui.lst_action_list.addItem(i['name'])
+            else:
+                self.ui.lst_action_list.addItem(functions.countdown.make_auto_sentence(i))
 
     def update_effects(self):
         self.ui.lst_disabled_effect.clear()
@@ -218,6 +234,8 @@ class ProfileConfigUI(QWidget):
         self.cfg.cfg['window']['show_title_bar'] = self.ui.cb_titlebar.isChecked()
         # effects
         self.cfg.cfg['effects'] = copy.deepcopy(self.local_effect)
+        # auto
+        self.cfg.cfg['automate'] = copy.deepcopy(self.local_automate)
         # style
         self.save_widget_style(self.last_style_widget)
 
@@ -226,6 +244,7 @@ class ProfileConfigUI(QWidget):
             self.update_trigger()
         self.ui.style_preview.setStyleSheet(functions.appearance.mk_qss(self.cfg.cfg['style'], self.cfg.cfg['style_enabled']))
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))
+        self.load_val()
 
     def on_btn_effect_enable_released(self):
         if len(self.ui.lst_disabled_effect.selectedItems()) <= 0:
@@ -266,7 +285,18 @@ class ProfileConfigUI(QWidget):
         self.last_style_widget = properties.countdown_widget_id[self.ui.cb_widgets.currentIndex()]
 
     def on_btn_action_cfg_released(self):
-        self.auto_cfg = AutomateConfigure(self.app)
+        if self.ui.lst_action_list.count() > 0:
+            self.auto_cfg[self.ui.lst_action_list.currentRow()].show()
+
+    def on_btn_new_action_released(self):
+        self.local_automate.append(properties.default_automate_section)
+        self.refresh_automate_ui()
+        self.auto_cfg[len(self.auto_cfg) - 1].show()
+
+    def on_btn_rm_action_released(self):
+        if self.ui.lst_action_list.count() > 0:
+            del self.local_automate[self.ui.lst_action_list.currentRow()]
+            self.refresh_automate_ui()
 
     def load_widget_style(self, widget):
         style_root = functions.base.default_pass(self.cfg.cfg['style'][widget], properties.default_widget_style)
@@ -356,4 +386,5 @@ class ProfileConfigUI(QWidget):
         if font[1]:
             self.ui.btn_font.setText(' '.join([str(i) for i in [font[0].styleName(),
                                                                 str(font[0].pointSize()) + 'px', font[0].family()]]))
+
 

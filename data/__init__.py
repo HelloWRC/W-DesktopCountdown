@@ -15,9 +15,12 @@ provided_effects = (
 )
 
 provided_actions = (
+    actions.SampleAction,
 )
 
 provided_triggers = (
+    actions.SampleTrigger,
+    actions.AlwaysFalse
 )
 
 

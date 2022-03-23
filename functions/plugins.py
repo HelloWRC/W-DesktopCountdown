@@ -120,6 +120,7 @@ class Plugin:
         if 'on_app_quit' in dir(self.module):
             self.module.on_app_quit(self.app)
 
+
 class PluginMgr:
     plugin_module_prefix = 'plugins.'
 
