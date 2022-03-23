@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QMenu, QAction
 from PyQt5.QtWidgets import QListWidgetItem
 from PyQt5.QtGui import QFont
 from PyQt5.QtGui import QColor
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import QObject
 from PyQt5.QtCore import QEvent
 from PyQt5.QtCore import pyqtSlot
@@ -49,6 +50,9 @@ class Settings(QWidget):
         self.click_count = 0
         self.ui.lb_logo.eventFilter = self.eventFilter
         self.ui.lb_logo.installEventFilter(self.ui.lb_logo)
+        self.ui.lb_logo.setScaledContents(True)
+        self.ui.lb_logo.setFixedSize(64, 64)
+        self.ui.lb_logo.setPixmap(QPixmap(":/resources/icons/colorful/logo.svg"))
         self.__finished_init = True
 
     def on_btn_opensource_released(self):
@@ -104,7 +108,7 @@ class Settings(QWidget):
         self.cm.write()
         self.update_theme()
         super(Settings, self).closeEvent(a0)
-        
+
     def show(self) -> None:
         self.load_val()
         super(Settings, self).show()
