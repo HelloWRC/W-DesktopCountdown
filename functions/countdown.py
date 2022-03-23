@@ -7,6 +7,7 @@ from PyQt5.QtCore import QEvent, QObject
 
 import UIFrames.countdown
 import UIFrames.profile_config_ui
+import functions.plugins
 import wcdapp
 from functions.base import ConfigFileMgr, filename_chk
 from properties import profile_prefix, default_profile_name, qss_prefix
@@ -162,22 +163,62 @@ class ProfileMgr(QObject):
             self.config_mgr[i].mapping = self.config_mgr[default_profile_name].cfg
 
 
+class Automate:
+    def __init__(self, app, countdown, config):
+        self.app = app
+        self.countdown = countdown
+        self.triggers = []
+        self.actions = []
+        self.config = config
+        self.trigger_type = 0
+
+        for i in self.config['triggers']:
+            if i in functions.plugins.triggers:
+                self.triggers.append(functions.plugins.triggers[i](self.app, self.countdown, config['triggers'][i]))
+            else:
+                logging.error('Trigger %s not found! skipped.', i)
+        for i in self.config['actions']:
+            if i in functions.plugins.actions:
+                self.actions.append(functions.plugins.actions[i](self.app, self.countdown, config['actions'][i]))
+            else:
+                logging.error('Action %s not found! skipped.', i)
+        self.trigger_type = config['trigger_type']
+
+    def update(self):
+        passed = False
+        for trigger in self.triggers:
+            if trigger.check() and self.trigger_type == 0:
+                passed = True
+                break
+            if not trigger.check() and self.trigger_type == 1:
+                break
+        if not passed:
+            return
+
+        for action in self.actions:
+            action.run()
+
+    def __del__(self):
+        pass
+
+
 class AutomateMgr:
     @hook_target(path_root + 'AutomateMgr.__init__')
     def __init__(self, app, countdown):
         self.app = app
         self.countdown: UIFrames.countdown.CountdownWin = countdown
         self.config = []
+        self.autos = []
         logging.info('loaded automate manager of %s.', self.countdown.name)
 
     @hook_target(path_root + 'AutomateMgr.load_config')
     def load_config(self, config):
+        self.autos.clear()
         self.config = config
+        for auto in self.config:
+            self.autos.append(Automate(self.app, self.countdown, auto))
 
     @hook_target(path_root + 'AutomateMgr.update')
     def update(self):
-        pass
-
-    @hook_target(path_root + 'AutomateMgr.create_automate')
-    def create_automate(self):
-        pass
+        for auto in self.autos:
+            auto.update()
