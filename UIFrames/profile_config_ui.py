@@ -289,7 +289,7 @@ class ProfileConfigUI(QWidget):
             self.auto_cfg[self.ui.lst_action_list.currentRow()].show()
 
     def on_btn_new_action_released(self):
-        self.local_automate.append(properties.default_automate_section)
+        self.local_automate.append(copy.deepcopy(properties.default_automate_section))
         self.refresh_automate_ui()
         self.auto_cfg[len(self.auto_cfg) - 1].show()
 

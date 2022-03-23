@@ -176,13 +176,13 @@ class Automate:
         self.trigger_type = 0
 
         for i in self.config['triggers']:
-            if i in functions.plugins.triggers:
-                self.triggers.append(functions.plugins.triggers[i](self.app, self.countdown, config['triggers'][i]))
+            if i['id'] in functions.plugins.triggers:
+                self.triggers.append(functions.plugins.triggers[i['id']](self.app, self.countdown, i['config']))
             else:
                 logging.error('Trigger %s not found! skipped.', i)
         for i in self.config['actions']:
-            if i in functions.plugins.actions:
-                self.actions.append(functions.plugins.actions[i](self.app, self.countdown, config['actions'][i]))
+            if i['id'] in functions.plugins.actions:
+                self.actions.append(functions.plugins.actions[i['id']](self.app, self.countdown, i['config']))
             else:
                 logging.error('Action %s not found! skipped.', i)
         self.trigger_type = config['trigger_type']
@@ -235,15 +235,15 @@ def make_auto_sentence(config):
     action_paras = []
 
     for trigger in triggers:
-        if trigger not in functions.plugins.triggers:
-            trigger_paras.append(trigger)
+        if trigger['id'] not in functions.plugins.triggers:
+            trigger_paras.append(trigger['id'])
         else:
-            trigger_paras.append(functions.plugins.triggers[trigger].trigger_name)
+            trigger_paras.append(functions.plugins.triggers[trigger['id']].trigger_name)
     for action in actions:
-        if action not in functions.plugins.actions:
-            action_paras.append(action)
+        if action['id'] not in functions.plugins.actions:
+            action_paras.append(action['id'])
         else:
-            action_paras.append(functions.plugins.actions[action].action_name)
+            action_paras.append(functions.plugins.actions[action['id']].action_name)
 
     if trigger_type == 1:
         trigger_sentence = '，并且'.join(trigger_paras)

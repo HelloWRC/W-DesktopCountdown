@@ -6,6 +6,7 @@ import datetime
 import functions.base
 import functions.countdown
 import functions.plugins
+import properties
 from UIFrames.ui_automate_cfg import Ui_AutomateConfigure
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QMenu
@@ -48,11 +49,31 @@ class AutomateConfigure(QWidget):
         self.cfg['trigger_type'] = self.ui.cb_trigger_type.currentIndex()
 
     def add_trigger(self, index):
-        self.cfg['triggers'][index] = functions.base.rich_default_pass(functions.plugins.triggers[index].default_config, {})
+        trigger = copy.deepcopy(properties.default_auto_value)
+        trigger['id'] = index
+        trigger['config'] = functions.base.rich_default_pass(functions.plugins.triggers[index].default_config, {})
+        self.cfg['triggers'].append(trigger)
         self.refresh_ui()
 
     def add_action(self, index):
-        self.cfg['actions'][index] = functions.base.rich_default_pass(functions.plugins.actions[index].default_config, {})
+        action = copy.deepcopy(properties.default_auto_value)
+        action['id'] = index
+        action['config'] = functions.base.rich_default_pass(functions.plugins.actions[index].default_config, {})
+        self.cfg['actions'].append(action)
+        self.refresh_ui()
+
+    def on_btn_rm_trigger_released(self):
+        if self.ui.lst_trigger.count() <= 0:
+            return
+        index = self.ui.lst_actions.currentRow()
+        del self.cfg['triggers'][index]
+        self.refresh_ui()
+
+    def on_btn_rm_action_released(self):
+        if self.ui.lst_actions.count() <= 0:
+            return
+        index = self.ui.lst_actions.currentRow()
+        del self.cfg['actions'][index]
         self.refresh_ui()
 
     def refresh_ui(self):
@@ -60,15 +81,15 @@ class AutomateConfigure(QWidget):
         self.ui.lst_trigger.clear()
         self.ui.lst_actions.clear()
         for i in self.cfg['triggers']:
-            if i in functions.plugins.triggers:
-                self.ui.lst_trigger.addItem(functions.plugins.triggers[i].trigger_name)
+            if i['id'] in functions.plugins.triggers:
+                self.ui.lst_trigger.addItem(functions.plugins.triggers[i['id']].trigger_name)
             else:
-                self.ui.lst_trigger.addItem(i)
+                self.ui.lst_trigger.addItem(i['id'])
         for i in self.cfg['actions']:
-            if i in functions.plugins.actions:
-                self.ui.lst_actions.addItem(functions.plugins.actions[i].action_name)
+            if i['id'] in functions.plugins.actions:
+                self.ui.lst_actions.addItem(functions.plugins.actions[i['id']].action_name)
             else:
-                self.ui.lst_actions.addItem(i)
+                self.ui.lst_actions.addItem(i['id'])
 
     def show(self) -> None:
         self.load_val()
