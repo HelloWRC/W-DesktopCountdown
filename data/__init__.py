@@ -16,6 +16,7 @@ provided_effects = (
 
 provided_actions = (
     actions.SampleAction,
+    actions.SampleAction2
 )
 
 provided_triggers = (

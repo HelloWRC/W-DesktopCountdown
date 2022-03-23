@@ -14,10 +14,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>效果设置</string>
+   <string>配置</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="configure"/>
+   <iconset theme="configure">
+    <normaloff>.</normaloff>.</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>

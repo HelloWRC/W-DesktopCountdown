@@ -29,10 +29,34 @@ class AlwaysFalse:
 class SampleAction:
     action_id = 'wdcd.sample_action'
     action_name = '测试动作'
-    default_config = {}
+    default_config = {
+        'string': {
+            'type': 'string',
+            'name': '要打印的内容',
+            'default': 'Hello!'
+        }
+    }
 
     def __init__(self, app, countdown, config):
-        pass
+        self.cfg = config
 
     def run(self):
-        print('Hello!')
+        print(self.cfg['string'])
+
+
+class SampleAction2:
+    action_id = 'wdcd.sample_action2'
+    action_name = '测试动作2号'
+    default_config = {
+        'string': {
+            'type': 'string',
+            'name': '要打印的内容',
+            'default': 'Hello!'
+        }
+    }
+
+    def __init__(self, app, countdown, config):
+        self.cfg = config
+
+    def run(self):
+        print(self.cfg['string'])

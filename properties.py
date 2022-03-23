@@ -1,5 +1,5 @@
-version = '0.4.4 alpha'
-version_code = '0.4.4a'
+version = '0.4.5 alpha'
+version_code = '0.4.5a'
 log_styles = '[%(asctime)s] [%(threadName)s/%(module)s.%(funcName)s(%(lineno)s)/%(levelname)s] %(message)s'
 datefmt = '%Y/%m/%d %H:%M:%S'
 work_root = './'
