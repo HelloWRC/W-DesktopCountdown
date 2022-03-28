@@ -101,6 +101,10 @@ class AutomateConfigure(QWidget):
         del self.cfg['actions'][index]
         self.refresh_ui()
 
+    def on_cb_trigger_type_currentIndexChanged(self, index):
+        self.save_val()
+        self.refresh_ui()
+
     def refresh_ui(self):
         self.ui.le_name.setPlaceholderText(functions.countdown.make_auto_sentence(self.cfg))
         self.ui.lst_trigger.clear()

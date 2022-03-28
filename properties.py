@@ -6,6 +6,7 @@ work_root = './'
 profile_prefix = work_root + 'profiles/'
 qss_prefix = work_root + 'qss-styles/'
 plugins_prefix = work_root + 'plugins/'
+cache_prefix = work_root + 'cache/'
 default_profile_name = '@@_default_@@.json'
 
 extra_ui_cfg = {'font_family': 'Microsoft YaHei UI',
@@ -86,7 +87,7 @@ default_widget_style = {
     'font': '',
     'color': '#FFFFFF',
     'border-radius': 0,
-    'border-size': 0,
+    'border-width': 0,
     'border-color': '#000000',
     'border-style': 'solid'
 }
@@ -99,7 +100,7 @@ default_widget_enabled = {
     'font': False,
     'color': False,
     'border-radius': False,
-    'border-size': False,
+    'border-width': False,
     'border-color': False,
     'border-style': False
 

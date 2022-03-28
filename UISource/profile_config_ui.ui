@@ -27,7 +27,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>5</number>
+      <number>6</number>
      </property>
      <widget class="QWidget" name="tab_gernal">
       <attribute name="title">
@@ -372,160 +372,6 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_effects">
-      <attribute name="title">
-       <string>效果</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>已启用</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QListWidget" name="lst_enabled_effect"/>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_effect_enable">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset theme="go-up">
-             <normaloff>.</normaloff>.</iconset>
-           </property>
-           <property name="flat">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_effect_disable">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset theme="go-down">
-             <normaloff>.</normaloff>.</iconset>
-           </property>
-           <property name="flat">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_effect_configure">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset theme="configure">
-             <normaloff>.</normaloff>.</iconset>
-           </property>
-           <property name="flat">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>未启用</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QListWidget" name="lst_disabled_effect"/>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_automatic">
-      <attribute name="title">
-       <string>自动化</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QPushButton" name="btn_new_action">
-           <property name="text">
-            <string>新建</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_action_cfg">
-           <property name="text">
-            <string>设置</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_rm_action">
-           <property name="text">
-            <string>删除</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_import_action">
-           <property name="text">
-            <string>导入</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QListWidget" name="lst_action_list"/>
-       </item>
-      </layout>
-     </widget>
      <widget class="QWidget" name="tab_style">
       <attribute name="title">
        <string>样式</string>
@@ -534,7 +380,7 @@
        <item row="1" column="0" colspan="2">
         <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>从下面选择一个组件</string>
+          <string>在下面点击要选择的组件。</string>
          </property>
         </widget>
        </item>
@@ -711,33 +557,30 @@
          </property>
         </widget>
        </item>
-       <item row="10" column="0" colspan="2">
-        <widget class="QScrollArea" name="scrollArea">
-         <property name="widgetResizable">
-          <bool>true</bool>
+       <item row="9" column="0" colspan="2">
+        <widget class="QToolBox" name="style_config">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="pg_background">
           <property name="geometry">
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>546</width>
-            <height>354</height>
+            <width>565</width>
+            <height>159</height>
            </rect>
           </property>
-          <layout class="QFormLayout" name="formLayout_5">
-           <property name="leftMargin">
-            <number>2</number>
-           </property>
-           <property name="topMargin">
-            <number>2</number>
-           </property>
-           <property name="rightMargin">
-            <number>5</number>
-           </property>
-           <property name="bottomMargin">
-            <number>2</number>
-           </property>
+          <attribute name="label">
+           <string>背景</string>
+          </attribute>
+          <layout class="QFormLayout" name="formLayout_6">
            <item row="0" column="0">
             <widget class="QCheckBox" name="lb_bgcolor">
              <property name="text">
@@ -833,42 +676,72 @@
              </item>
             </layout>
            </item>
-           <item row="4" column="0">
+          </layout>
+         </widget>
+         <widget class="QWidget" name="pg_content">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>565</width>
+            <height>87</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>正文</string>
+          </attribute>
+          <layout class="QFormLayout" name="formLayout_7">
+           <item row="0" column="0">
             <widget class="QCheckBox" name="lb_font">
              <property name="text">
               <string>字体</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="1">
+           <item row="0" column="1">
             <widget class="QPushButton" name="btn_font">
              <property name="text">
               <string>{}</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="0">
+           <item row="1" column="0">
             <widget class="QCheckBox" name="lb_color">
              <property name="text">
               <string>颜色</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="1">
+           <item row="1" column="1">
             <widget class="QPushButton" name="btn_color">
              <property name="text">
               <string>{}</string>
              </property>
             </widget>
            </item>
-           <item row="6" column="0">
+          </layout>
+         </widget>
+         <widget class="QWidget" name="pg_border">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>391</width>
+            <height>190</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>边框</string>
+          </attribute>
+          <layout class="QFormLayout" name="formLayout_8">
+           <item row="1" column="0">
             <widget class="QCheckBox" name="lb_radius">
              <property name="text">
               <string>圆角</string>
              </property>
             </widget>
            </item>
-           <item row="6" column="1">
+           <item row="1" column="1">
             <widget class="QSpinBox" name="sb_radius">
              <property name="suffix">
               <string>px</string>
@@ -878,42 +751,42 @@
              </property>
             </widget>
            </item>
-           <item row="7" column="0">
+           <item row="3" column="0">
             <widget class="QCheckBox" name="lb_border_size">
              <property name="text">
               <string>边框大小</string>
              </property>
             </widget>
            </item>
-           <item row="7" column="1">
+           <item row="3" column="1">
             <widget class="QSpinBox" name="sb_bordersize">
              <property name="suffix">
               <string>px</string>
              </property>
             </widget>
            </item>
-           <item row="8" column="0">
+           <item row="4" column="0">
             <widget class="QCheckBox" name="lb_border_color">
              <property name="text">
               <string>边框颜色</string>
              </property>
             </widget>
            </item>
-           <item row="8" column="1">
+           <item row="4" column="1">
             <widget class="QPushButton" name="btn_bordercolor">
              <property name="text">
               <string>{}</string>
              </property>
             </widget>
            </item>
-           <item row="9" column="0">
+           <item row="5" column="0">
             <widget class="QCheckBox" name="lb_border_style">
              <property name="text">
               <string>边框样式</string>
              </property>
             </widget>
            </item>
-           <item row="9" column="1">
+           <item row="5" column="1">
             <widget class="QComboBox" name="cb_border_style">
              <item>
               <property name="text">
@@ -952,9 +825,170 @@
              </item>
             </widget>
            </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>要正常启用边框，请同时勾选“边框样式”和“边框大小”。</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_effects">
+      <attribute name="title">
+       <string>效果</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>已启用</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="lst_enabled_effect"/>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_effect_enable">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset theme="go-up">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_effect_disable">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset theme="go-down">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_effect_configure">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset theme="configure">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>未启用</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="lst_disabled_effect"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_automatic">
+      <attribute name="title">
+       <string>自动化</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QPushButton" name="btn_action_cfg">
+           <property name="text">
+            <string>设置</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_new_action">
+           <property name="text">
+            <string>新建</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_rm_action">
+           <property name="text">
+            <string>删除</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_import_action">
+           <property name="text">
+            <string>导入</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QListWidget" name="lst_action_list"/>
        </item>
       </layout>
      </widget>

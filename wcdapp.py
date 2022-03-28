@@ -1,3 +1,5 @@
+import os.path
+
 from PyQt5.Qt import QApplication
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtCore import QEvent
@@ -45,6 +47,9 @@ class WDesktopCD(QApplication):
         if self.app_cfg.cfg['basic']['splash']:
             self.splash.show()
         self.splash.update_status(10, '初始化…')
+
+        if not os.path.exists(properties.cache_prefix):
+            os.mkdir(properties.cache_prefix)
         self.profile_mgr_ui = None
         self.profile_mgr: functions.countdown.ProfileMgr
         self.cdtest: CountdownWin
@@ -109,8 +114,8 @@ class WDesktopCD(QApplication):
                 dark_mode = True
             else:
                 dark_mode = False
-            functions.appearance.gen_custom_theme('custom-theme.xml', accent_color, dark_mode)
-            theme_name = 'custom-theme.xml'
+            functions.appearance.gen_custom_theme(properties.cache_prefix + 'custom-theme.xml', accent_color, dark_mode)
+            theme_name = properties.cache_prefix + 'custom-theme.xml'
         qt_material.apply_stylesheet(self,
                                      theme=theme_name,
                                      invert_secondary=use_sc,

@@ -1,3 +1,10 @@
+import copy
+import time
+
+from PyQt5.QtCore import QThread, QObject
+from PyQt5.QtGui import QColor
+from PyQt5.Qt import pyqtSignal
+
 import logging
 
 import UIFrames.countdown
@@ -62,6 +69,20 @@ class SampleEffect:
                 'item1', 'item2', 'item3'
             ],
             'default': 0,  # 索引值
+            # 可选选项
+            'description': '在这里选择一个颜色'
+        },
+        'color1': {
+            'type': 'color',
+            'name': '这是一个颜色',
+            'default': '#000000',  # 索引值
+            # 可选选项
+            'description': '在这里选择一个颜色'
+        },
+        'color2': {
+            'type': 'color',
+            'name': '这是一个颜色',
+            'default': '#000000',  # 索引值
             # 可选选项
             'description': '在这里选择一个颜色'
         }
@@ -152,10 +173,10 @@ class AcrylicEffect:
             'description': '选择背景色的来源。'
         },
         'background_color': {
-            'type': 'string',
-            'name': '自定义背景色（RRGGBB）',
-            'default': '000000',
-            'description': '输入背景色色号，格式是RRGGBB。'
+            'type': 'color',
+            'name': '自定义背景色',
+            'default': '#000000',
+            'description': '输入背景色色号'
         },
         'transparent': {
             'type': 'int',
@@ -210,5 +231,195 @@ class AcrylicEffect:
             else:
                 self.bg_color = self.dark_bg
         else:
-            self.bg_color = self.config['background_color']
+            self.bg_color = self.config['background_color'][1:]
         self.bg_color += str(hex(self.config['transparent']))[2:]
+
+
+class CharmUpdateThread(QThread):
+    sig_stop = pyqtSignal()
+
+    def __init__(self, charm):
+        super(CharmUpdateThread, self).__init__()
+        self.charm: CharmBase = charm
+        self.sig_stop.connect(self.stop)
+        self.stopped = False
+
+    def run(self):
+        while not self.stopped:
+            sleep_gap = 1 / self.charm.cfg['fps'] * 1000
+            self.charm.sig_update.emit()
+            self.msleep(int(sleep_gap))
+
+    def stop(self):
+        self.stopped = True
+
+
+class CharmBase(QObject):
+    sig_update = pyqtSignal()
+    default_config = {
+        'lb_description1': {
+            'type': 'label',
+            'text': '调整渐变设置。'
+        },
+        'start_color': {
+            'type': 'color',
+            'name': '开始颜色',
+            'default': '#000000',
+            'description': '渐变开始时的颜色'
+        },
+        'end_color': {
+            'type': 'color',
+            'name': '结束颜色',
+            'default': '#000000',
+            'description': '渐变结束时的颜色'
+        },
+        'loop_type': {
+            'type': 'combo_box',
+            'name': '循环类型',
+            'items': [
+                '反转',
+                '从头开始'
+            ],
+            'default': 0,
+            'description': '循环类型。'
+        },
+        'color_type': {
+            'type': 'combo_box',
+            'name': '渐变类型',
+            'items': [
+                'RGB',
+                'HSV'
+            ],
+            'default': 0,
+            'description': '渐变时控制颜色的渐变模式'
+        },
+        'fps': {
+            'type': 'int',
+            'name': '刷新频率',
+            'default': 30,
+            'min': 1,
+            'max': 200,
+            # 可选选项
+            'description': '动画的刷新频率。请谨慎调节，更高的频率可能会造成卡顿。',
+            'step': 1,
+            'prefix': '',
+            'suffix': '次/秒'
+        },
+        'time': {
+            'type': 'float',
+            'name': '循环时长',
+            'default': 5,
+            'min': 0.1,
+            'max': 360000,
+            # 可选选项
+            'description': '每次动画的循环时长',
+            'step': 1,
+            'prefix': '',
+            'suffix': '秒'
+        },
+        'lb_description2': {
+            'type': 'label',
+            'text': '在HSV模式下，若开始和结束色调相同，会呈现出色调循环的效果。'
+        }
+    }
+
+    def __init__(self, app, countdown, config):
+        super(CharmBase, self).__init__()
+        self.app = app
+        self.countdown: UIFrames.countdown.CountdownWin = countdown
+        self.cfg = config
+        self.start_time = 0
+        self.sig_update.connect(self.update)
+        self.start_color = QColor(self.cfg['start_color']).getRgb()
+        self.end_color = QColor(self.cfg['end_color']).getRgb()
+        self.update_thread = CharmUpdateThread(self)
+
+    def set_enabled(self):
+        self.start_time = time.time()
+        self.update_thread.start()
+
+    def update_config(self, config):
+        self.cfg = config
+        if self.cfg['color_type'] == 0:
+            self.start_color = QColor(self.cfg['start_color']).getRgb()
+            self.end_color = QColor(self.cfg['end_color']).getRgb()
+        else:
+            self.start_color = QColor(self.cfg['start_color']).getHsv()
+            self.end_color = QColor(self.cfg['end_color']).getHsv()
+            if self.start_color == self.end_color:
+                self.start_color = (0, self.start_color[1], self.start_color[2])
+                self.end_color = (359, self.end_color[1], self.end_color[2])
+
+    def unload(self):
+        self.update_thread.stop()
+        self.clear_color()
+
+    def update(self):
+        total_time = self.cfg['time']
+
+        if time.time() - self.start_time > total_time:
+            self.start_time = time.time()
+            if self.cfg['loop_type'] == 0:
+                temp = copy.deepcopy(self.start_color)
+                self.start_color = copy.deepcopy(self.end_color)
+                self.end_color = copy.deepcopy(temp)
+
+        now_time: float = time.time() - self.start_time * 1.0
+        process = now_time / total_time
+        now_color = [0, 0, 0]
+
+        for i in range(3):
+            inter = self.end_color[i] - self.start_color[i]
+            now_color[i] = self.start_color[i] + inter * process
+
+        if self.cfg['color_type'] == 0:
+            self.set_rgb_color(now_color)
+        else:
+            self.set_hsv_color(now_color)
+
+    def set_rgb_color(self, color):
+        pass
+
+    def set_hsv_color(self, color):
+        pass
+
+    def clear_color(self):
+        pass
+
+
+class BackgroundCharm(CharmBase):
+    effect_id = 'wdcd.background_charm'
+    effect_friendly_name = '背景渐变'
+    effect_description = '让背景颜色随时间渐变'
+
+    def __init__(self, app, countdown, config):
+        super(BackgroundCharm, self).__init__(app, countdown, config)
+        self.countdown: UIFrames.countdown.CountdownWin = countdown
+
+    def set_rgb_color(self, color):
+        self.countdown.ui.window_bg.setStyleSheet('#window_bg{background-color:rgb(' + '{}, {}, {}'.format(color[0], color[1], color[2]) + ')}')
+
+    def set_hsv_color(self, color):
+        self.countdown.ui.window_bg.setStyleSheet('#window_bg{background-color:hsv(' + '{}, {}, {}'.format(color[0], color[1], color[2]) + ')}')
+
+    def clear_color(self):
+        self.countdown.ui.window_bg.setStyleSheet('')
+
+
+class CountdownCharm(CharmBase):
+    effect_id = 'wdcd.countdown_charm'
+    effect_friendly_name = '倒计时渐变'
+    effect_description = '让倒计时文字随时间渐变'
+
+    def __init__(self, app, countdown, config):
+        super(CountdownCharm, self).__init__(app, countdown, config)
+        self.countdown: UIFrames.countdown.CountdownWin = countdown
+
+    def set_rgb_color(self, color):
+        self.countdown.ui.lb_CountDown.setStyleSheet('color:rgb(' + '{}, {}, {}'.format(color[0], color[1], color[2]) + ')')
+
+    def set_hsv_color(self, color):
+        self.countdown.ui.lb_CountDown.setStyleSheet('color:hsv(' + '{}, {}, {}'.format(color[0], color[1], color[2]) + ')')
+
+    def clear_color(self):
+        self.countdown.ui.lb_CountDown.setStyleSheet('')

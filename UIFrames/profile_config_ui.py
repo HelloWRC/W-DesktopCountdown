@@ -313,7 +313,7 @@ class ProfileConfigUI(QWidget):
         self.ui.btn_font.setText(style_root['font'])
         self.ui.btn_color.setText(style_root['color'])
         self.ui.sb_radius.setValue(style_root['border-radius'])
-        self.ui.sb_bordersize.setValue(style_root['border-size'])
+        self.ui.sb_bordersize.setValue(style_root['border-width'])
         self.ui.btn_bordercolor.setText(style_root['border-color'])
         self.ui.cb_border_style.setCurrentText(style_root['border-style'])
 
@@ -341,7 +341,7 @@ class ProfileConfigUI(QWidget):
         style_root['font'] = self.ui.btn_font.text()
         style_root['color'] = self.ui.btn_color.text()
         style_root['border-radius'] = self.ui.sb_radius.value()
-        style_root['border-size'] = self.ui.sb_bordersize.value()
+        style_root['border-width'] = self.ui.sb_bordersize.value()
         style_root['border-color'] = self.ui.btn_bordercolor.text()
         style_root['border-style'] = self.ui.cb_border_style.currentText()
 

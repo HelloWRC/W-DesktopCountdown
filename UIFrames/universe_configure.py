@@ -1,5 +1,6 @@
 from UIFrames.ui_universe_configure import Ui_Configure
-from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QCheckBox, QSpinBox, QDoubleSpinBox, QComboBox
+from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QCheckBox, QSpinBox, QDoubleSpinBox, QComboBox, QPushButton, QColorDialog
+from PyQt5.QtGui import QColor
 from PyQt5.Qt import QApplication, Qt
 import logging
 import properties
@@ -76,6 +77,11 @@ class UniverseConfigure(QWidget):
                     self.gen_ui['cb_' + i] = content
                     self.set_val[i] = content.setCurrentIndex
                     self.get_val[i] = content.currentIndex
+                elif root['type'] == 'color':
+                    content = QPushButton()
+                    content.released.connect(self.get_lambda(i))
+                    self.set_val[i] = content.setText
+                    self.get_val[i] = content.text
                 else:
                     continue
                 if 'description' in root:
@@ -83,6 +89,9 @@ class UniverseConfigure(QWidget):
                 self.ui.container.addRow(label, content)
 
         self.load_val()
+
+    def get_lambda(self, i):
+        return lambda: self.color_picker(i)
 
     def load_val(self):
         for i in self.config_temple:
@@ -97,6 +106,9 @@ class UniverseConfigure(QWidget):
             if self.config_temple[i]['type'] == 'label':
                 continue
             self.config[i] = self.get_val[i]()
+
+    def color_picker(self, index):
+        self.set_val[index](QColorDialog.getColor(QColor(self.get_val[index]()), self).name())
 
     def on_btn_confirm_released(self):
         self.save_val()
