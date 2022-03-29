@@ -121,3 +121,23 @@ class WhenCountdownStart:
             self.config['triggered'] = True
             return True
         return False
+
+
+class WhenCountdownShow:
+    trigger_id = 'wdcd.countdown_show'
+    trigger_name = '倒计时显示时'
+    default_config = {
+    }
+
+    def __init__(self, app, countdown, config):
+        import UIFrames.countdown
+        self.app = app
+        self.countdown: UIFrames.countdown.CountdownWin = countdown
+        self.config = config
+        self.config['triggered'] = False
+
+    def check(self):
+        if self.config['triggered']:
+            return False
+        self.config['triggered'] = True
+        return True

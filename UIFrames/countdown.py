@@ -81,7 +81,7 @@ class CountdownWin(QWidget):
     @class_hook_target('load_config')
     def load_config(self):
         self.cfg.load()
-        self.auto_mgr.load_config(self.cfg.cfg['automate'])
+        self.auto_mgr.load_config(self.cfg.cfg['automate'], bool(self.cfg.cfg['automate_enabled'] and self.cfg.cfg['trusted']))
         self.em.load_config(self.cfg.cfg['effects'])
         # 应用配置
         # 窗口

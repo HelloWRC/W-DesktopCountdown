@@ -109,6 +109,11 @@ class RollingTexts:
     effect_friendly_name = '滚动标语'
     effect_description = '向倒计时页面添加自定义标语，可以从文件读取，随机展示。'
     default_config = {
+        'label': {
+            'type': 'label',
+            'text': '向倒计时页面添加自定义标语，可以从文件读取，随机展示。指向文本文件中每行包含一条标语，文件编码应为UTF-8。',
+            'word_warp': True
+        },
         'filename': {
             'type': 'string',
             'name': '文件路径',

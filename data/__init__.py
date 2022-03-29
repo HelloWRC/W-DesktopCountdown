@@ -11,7 +11,6 @@ plugin_website = 'https://github.com/HelloWRC/W-DesktopCountdown'
 plugin_description = 'W-DesktopCountdown的内置数据'
 
 provided_effects = (
-    effects.SampleEffect,
     effects.AcrylicEffect,
     effects.RollingTexts,
     effects.BackgroundCharm,
@@ -19,19 +18,19 @@ provided_effects = (
 )
 
 provided_actions = (
-    actions.SampleAction,
-    actions.SampleAction2,
     actions.RunCommand,
+    actions.StartFile,
     actions.PushCountdownBack,
     actions.HideCountdown,
-    actions.ExitApp
+    actions.ExitApp,
+    actions.PopMessageBox,
+    actions.PopNotification
 )
 
 provided_triggers = (
-    triggers.SampleTrigger,
-    triggers.AlwaysFalse,
     triggers.WhenCountdownEnd,
-    triggers.WhenCountdownStart
+    triggers.WhenCountdownStart,
+    triggers.WhenCountdownShow
 )
 
 

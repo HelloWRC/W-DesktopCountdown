@@ -97,6 +97,9 @@ class Settings(QWidget):
     def on_btn_plug_info_released(self):
         self.app.plugin_mgr.plugins[self.ui.lst_plugins.currentRow()].plugin_info_ui.show()
 
+    def on_btn_log_released(self):
+        os.startfile('latest.log')
+
     def update_theme(self):
         if not self.__finished_init:
             return

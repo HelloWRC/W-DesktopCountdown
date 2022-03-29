@@ -93,7 +93,6 @@ class ProfileMgrUI(QMainWindow):
         self.app: wcdapp.WDesktopCD = app
         self.profile_mgr = self.app.profile_mgr
         self.setWindowTitle(self.windowTitle().format(properties.version))
-        self.load_val()
 
     def load_val(self):
         self.ui.countdowns.clear()

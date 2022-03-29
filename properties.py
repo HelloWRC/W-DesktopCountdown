@@ -57,7 +57,6 @@ countdown_config_default = {
     'automate': [],
     'style': {
         'window_bg': {},
-        'hl_description': {},
         'lb_event': {},
         'lb_targetddate': {},
         'lb_text1': {},
@@ -67,7 +66,6 @@ countdown_config_default = {
     },
     'style_enabled': {
         'window_bg': {},
-        'hl_description': {},
         'lb_event': {},
         'lb_targetddate': {},
         'lb_text1': {},
@@ -76,7 +74,8 @@ countdown_config_default = {
         'progressBar': {}
     },
     'enabled': True,
-    'automate_enabled': True
+    'automate_enabled': True,
+    'trusted': True
 }
 
 default_widget_style = {

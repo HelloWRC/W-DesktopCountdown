@@ -51,13 +51,16 @@ class ProfileMgr(QObject):
         self.config_ui: dict = {}
         # self.default_cfg = ConfigFileMgr(profile_prefix + default_profile_name, self.countdown_cfg_default)
 
+    @hook_target(path_root + 'ProfileMgr.init_countdown')
+    def init_countdown(self):
         if not os.path.exists(profile_prefix):
             os.mkdir(profile_prefix)
         self.load_profiles_list()
         if default_profile_name in self.profiles:
             self.profiles.remove(default_profile_name)
         self.profiles.insert(0, default_profile_name)
-        self.config_mgr[default_profile_name] = ConfigFileMgr(profile_prefix + default_profile_name, self.countdown_cfg_default)
+        self.config_mgr[default_profile_name] = ConfigFileMgr(profile_prefix + default_profile_name,
+                                                              self.countdown_cfg_default)
         self.config_mgr[default_profile_name].load()
         self.config_ui[default_profile_name] = UIFrames.profile_config_ui.ProfileConfigUI(self.app,
                                                                                           default_profile_name,
@@ -65,8 +68,8 @@ class ProfileMgr(QObject):
                                                                                               default_profile_name],
                                                                                           default_cfg=True)
         status = 50
-        if (len(self.profiles)-1) > 0:
-            step = 35 / (len(self.profiles)-1)
+        if (len(self.profiles) - 1) > 0:
+            step = 35 / (len(self.profiles) - 1)
         else:
             step = 35
         for i in self.profiles:
@@ -77,6 +80,8 @@ class ProfileMgr(QObject):
             self.config_mgr[i] = ConfigFileMgr(profile_prefix + i, self.config_mgr[default_profile_name].cfg)
             self.countdowns_win[i] = UIFrames.countdown.CountdownWin(self.app, i, self.config_mgr[i])
             self.config_ui[i] = self.countdowns_win[i].config_ui
+
+        self.app.profile_mgr_ui.refresh(1)
 
     @hook_target(path_root + 'ProfileMgr.load_profiles_list')
     def load_profiles_list(self):
@@ -116,6 +121,7 @@ class ProfileMgr(QObject):
         logging.info('importing profile %s', path)
         cfm = ConfigFileMgr(path, self.countdown_cfg_default)
         cfm.load()
+        cfm.cfg['trusted'] = False
         name = cfm.cfg['countdown']['title']
         self.profiles.append(name)
         self.config_mgr[name] = cfm
@@ -218,19 +224,23 @@ class AutomateMgr:
         self.countdown: UIFrames.countdown.CountdownWin = countdown
         self.config = []
         self.autos = []
+        self.enabled = False
         logging.info('loaded automate manager of %s.', self.countdown.name)
 
     @hook_target(path_root + 'AutomateMgr.load_config')
-    def load_config(self, config):
+    def load_config(self, config, enabled):
         self.autos.clear()
         self.config = config
-        for auto in self.config:
-            self.autos.append(Automate(self.app, self.countdown, auto))
+        self.enabled = enabled
+        if self.enabled:
+            for auto in self.config:
+                self.autos.append(Automate(self.app, self.countdown, auto))
 
     @hook_target(path_root + 'AutomateMgr.update')
     def update(self):
-        for auto in self.autos:
-            auto.update()
+        if self.enabled:
+            for auto in self.autos:
+                auto.update()
 
 
 def make_auto_sentence(config):

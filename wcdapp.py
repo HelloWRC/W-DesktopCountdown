@@ -38,7 +38,7 @@ class WDesktopCD(QApplication):
     def __init__(self, argv, logger: logging.Logger):
         # 程序开始，初始化基本套件
         super().__init__(argv)
-        logging.info('init phase 1')
+        logging.info('----------# INIT PHASE 1 #----------')
         self.processEvents()
         self.starttime = time.time()
         self.app_cfg = functions.base.ConfigFileMgr('settings.json', properties.default_config)
@@ -67,7 +67,7 @@ class WDesktopCD(QApplication):
     @hook_target('wdcd_app.init_v2')
     def init_phase2(self):
         # Qt事件处理器启动完毕，开始初始化qt套件
-        self.logger.info('init phase 2')
+        self.logger.info('----------# INIT PHASE 2 #----------')
         self.splash.update_status(30, '加载主题…')
         QIcon.setThemeSearchPaths(QIcon.themeSearchPaths() + [':/resources/icons'])
         self.update_theme()
@@ -77,6 +77,7 @@ class WDesktopCD(QApplication):
         self.profile_mgr_ui = ProfileMgrUI(self)
         self.tray = SystemTray(self)
         self.tray.show()
+        self.profile_mgr.init_countdown()
         if len(self.profile_mgr.profiles) <= 1:
             self.tray.showMessage('W-DesktopCountdown正在后台运行。', '双击系统托盘图标以显示本应用。')
         self.plugin_mgr.load_v2()
@@ -87,6 +88,7 @@ class WDesktopCD(QApplication):
         print('加载时间：{}s，p1：{}s，p2：{}s'.format(self.final_time, self.p1_time, self.p2_time))
         self.splash.update_status(100, '完成')
         self.splash.close()
+        self.logger.info('----------# INIT DONE #----------')
 
     def on_tray_clicked(self, reason):
         logging.debug('tray clicked, reason: %s', reason)

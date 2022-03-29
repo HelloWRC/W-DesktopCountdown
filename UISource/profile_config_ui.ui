@@ -34,18 +34,41 @@
        <string>基本</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="2" column="0">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+       <item row="2" column="0" colspan="3">
+        <widget class="QFrame" name="safe_warn">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
          </property>
-        </spacer>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:700;&quot;&gt;安全警告&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;本倒计时为从外部导入，可能包含风险。为保证安全，本倒计时的危险功能（自动化）现已停用。在启用这些功能之前，请确保您已经&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:700;&quot;&gt;仔细检查过危险功能的配置，确认其无风险&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;，并&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:700;&quot;&gt;信任&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;这个倒计时。&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:700;&quot;&gt;对于包含风险的倒计时对您造成的损失，作者既不负责。&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_trust">
+            <property name="text">
+             <string>信任并启用危险功能</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="btn_save_as_default">
+         <property name="text">
+          <string>将此档案设为默认</string>
+         </property>
+        </widget>
        </item>
        <item row="0" column="0" colspan="3">
         <widget class="QLabel" name="lb_gernal_description">
@@ -62,19 +85,25 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="btn_save_as_default">
-         <property name="text">
-          <string>将此档案设为默认</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="2">
         <widget class="QPushButton" name="btn_open_folder">
          <property name="text">
           <string>打开档案文件夹</string>
          </property>
         </widget>
+       </item>
+       <item row="3" column="2">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -683,7 +712,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>565</width>
+            <width>169</width>
             <height>87</height>
            </rect>
           </property>
@@ -943,14 +972,46 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
+        <widget class="QCheckBox" name="cb_auto_enabled">
+         <property name="text">
+          <string>启用自动化</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="auto_safe_warn">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>要启用自动化，请信任本倒计时。</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QPushButton" name="btn_action_cfg">
-           <property name="text">
-            <string>设置</string>
-           </property>
-          </widget>
-         </item>
          <item>
           <widget class="QPushButton" name="btn_new_action">
            <property name="text">
@@ -959,16 +1020,16 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="btn_rm_action">
+          <widget class="QPushButton" name="btn_action_cfg">
            <property name="text">
-            <string>删除</string>
+            <string>设置</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="btn_import_action">
+          <widget class="QPushButton" name="btn_rm_action">
            <property name="text">
-            <string>导入</string>
+            <string>删除</string>
            </property>
           </widget>
          </item>

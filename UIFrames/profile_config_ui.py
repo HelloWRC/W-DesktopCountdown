@@ -142,6 +142,15 @@ class ProfileConfigUI(QWidget):
         self.setWindowTitle(self.windowTitle().format(self.cfg.cfg['countdown']['title']))
         self.ui.lb_gernal_description.setText(self.ui.lb_gernal_description.text().format(self.cfg.filename))
 
+        if self.cfg.cfg['trusted']:
+            self.ui.safe_warn.setVisible(False)
+            self.ui.auto_safe_warn.setVisible(False)
+            self.ui.cb_auto_enabled.setEnabled(True)
+        else:
+            self.ui.safe_warn.setVisible(True)
+            self.ui.auto_safe_warn.setVisible(True)
+            self.ui.cb_auto_enabled.setEnabled(False)
+
         # countdown
         if self.default_cfg:
             self.ui.tab_countdown.setEnabled(False)
@@ -177,6 +186,7 @@ class ProfileConfigUI(QWidget):
         self.update_effects()
         self.on_lst_enabled_effect_currentRowChanged()
         # auto
+        self.ui.cb_auto_enabled.setChecked(self.cfg.cfg['automate_enabled'])
         self.refresh_automate_ui()
         # style
         self.load_widget_style(properties.countdown_widget_id[self.ui.cb_widgets.currentIndex()])
@@ -235,6 +245,7 @@ class ProfileConfigUI(QWidget):
         # effects
         self.cfg.cfg['effects'] = copy.deepcopy(self.local_effect)
         # auto
+        self.cfg.cfg['automate_enabled'] = self.ui.cb_auto_enabled.isChecked()
         self.cfg.cfg['automate'] = copy.deepcopy(self.local_automate)
         # style
         self.save_widget_style(self.last_style_widget)
@@ -297,6 +308,15 @@ class ProfileConfigUI(QWidget):
         if self.ui.lst_action_list.count() > 0:
             del self.local_automate[self.ui.lst_action_list.currentRow()]
             self.refresh_automate_ui()
+
+    def on_btn_trust_released(self):
+        r = QMessageBox.warning(self, '信任本倒计时',
+                                '你要信任倒计时{}吗？请确保您已经仔细检查过倒计时并确认倒计时没有风险。'.format(self.cfg.cfg['countdown']['title']),
+                                buttons=QMessageBox.Yes | QMessageBox.No,
+                                defaultButton=QMessageBox.No)
+        if r == QMessageBox.Yes:
+            self.cfg.cfg['trusted'] = True
+            self.on_btn_apply_released()
 
     def load_widget_style(self, widget):
         style_root = functions.base.default_pass(self.cfg.cfg['style'][widget], properties.default_widget_style)

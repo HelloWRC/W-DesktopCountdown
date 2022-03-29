@@ -1,6 +1,11 @@
+import logging
 import os
 
 import UIFrames.countdown
+
+from PyQt5.QtWidgets import QMessageBox
+
+import wcdapp
 
 
 class SampleAction:
@@ -56,6 +61,29 @@ class RunCommand:
 
     def run(self):
         os.system(self.cfg['command'])
+
+
+class StartFile:
+    action_id = 'wdcd.start_file'
+    action_name = '打开文件'
+    action_description = '打开指定的文件'
+    default_config = {
+        'path': {
+            'type': 'string',
+            'name': '文件路径',
+            'default': '',
+            'description': '要打开的文件路径'
+        }
+    }
+
+    def __init__(self, app, countdown, config):
+        self.cfg = config
+
+    def run(self):
+        try:
+            os.startfile(self.cfg['path'])
+        except Exception as exp:
+            logging.error('Could not open file "%s": %s', self.cfg['path'], exp)
 
 
 class PushCountdownBack:
@@ -127,3 +155,74 @@ class ExitApp:
 
     def run(self):
         self.app.quit(0)
+
+
+class PopMessageBox:
+    action_id = 'wdcd.pop_msg_box'
+    action_name = '弹出提示框'
+    action_descriprion = '弹出一个自定义的提示框'
+    default_config = {
+        'msg_type': {
+            'type': 'combo_box',
+            'name': '提示类型',
+            'items': [
+                '信息',
+                '询问',
+                '警告',
+                '错误'
+            ],
+            'default': 0,
+            'description': '弹出的提示框的类型'
+        },
+        'title': {
+            'type': 'string',
+            'name': '消息标题',
+            'default': '',
+            'description': '提示框标题栏内容'
+        },
+        'text': {
+            'type': 'string',
+            'name': '消息文本',
+            'default': '',
+            'description': '提示框要显示的文本'
+        },
+    }
+    msg_box = [
+        QMessageBox.information, QMessageBox.question, QMessageBox.warning, QMessageBox.critical
+    ]
+
+    def __init__(self, app, countdown, config):
+        self.cfg = config
+        self.app = app
+        self.countdown = countdown
+
+    def run(self):
+        self.msg_box[self.cfg['msg_type']](self.countdown, self.cfg['title'], self.cfg['text'])
+
+
+class PopNotification:
+    action_id = 'wdcd.pop_notification'
+    action_name = '弹出通知'
+    action_descriprion = '弹出一个自定义的通知'
+    default_config = {
+        'title': {
+            'type': 'string',
+            'name': '通知标题',
+            'default': '',
+            'description': '通知标题'
+        },
+        'text': {
+            'type': 'string',
+            'name': '通知文本',
+            'default': '',
+            'description': '要显示的文本'
+        },
+    }
+
+    def __init__(self, app, countdown, config):
+        self.cfg = config
+        self.app: wcdapp.WDesktopCD = app
+        self.countdown = countdown
+
+    def run(self):
+        self.app.tray.showMessage(self.cfg['title'], self.cfg['text'])
