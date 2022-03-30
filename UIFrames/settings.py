@@ -116,31 +116,7 @@ class Settings(QWidget):
         self.load_val()
         super(Settings, self).show()
 
-    def eventFilter(self, watched: QObject, event: QEvent) -> bool:
-        # print(watched, event)
-        if watched == self.ui.lb_logo and event.type() == event.MouseButtonRelease:
-            self.click_count += 1
-            # print(self.click_count)
-            if self.click_count == 15:
-                self.ui.lb_version.setText('本程序没有特殊选项')
-            elif self.click_count == 25:
-                self.ui.lb_version.setText('别点了别点了')
-            elif self.click_count == 30:
-                self.ui.lb_version.setText('再点也没用的')
-            elif self.click_count == 40:
-                self.ui.lb_version.setText('你真的就这么好奇吗？')
-            elif 50 <= self.click_count < 60:
-                self.ui.lb_version.setText('最后{}次'.format(60-self.click_count))
-            elif self.click_count == 60:
-                self.ui.lb_version.setText('(╯‵□′)╯︵┻━┻')
-                while True:
-                    pass
-        return False
-
     def load_val(self):
-        # basic
-        self.ui.cb_run_on_start.setChecked(self.cfg['basic']['auto_start'])
-        self.ui.cb_splash.setChecked(self.cfg['basic']['splash'])
         # appearance
         self.ui.cb_colortheme.setCurrentIndex(self.cfg['appearance']['color_theme']['theme'])
         self.ui.cb_ldstyle.setCurrentIndex(self.cfg['appearance']['ld_style'])
@@ -157,10 +133,6 @@ class Settings(QWidget):
             self.ui.lst_plugins.addItem(item)
 
     def save_val(self):
-        # basic
-        self.cfg['basic']['auto_start'] = self.ui.cb_run_on_start.isChecked()
-        self.cfg['basic']['splash'] = self.ui.cb_splash.isChecked()
-
         # appearance
         self.cfg['appearance']['color_theme']['theme'] = self.ui.cb_colortheme.currentIndex()
         self.cfg['appearance']['ld_style'] = self.ui.cb_ldstyle.currentIndex()
