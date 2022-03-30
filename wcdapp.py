@@ -128,4 +128,5 @@ class WDesktopCD(QApplication):
     def quit(self, stat) -> None:
         logging.info('Stopping!')
         self.plugin_mgr.on_app_quit()
+        self.profile_mgr.unload_all()
         super(WDesktopCD, self).quit()

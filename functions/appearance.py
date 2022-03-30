@@ -87,15 +87,22 @@ class EffectManager:
             self.effects[i].update_config(config[i])
             logging.info('updated effects: %s', i)
 
+    @hook_target(path_root + 'EffectManager.on_event')
     def on_event(self, watched, event):
         for effect in self.effects.values():
             if 'on_event' in dir(effect):
                 effect.on_event(watched, event)
 
+    @hook_target(path_root + 'EffectManager.on_state_changed')
     def on_state_changed(self, stat):
         for effect in self.effects.values():
             if 'on_state_changed' in dir(effect):
                 effect.on_state_changed(stat)
+
+    def unload_all(self):
+        for i in self.effects:
+            self.effects[i].unload()
+            logging.info('unloaded effects: %s', i)
 
 
 @hook_target(path_root + 'mk_qss')

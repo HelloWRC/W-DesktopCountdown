@@ -158,6 +158,15 @@ class ProfileMgr(QObject):
 
         self.update_all_defaults()
 
+    @hook_target(path_root + 'ProfileMgr.unload_all')
+    def unload_all(self):
+        for i in self.config_ui.values():
+            i.close()
+        for i in self.countdowns_win.values():
+            i.unload()
+        for i in self.config_mgr.values():
+            i.write()
+
     @hook_target(path_root + 'ProfileMgr.set_as_default')
     def set_as_default(self, name):
         self.config_mgr[default_profile_name].cfg = copy.deepcopy(self.config_mgr[name].cfg)

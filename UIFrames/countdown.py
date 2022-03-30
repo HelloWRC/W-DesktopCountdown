@@ -102,6 +102,12 @@ class CountdownWin(QWidget):
         self.show()
         logging.info('loaded config of %s', self.cfg.filename)
 
+    @hook_target(path_root + 'win.unload')
+    @class_hook_target('unload')
+    def unload(self):
+        self.close()
+        self.em.unload_all()
+
     def set_window_title_visible(self, stat: bool):
         if stat:
             self.setWindowFlag(Qt.FramelessWindowHint, False)
