@@ -356,7 +356,7 @@ class CharmBase(QObject):
                 self.end_color = (359, self.end_color[1], self.end_color[2])
 
     def unload(self):
-        self.update_thread.stop()
+        self.update_thread.sig_stop.emit()
         self.clear_color()
 
     def update(self):

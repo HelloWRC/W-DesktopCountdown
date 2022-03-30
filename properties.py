@@ -1,5 +1,5 @@
-version = '0.4.5 alpha'
-version_code = '0.4.5a'
+version = 'pre 0.4.6 alpha'
+version_code = 'pre-0.4.6a'
 log_styles = '[%(asctime)s] [%(threadName)s/%(module)s.%(funcName)s(%(lineno)s)/%(levelname)s] %(message)s'
 datefmt = '%Y/%m/%d %H:%M:%S'
 work_root = './'
@@ -38,7 +38,8 @@ countdown_config_default = {
         'pos_y': 0,
         'show_title_bar': True,
         'no_background': False,
-        'mouse_tran': False
+        'mouse_tran': False,
+        'skip_taskbar': True
     },
     'countdown': {
         'start': 0,
@@ -86,7 +87,7 @@ default_widget_style = {
     'font': '',
     'color': '#FFFFFF',
     'border-radius': 0,
-    'border-width': 0,
+    'border-width': 1,
     'border-color': '#000000',
     'border-style': 'solid'
 }

@@ -12,7 +12,7 @@ import functions.countdown
 import properties
 from UIFrames.ui_countdown import Ui_Countdown
 from UIFrames.profile_config_ui import ProfileConfigUI
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QMessageBox
 from PyQt5.QtCore import QEvent, QObject, Qt, QThread, pyqtSignal
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QMouseEvent
@@ -59,7 +59,7 @@ class CountdownWin(QWidget):
         self.enabled = None
         for i in (
             self.ui.action_open_config,
-            self.ui.action_save_profile
+            self.ui.action_info
         ):
             self.addAction(i)
 
@@ -74,7 +74,8 @@ class CountdownWin(QWidget):
     def show(self) -> None:
         if not self.cfg.cfg['enabled']:
             return
-        self.update_thread.start()
+        if self.update_thread.stopped:
+            self.update_thread.start()
         super(CountdownWin, self).show()
 
     @hook_target(path_root + 'win.load_config')
@@ -92,12 +93,14 @@ class CountdownWin(QWidget):
         self.set_win_mode(self.cfg.cfg['window']['window_mode'])
         self.set_window_title_visible(self.cfg.cfg['window']['show_title_bar'])
         self.set_countdown_enabled(self.cfg.cfg['enabled'])
+        self.setWindowFlag(Qt.Tool, self.cfg.cfg['window']['skip_taskbar'])
 
         # self.setAttribute(Qt.WA_NoSystemBackground, True)
         self.update_content()
         self.write_config()
-        logging.info('loaded config of %s', self.cfg.filename)
         self.setStyleSheet(functions.appearance.mk_qss(self.cfg.cfg['style'], self.cfg.cfg['style_enabled']))
+        self.show()
+        logging.info('loaded config of %s', self.cfg.filename)
 
     def set_window_title_visible(self, stat: bool):
         if stat:
@@ -206,9 +209,9 @@ class CountdownWin(QWidget):
             self.config_ui.show()
 
     @pyqtSlot(bool)
-    def on_action_save_profile_triggered(self, trigger_type: bool):
+    def on_action_info_triggered(self, trigger_type: bool):
         if not trigger_type:
-            self.write_config()
+            QMessageBox.information(self, '操作说明', '鼠标双击 - 显示/隐藏标题栏\n鼠标右键 - 菜单\n鼠标拖拽可移动倒计时')
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
         self.drag_flag = True

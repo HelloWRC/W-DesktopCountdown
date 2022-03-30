@@ -180,6 +180,7 @@ class ProfileConfigUI(QWidget):
         self.ui.winsize_w.setValue(self.cfg.cfg['window']['width'])
         self.ui.cbl_win_mode.setCurrentIndex(self.cfg.cfg['window']['window_mode'] + 1)
         self.ui.cb_titlebar.setChecked(self.cfg.cfg['window']['show_title_bar'])
+        self.ui.cb_skip_taskbar.setChecked(self.cfg.cfg['window']['skip_taskbar'])
         # effects
         self.enabled_effects = list(self.cfg.cfg['effects'].keys())
         self.local_effect = copy.deepcopy(self.cfg.cfg['effects'])
@@ -242,6 +243,7 @@ class ProfileConfigUI(QWidget):
         self.cfg.cfg['window']['width'] = self.ui.winsize_w.value()
         self.cfg.cfg['window']['window_mode'] = self.ui.cbl_win_mode.currentIndex() - 1
         self.cfg.cfg['window']['show_title_bar'] = self.ui.cb_titlebar.isChecked()
+        self.cfg.cfg['window']['skip_taskbar'] = self.ui.cb_skip_taskbar.isChecked()
         # effects
         self.cfg.cfg['effects'] = copy.deepcopy(self.local_effect)
         # auto
@@ -346,6 +348,10 @@ class ProfileConfigUI(QWidget):
         for i in range(9):
             wid[i].setChecked(state_root[att[i]])
 
+        self.ui.cb_custom_border.setChecked(bool(self.ui.lb_border_style.isChecked() and
+                                                 self.ui.lb_border_size.isChecked() and
+                                                 self.ui.lb_border_color.isChecked()))
+
     def save_widget_style(self, widget):
         style_root = self.cfg.cfg['style'][widget]
         state_root = self.cfg.cfg['style_enabled'][widget]
@@ -388,6 +394,10 @@ class ProfileConfigUI(QWidget):
         colr_sel = QColorDialog.getColor(initial=QColor(self.ui.btn_bordercolor.text()), title='选择边框颜色')
         rgb = colr_sel.getRgb()
         self.ui.btn_bordercolor.setText(functions.appearance.rgb2hex(rgb[0], rgb[1], rgb[2]))
+
+    def on_cb_custom_border_stateChanged(self, state):
+        for i in (self.ui.lb_border_size, self.ui.lb_border_style, self.ui.lb_border_color):
+            i.setChecked(self.ui.cb_custom_border.isChecked())
 
     def on_btn_browse_bgpic_released(self):
         path = QFileDialog.getOpenFileName(self, '打开图片文件', filter='图片文件(*.png *.svg *.bmp *.jpg *.jpeg *.gif);;所有文件(*.*)')

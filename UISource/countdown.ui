@@ -144,6 +144,14 @@
     <string>将当前窗口的大小、位置保存到配置文件中</string>
    </property>
   </action>
+  <action name="action_info">
+   <property name="text">
+    <string>操作说明</string>
+   </property>
+   <property name="toolTip">
+    <string>查看操作说明</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../resources.qrc"/>
