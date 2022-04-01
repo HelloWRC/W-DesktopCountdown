@@ -27,7 +27,7 @@ import logging
 import threading as thd
 
 QEventLoopInit_Type = QEvent.registerEventType()
-ProfileUpdatedEvent = QEvent.registerEventType()
+ProfileUpdatedEvent: int = QEvent.registerEventType()
 ProfileFileEvent = QEvent.registerEventType()
 
 

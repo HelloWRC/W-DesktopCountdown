@@ -61,7 +61,7 @@ class ProfileMgr(QObject):
         self.profiles.insert(0, default_profile_name)
         self.config_mgr[default_profile_name] = ConfigFileMgr(profile_prefix + default_profile_name,
                                                               self.countdown_cfg_default)
-        self.config_mgr[default_profile_name].load()
+        self.config_mgr[default_profile_name].load(True, properties.countdown_skipped)
         self.config_ui[default_profile_name] = UIFrames.profile_config_ui.ProfileConfigUI(self.app,
                                                                                           default_profile_name,
                                                                                           self.config_mgr[
@@ -120,7 +120,7 @@ class ProfileMgr(QObject):
     def import_profile(self, path):
         logging.info('importing profile %s', path)
         cfm = ConfigFileMgr(path, self.countdown_cfg_default)
-        cfm.load()
+        cfm.load(True, properties.countdown_skipped)
         cfm.cfg['trusted'] = False
         name = cfm.cfg['countdown']['title']
         self.profiles.append(name)
@@ -178,7 +178,7 @@ class ProfileMgr(QObject):
         for i in self.profiles:
             if i == default_profile_name:
                 continue
-            self.config_mgr[i].mapping = self.config_mgr[default_profile_name].cfg
+            self.config_mgr[i].mapping = copy.deepcopy(self.config_mgr[default_profile_name].cfg)
 
 
 class Automate:
