@@ -134,7 +134,7 @@ default_auto_value = {
 
 default_config = {
     'basic': {
-        'splash': False,
+        'splash': True,
         'auto_start': False,
         'exp_flags': True
     },
@@ -186,3 +186,5 @@ DARK_THEME_TEMPLE = '''
   <color name="secondaryTextColor">#ffffff</color>
 </resources>
 '''
+
+countdown_skipped = ['effects', 'automate']

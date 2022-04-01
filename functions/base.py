@@ -2,6 +2,7 @@ import json
 import logging
 import os
 import platform
+import copy
 
 import properties
 from functions.hook import hook_target
@@ -18,14 +19,14 @@ def call_browser(link: str):
 
 
 @hook_target(path_root + 'default_pass')
-def default_pass(raw: dict, default_val: dict):
+def default_pass(raw: dict, default_val: dict, skipped: list = []):
     # print(default_val)
     for i in default_val.keys():
         logging.debug('now is %s', i)
         if i not in raw.keys():
-            raw[i] = default_val[i]
+            raw[i] = copy.deepcopy(default_val[i])
             logging.warning('%s not exists, set value as default %s', i, default_val[i])
-        if type(default_val[i]) == type(raw[i]) == dict:
+        if type(default_val[i]) == type(raw[i]) == dict and i not in skipped:
             raw[i] = default_pass(raw[i], default_val[i])
             logging.debug('go into %s', i)
     return raw
@@ -39,14 +40,16 @@ class ConfigFileMgr:
         self.cfg = {}
 
     @hook_target(path_root + 'ConfigFileMgr.load')
-    def load(self, default=True):
+    def load(self, default=True, skip=None):
+        if skip is None:
+            skip = []
         try:
             with open(self.filename, 'r') as cf:
                 self.cfg = json.load(cf)
         except FileNotFoundError:
             logging.warning('file %s not found! creating as default...', self.filename)
         if default:
-            self.cfg = default_pass(self.cfg, self.mapping)
+            self.cfg = default_pass(self.cfg, self.mapping, skip)
         self.write()
 
     @hook_target(path_root + 'ConfigFileMgr.write')

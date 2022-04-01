@@ -81,7 +81,7 @@ class CountdownWin(QWidget):
     @hook_target(path_root + 'win.load_config')
     @class_hook_target('load_config')
     def load_config(self):
-        self.cfg.load()
+        self.cfg.load(True, properties.countdown_skipped)
         self.auto_mgr.load_config(self.cfg.cfg['automate'], bool(self.cfg.cfg['automate_enabled'] and self.cfg.cfg['trusted']))
         self.em.load_config(self.cfg.cfg['effects'])
         # 应用配置
@@ -243,7 +243,7 @@ class UpdateThread(QThread):
     @hook_target(path_root + 'upd_thread.__init__')
     def __init__(self):
         super(UpdateThread, self).__init__()
-        self.stopped = False
+        self.stopped = True
         self.sig_stop.connect(self.stop)
 
     @hook_target(path_root + 'upd_thread.run')
