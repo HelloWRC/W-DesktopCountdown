@@ -4,9 +4,22 @@ import sys
 import properties
 import wcdapp as wdcd_app
 import logging
+import UIFrames.crash_handle
 from PyQt5.QtCore import QEvent
 
+
+global ch
+global app
+
+
+def exception_hook(exctype, value, traceback):
+    global ch
+    ch = UIFrames.crash_handle.CrashHandle(exctype, value, traceback)
+    ch.show()
+
+
 if __name__ == "__main__":
+    sys.excepthook = exception_hook
     logging.basicConfig(level=logging.INFO,
                         format=properties.log_styles,
                         datefmt=properties.datefmt,

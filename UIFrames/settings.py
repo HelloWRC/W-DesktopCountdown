@@ -170,3 +170,5 @@ class Settings(QWidget):
         self.cfg['appearance']['color_theme']['color'] = self.ui.btn_selcolor.text()
         self.cfg['appearance']['custom_font'] = self.ui.cb_custom_font.currentFont().family()
 
+    def on_btn_crash_released(self):
+        raise RuntimeError
