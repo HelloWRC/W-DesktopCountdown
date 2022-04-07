@@ -29,20 +29,33 @@ def exception_hook(exctype, value, traceback):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument('-v', '--version', help='Print application version information.', action='store_true')
+    parser.add_argument('-vid', '--version-id', help='Print application version ID.', action='store_true')
     parser.add_argument('-c', '--no-crash-handler', help='Disable the crash handler.', action='store_true')
     parser.add_argument('-d', '--dev', help="Enable developers' features.", action='store_true')
-    parser.add_argument('-e', '--experiment-feature', help='Enable some experiment feature', action='store_true')
+    parser.add_argument('-e', '--experiment-feature', help='Enable some experiment feature.', action='store_true')
     parser.add_argument('-t', '--no-theme', help='Disable theme', action='store_true')
     parser.add_argument('-p', '--no-plugins', help='Disable plugins', action='store_true')
     parser.add_argument('-r', '--recovery', help='Enter recovery mode', action='store_true')
     parser.add_argument('-u1', '--update-overwrite', help='Update overwrite target')
     parser.add_argument('-u2', '--update-remove', help='Remove update file')
+    arg = parser.parse_args()
+
+    if arg.version:
+        print('W-DesktopCountdown {} ({}) ({})'.format(properties.version, properties.version_code, properties.version_id))
+        print('https://github.com/HelloWRC/W-DesktopCountdown')
+        exit(0)
+
+    if arg.version_id:
+        print(properties.version_id)
+        exit(0)
+
+    properties.exp_flags = arg.experiment_feature
 
     for i in (properties.profile_prefix, properties.plugins_prefix, properties.cache_prefix, properties.log_root):
         if not os.path.exists(i):
             os.mkdir(i)
 
-    arg = parser.parse_args()
     dated_file_handler = logging.FileHandler(time.strftime(properties.log_file_fmt, time.localtime(time.time())),
                                              mode='w')
     latest_file_handler = logging.FileHandler(properties.latest_log_file_fmt, mode='w')

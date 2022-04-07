@@ -53,6 +53,8 @@ class Settings(QWidget):
         self.ui.lb_logo.setScaledContents(True)
         self.ui.lb_logo.setFixedSize(64, 64)
         self.ui.lb_logo.setPixmap(QPixmap(":/resources/icons/colorful/logo.svg"))
+        if not self.app.arg.dev:
+            self.ui.tabWidget.removeTab(5)
         self.__finished_init = True
 
     def on_btn_opensource_released(self):

@@ -1,5 +1,7 @@
 version = '0.5.0 beta'
 version_code = '0.5.0b'
+version_id = 50005
+
 log_styles = '[%(asctime)s] [%(threadName)s/%(module)s.%(funcName)s(%(lineno)s)/%(levelname)s] %(message)s'
 datefmt = '%Y/%m/%d %H:%M:%S'
 work_root = './'
@@ -160,6 +162,19 @@ default_config = {
     },
     'plugins': {
 
+    },
+    'update': {
+        'last_checked': 0,
+        'download': {
+            'source': '',
+            'branch': '',
+            'channel': ''
+        },
+        'auto_update': {
+            'auto_check': True,
+            'auto_download': True,
+            'auto_install': False
+        }
     }
 }
 

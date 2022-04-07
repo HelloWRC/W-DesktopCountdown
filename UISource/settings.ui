@@ -448,34 +448,34 @@ p, li { white-space: pre-wrap; }
            <string>更新设置</string>
           </attribute>
           <layout class="QFormLayout" name="formLayout_3">
-           <item row="0" column="0">
+           <item row="1" column="0">
             <widget class="QLabel" name="label_4">
              <property name="text">
               <string>更新分支</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
+           <item row="1" column="1">
             <widget class="QComboBox" name="comboBox"/>
            </item>
-           <item row="1" column="0">
+           <item row="2" column="0">
             <widget class="QLabel" name="label_6">
              <property name="text">
               <string>发布频道</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
+           <item row="2" column="1">
             <widget class="QComboBox" name="comboBox_2"/>
            </item>
-           <item row="2" column="0" colspan="2">
+           <item row="3" column="0" colspan="2">
             <widget class="QPushButton" name="pushButton_4">
              <property name="text">
               <string>强制更新到选定分支和频道的最新版本</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="0" colspan="2">
+           <item row="4" column="0" colspan="2">
             <widget class="QLabel" name="label_7">
              <property name="text">
               <string>如果当前版本比此分支和频道的最新版本新，您可以使用此选项退回到这里的最新版本，或者是等待此分支更新到比当前版本更新的版本。</string>
@@ -485,7 +485,7 @@ p, li { white-space: pre-wrap; }
              </property>
             </widget>
            </item>
-           <item row="4" column="0" colspan="2">
+           <item row="5" column="0" colspan="2">
             <widget class="Line" name="line">
              <property name="minimumSize">
               <size>
@@ -498,24 +498,38 @@ p, li { white-space: pre-wrap; }
              </property>
             </widget>
            </item>
-           <item row="5" column="0" colspan="2">
+           <item row="6" column="0" colspan="2">
             <widget class="QCheckBox" name="checkBox">
              <property name="text">
               <string>自动检查更新</string>
              </property>
             </widget>
            </item>
-           <item row="6" column="0" colspan="2">
+           <item row="7" column="0" colspan="2">
             <widget class="QCheckBox" name="checkBox_2">
              <property name="text">
               <string>自动下载更新</string>
              </property>
             </widget>
            </item>
-           <item row="7" column="0" colspan="2">
+           <item row="8" column="0" colspan="2">
             <widget class="QCheckBox" name="checkBox_3">
              <property name="text">
               <string>自动安装更新</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>下载源</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="pushButton_8">
+             <property name="text">
+              <string/>
              </property>
             </widget>
            </item>
@@ -790,13 +804,6 @@ p, li { white-space: pre-wrap; }
        <string>开发者选项</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout_4">
-       <item row="3" column="0" colspan="2">
-        <widget class="QPushButton" name="btn_crash">
-         <property name="text">
-          <string>制造崩溃</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="label_9">
          <property name="text">
@@ -805,29 +812,30 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="1" column="0" colspan="2">
-        <widget class="QPushButton" name="btn_disable_dev">
+        <widget class="QPushButton" name="btn_crash">
          <property name="text">
-          <string>关闭开发人员选项</string>
+          <string>制造崩溃</string>
          </property>
         </widget>
        </item>
        <item row="2" column="0" colspan="2">
-        <widget class="Line" name="line_2">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
+        <widget class="QPushButton" name="pushButton_5">
+         <property name="text">
+          <string>检查界面</string>
          </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QPushButton" name="pushButton_6">
+         <property name="text">
+          <string>安装本地更新</string>
          </property>
         </widget>
        </item>
        <item row="4" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_5">
+        <widget class="QPushButton" name="pushButton_7">
          <property name="text">
-          <string>检查界面</string>
+          <string>下载自定义更新</string>
          </property>
         </widget>
        </item>
