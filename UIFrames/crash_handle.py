@@ -37,11 +37,18 @@ APP version: {}
                    platform.python_version(),
                    properties.version
                    )
+        report_file = '''W-DesktopCountdown遇到了无法解决的问题，导致崩溃。请将本问题反馈到github.com/HelloWRC/W-DesktopCountdown/issues。反馈时请将日志文件和本崩溃报告一并提交。
+日志文件在本目录下的latest.log。
+
+#====== 崩溃报告 ======#
+{}
+        '''.format(report)
         self.setWindowFlag(Qt.WindowCloseButtonHint, False)
         self.setWindowFlag(Qt.WindowTitleHint, False)
         logging.critical('#------ Application Crashed! ------#\n%s', report)
         self.ui.tb_crash_info.setText(report)
-
+        with open(properties.log_root + 'crash.txt', 'w') as crash:
+            crash.write(report_file)
 
     def on_btn_feedback_released(self):
         functions.base.call_browser('https://github.com/HelloWRC/W-DesktopCountdown/issues')
@@ -56,4 +63,4 @@ APP version: {}
             self.close()
 
     def on_btn_show_log_released(self):
-        os.startfile('latest.log')
+        os.startfile(properties.latest_log_file_fmt)

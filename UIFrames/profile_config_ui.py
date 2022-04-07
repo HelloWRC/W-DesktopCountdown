@@ -71,7 +71,7 @@ class ProfileConfigUI(QWidget):
     def eventFilter(self, target, event: QEvent) -> bool:
         if event.type() == event.MouseButtonPress:
             if time.time() - self.last_sel_time >= 0.0001:
-                print(target, event)
+                logging.debug('Clicked widget: %s', target)
                 for i in range(len(self.widgets)):
                     if self.widgets[i] is target:
                         self.ui.cb_widgets.setCurrentIndex(i)

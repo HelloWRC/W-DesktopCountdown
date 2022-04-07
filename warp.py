@@ -13,12 +13,18 @@ from PyQt5.QtCore import QEvent
 
 global ch
 global app
+app = None
 
 
 def exception_hook(exctype, value, traceback):
     global ch
+    global app
     ch = UIFrames.crash_handle.CrashHandle(exctype, value, traceback)
-    ch.show()
+    if app is not None:
+        ch.show()
+    else:
+        os.startfile(os.getcwd() + '/' + properties.log_root + 'crash.txt')
+        os.startfile(os.getcwd() + '/' + properties.latest_log_file_fmt)
 
 
 if __name__ == "__main__":
@@ -28,6 +34,9 @@ if __name__ == "__main__":
     parser.add_argument('-e', '--experiment-feature', help='Enable some experiment feature', action='store_true')
     parser.add_argument('-t', '--no-theme', help='Disable theme', action='store_true')
     parser.add_argument('-p', '--no-plugins', help='Disable plugins', action='store_true')
+    parser.add_argument('-r', '--recovery', help='Enter recovery mode', action='store_true')
+    parser.add_argument('-u1', '--update-overwrite', help='Update overwrite target')
+    parser.add_argument('-u2', '--update-remove', help='Remove update file')
 
     for i in (properties.profile_prefix, properties.plugins_prefix, properties.cache_prefix, properties.log_root):
         if not os.path.exists(i):
@@ -37,24 +46,21 @@ if __name__ == "__main__":
     dated_file_handler = logging.FileHandler(time.strftime(properties.log_file_fmt, time.localtime(time.time())),
                                              mode='w')
     latest_file_handler = logging.FileHandler(properties.latest_log_file_fmt, mode='w')
-    debug_file_handler = logging.FileHandler(properties.debug_log_file_fmt, mode='w')
-    debug_file_handler.setLevel(logging.DEBUG)
     console_handler = logging.StreamHandler()
+
+    log_level = logging.INFO
 
     if arg.dev:
         arg.no_crash_handler = True
         arg.experiment_feature = True
-        console_handler.setLevel(logging.DEBUG)
-    else:
-        console_handler.setLevel(logging.INFO)
 
     if not arg.no_crash_handler:
         sys.excepthook = exception_hook
 
-    logging.basicConfig(level=logging.INFO,
-                        format=properties.log_styles,
+    logging.basicConfig(format=properties.log_styles,
+                        level=log_level,
                         datefmt=properties.datefmt,
-                        handlers=(console_handler, dated_file_handler, latest_file_handler, debug_file_handler))
+                        handlers=(console_handler, dated_file_handler, latest_file_handler))
     logger = logging.getLogger(__name__)
     logger.info('Welcome to W-DesktopCountdown %s.', properties.version)
     app = wdcd_app.WDesktopCD([], logger, arg)
