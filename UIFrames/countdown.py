@@ -166,8 +166,6 @@ class CountdownWin(QWidget):
             else:
                 self.ui.progressBar.setValue(int(time.time() - self.cfg.cfg['countdown']['start']))
         self.auto_mgr.update()
-        painter = QPainter(self)
-        painter.setBackgroundMode(0)
 
     @hook_target(path_root + 'win.eventFilter')
     @class_hook_target('eventFilter')
@@ -182,9 +180,6 @@ class CountdownWin(QWidget):
         # print(watched, event)
         self.em.on_event(watched, event)
         return super(CountdownWin, self).eventFilter(watched, event)
-
-    def paintEvent(self, event):
-        pass
 
     def set_win_mode(self, level: int):
         """

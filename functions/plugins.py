@@ -99,6 +99,7 @@ class Plugin:
             self.app.tray.menu.addActions(self.module.app_menu_actions)
             self.tray_actions = self.module.app_menu_actions
 
+        logging.info('v2 loading plugin %s', self.plugin_id)
         self.plugin_info_ui = UIFrames.plugin_info.PluginInfo(self)
         if 'on_appinit_p2' in dir(self.module):
             self.module.on_appinit_p2(self.app)
@@ -131,6 +132,9 @@ class PluginMgr:
             os.mkdir(properties.plugins_prefix)
         sys.path.append(os.getcwd())
 
+        if self.app.arg.no_plugins:
+            self.plugins = []
+            return
         self.plugins = [Plugin(self.app, 'data')]
         status = 10
         if (len(os.listdir(properties.plugins_prefix)) - 1) > 0:
@@ -151,11 +155,13 @@ class PluginMgr:
     @hook_target(path_root + 'PluginMgr.load_v2')
     def load_v2(self):
         status = 85
+        if len(self.plugins) == 0:
+            return
         step = 15 / len(self.plugins)
         for i in self.plugins:
+            self.app.splash.update_status(status, '正在第二阶段加载插件：{}'.format(i.plugin_id))
             i.load_v2()
             status += step
-            self.app.splash.update_status(status, '完成插件第二阶段加载：{}'.format(i.plugin_id))
 
     def on_countdown_created(self, countdown):
         for i in self.plugins:

@@ -19,7 +19,7 @@ class CrashHandle(QWidget):
         QWidget.__init__(self)
         self.ui = Ui_CrashHandle()
         self.ui.setupUi(self)
-        print(exctype, value, tb)
+        # print(exctype, value, tb)
         report = '''
 Traceback (most recent call last):
 {}{}: {}

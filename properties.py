@@ -7,6 +7,10 @@ profile_prefix = work_root + 'profiles/'
 qss_prefix = work_root + 'qss-styles/'
 plugins_prefix = work_root + 'plugins/'
 cache_prefix = work_root + 'cache/'
+log_root = 'logs/'
+log_file_fmt = log_root + '%Y-%m-%d %H-%M-%S.log'
+latest_log_file_fmt = log_root + 'latest.log'
+debug_log_file_fmt = log_root + 'debug.log'
 default_profile_name = '@@_default_@@.json'
 
 extra_ui_cfg = {'font_family': 'Microsoft YaHei UI',

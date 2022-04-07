@@ -35,11 +35,12 @@ class WDesktopCD(QApplication):
     sig_phase2_triggered = pyqtSignal()
 
     @hook_target('wdcd_app.init_v1')
-    def __init__(self, argv, logger: logging.Logger):
+    def __init__(self, argv, logger: logging.Logger, arg):
         # 程序开始，初始化基本套件
         super().__init__(argv)
         logging.info('----------# INIT PHASE 1 #----------')
         self.processEvents()
+        self.arg = arg
         self.starttime = time.time()
         self.app_cfg = functions.base.ConfigFileMgr('settings.json', properties.default_config)
         self.app_cfg.load()
@@ -85,7 +86,7 @@ class WDesktopCD(QApplication):
         #                                                                      CountdownWin.countdown_config_default))
         self.p2_time = time.time() - self.starttime - self.p1_time
         self.final_time = time.time() - self.starttime
-        print('加载时间：{}s，p1：{}s，p2：{}s'.format(self.final_time, self.p1_time, self.p2_time))
+        # print('加载时间：{}s，p1：{}s，p2：{}s'.format(self.final_time, self.p1_time, self.p2_time))
         self.splash.update_status(100, '完成')
         self.splash.close()
         self.logger.info('----------# INIT DONE #----------')
@@ -95,6 +96,9 @@ class WDesktopCD(QApplication):
 
     @hook_target('wdcd_app.update_theme')
     def update_theme(self, config=None):
+        if self.arg.no_theme:
+            return
+
         logging.info('Updating app theme')
         if config is None:
             config = self.app_cfg.cfg
@@ -125,7 +129,7 @@ class WDesktopCD(QApplication):
         QIcon.setThemeName('breeze-{}'.format(properties.ld_themes[config['appearance']['ld_style']]))
 
     @hook_target('wdcd_app.quit')
-    def quit(self, stat) -> None:
+    def quit(self, stat=None) -> None:
         logging.info('Stopping!')
         self.plugin_mgr.on_app_quit()
         self.profile_mgr.unload_all()

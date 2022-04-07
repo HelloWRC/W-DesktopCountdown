@@ -644,19 +644,6 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="lb_platform">
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;运行平台：{}&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-             <property name="textInteractionFlags">
-              <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QLabel" name="lb_driver">
              <property name="text">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;由&lt;/span&gt;&lt;a href=&quot;python.org&quot;&gt;&lt;span style=&quot; font-size:11pt; text-decoration: underline; color:#007af4;&quot;&gt;Python&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;和&lt;/span&gt;&lt;a href=&quot;qt.io&quot;&gt;&lt;span style=&quot; font-size:11pt; text-decoration: underline; color:#007af4;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;强力驱动。&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -726,6 +713,19 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
+            <widget class="QLabel" name="lb_platform">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;运行平台：{}&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+             </property>
+            </widget>
+           </item>
+           <item>
             <spacer name="verticalSpacer_3">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -787,20 +787,47 @@ p, li { white-space: pre-wrap; }
      </widget>
      <widget class="QWidget" name="tab_dev">
       <attribute name="title">
-       <string>调试</string>
+       <string>开发者选项</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout_4">
-       <item row="0" column="0">
+       <item row="3" column="0" colspan="2">
+        <widget class="QPushButton" name="btn_crash">
+         <property name="text">
+          <string>制造崩溃</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="label_9">
          <property name="text">
-          <string>开发人员选项。{}</string>
+          <string>开发人员选项，请慎重使用。</string>
          </property>
         </widget>
        </item>
        <item row="1" column="0" colspan="2">
-        <widget class="QPushButton" name="btn_crash">
+        <widget class="QPushButton" name="btn_disable_dev">
          <property name="text">
-          <string>制造崩溃</string>
+          <string>关闭开发人员选项</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="Line" name="line_2">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QPushButton" name="pushButton_5">
+         <property name="text">
+          <string>检查界面</string>
          </property>
         </widget>
        </item>
