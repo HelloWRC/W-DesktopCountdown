@@ -1,4 +1,6 @@
 import os.path
+import shutil
+import sys
 
 from PyQt5.Qt import QApplication
 from PyQt5.QtCore import pyqtSignal
@@ -39,15 +41,21 @@ class WDesktopCD(QApplication):
         # 程序开始，初始化基本套件
         super().__init__(argv)
         logging.info('----------# INIT PHASE 1 #----------')
+        self.splash = UIFrames.splash.Splash(self)
+        self.splash.show()
+        self.splash.update_status(10, '初始化…')
         self.processEvents()
+
+        # Enter update
+        if arg.update_overwrite is not None:
+            self.install_update(arg.update_overwrite, arg.update_last_version)
+            sys.exit(0)
+
         self.arg = arg
         self.starttime = time.time()
         self.app_cfg = functions.base.ConfigFileMgr('settings.json', properties.default_config)
         self.app_cfg.load()
-        self.splash = UIFrames.splash.Splash(self)
-        if self.app_cfg.cfg['basic']['splash']:
-            self.splash.show()
-        self.splash.update_status(10, '初始化…')
+
 
         if not os.path.exists(properties.cache_prefix):
             os.mkdir(properties.cache_prefix)
@@ -64,6 +72,7 @@ class WDesktopCD(QApplication):
         self.plugin_mgr = functions.plugins.PluginMgr(self)
         self.p1_time = time.time() - self.starttime
         # self.splash.update_status(30, '第一阶段初始化完成')
+
 
     @hook_target('wdcd_app.init_v2')
     def init_phase2(self):
@@ -91,6 +100,23 @@ class WDesktopCD(QApplication):
         self.splash.close()
         self.logger.info('----------# INIT DONE #----------')
 
+    def install_update(self, update_overwrite, update_last_version):
+        if not os.path.exists(update_overwrite):
+            logging.error('Raw file not exists: %s', update_overwrite)
+            return
+
+        logging.info('Installing update...(raw file: %s) (%s -> %s)', update_overwrite, update_last_version,
+                     properties.version_id)
+        logging.info('Backup file: %s -> %s', update_overwrite, update_overwrite + '.bak')
+        self.splash.update_status(20, '正在备份文件…')
+        shutil.copy(update_overwrite, update_overwrite + '.bak')
+        logging.info('Copying file: %s -> %s', sys.argv[0], update_overwrite)
+        self.splash.update_status(40, '正在复制文件…')
+        shutil.copy(sys.argv[0], update_overwrite)
+        logging.info('Checking file: %s', update_overwrite)
+        self.splash.update_status(80, '正在完成更新')
+        os.remove(update_overwrite + '.bak')
+        
     def on_tray_clicked(self, reason):
         logging.debug('tray clicked, reason: %s', reason)
 
@@ -131,6 +157,7 @@ class WDesktopCD(QApplication):
     @hook_target('wdcd_app.quit')
     def quit(self, stat=None) -> None:
         logging.info('Stopping!')
-        self.plugin_mgr.on_app_quit()
-        self.profile_mgr.unload_all()
+        if 'plugin_mgr' in dir(self) and 'profile_mgr' in dir(self):
+            self.plugin_mgr.on_app_quit()
+            self.profile_mgr.unload_all()
         super(WDesktopCD, self).quit()

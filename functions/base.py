@@ -73,6 +73,10 @@ class ConfigFileMgr:
         self.write()
 
 
+class UpdateMgr:
+    pass
+
+
 @hook_target(path_root + 'filename_chk')
 def filename_chk(name):
     if name == '':

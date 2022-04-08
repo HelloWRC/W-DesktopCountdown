@@ -39,6 +39,7 @@ if __name__ == "__main__":
     parser.add_argument('-r', '--recovery', help='Enter recovery mode', action='store_true')
     parser.add_argument('-u1', '--update-overwrite', help='Update overwrite target')
     parser.add_argument('-u2', '--update-remove', help='Remove update file')
+    parser.add_argument('-ulv', '--update-last-version', help='Last version id')
     arg = parser.parse_args()
 
     if arg.version:
