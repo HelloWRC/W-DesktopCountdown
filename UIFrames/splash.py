@@ -26,7 +26,7 @@ class Splash(QWidget):
         self.ui.logo.setFixedSize(150, 150)
         self.ui.logo.setPixmap(QPixmap(":/resources/icons/colorful/logo.svg"))
         self.setWindowFlag(Qt.FramelessWindowHint, True)
-        self.setWindowFlag(Qt.WindowStaysOnTopHint, True)
+        self.setWindowFlag(Qt.Tool, True)
 
     @hook_target('Splash.update_status')
     def update_status(self, process: int, text: str = None):

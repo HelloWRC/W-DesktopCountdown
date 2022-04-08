@@ -4,6 +4,8 @@ import os
 import platform
 import copy
 
+import win32file
+
 import properties
 from functions.hook import hook_target
 
