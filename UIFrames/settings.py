@@ -2,6 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QMenu, QAction
 from PyQt5.QtWidgets import QListWidgetItem
+from PyQt5.QtWidgets import QProgressDialog
 from PyQt5.QtGui import QFont
 from PyQt5.QtGui import QColor
 from PyQt5.QtGui import QPixmap
@@ -38,7 +39,7 @@ class Settings(QWidget):
         self.ui.setupUi(self)
         self.plug_func_menu = QMenu()
         self.ui.btn_plug_func.setMenu(self.plug_func_menu)
-        self.ui.lb_version.setText(self.ui.lb_version.text().format(properties.version))
+        self.ui.lb_version.setText(self.ui.lb_version.text().format(properties.version, properties.version_id))
         self.ui.lb_platform.setText(self.ui.lb_platform.text().format('Python {} on {}'.format(
             platform.python_version(),
             platform.platform())))
@@ -100,7 +101,13 @@ class Settings(QWidget):
         self.app.plugin_mgr.plugins[self.ui.lst_plugins.currentRow()].plugin_info_ui.show()
 
     def on_btn_log_released(self):
-        os.startfile('latest.log')
+        os.startfile(os.getcwd() + '/' + properties.latest_log_file_fmt)
+
+    def on_btn_log_folder_released(self):
+        os.startfile(os.getcwd() + '/' + properties.log_root)
+
+    def on_btn_crash_report_released(self):
+        os.startfile(os.getcwd() + '/' + properties.log_root + 'crash.txt')
 
     def update_theme(self):
         if not self.__finished_init:
@@ -157,6 +164,8 @@ class Settings(QWidget):
             item = QListWidgetItem(i.plugin_name)
             item.setToolTip(i.description)
             self.ui.lst_plugins.addItem(item)
+        # crash
+        self.ui.btn_crash_report.setEnabled(os.path.exists(properties.log_root + 'crash.txt'))
 
     def save_val(self):
         # basic

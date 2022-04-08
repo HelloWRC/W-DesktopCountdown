@@ -68,8 +68,8 @@ class ProfileMgr(QObject):
                                                                                               default_profile_name],
                                                                                           default_cfg=True)
         status = 50
-        if (len(self.profiles) - 1) > 0:
-            step = 35 / (len(self.profiles) - 1)
+        if len(self.profiles) > 0:
+            step = 35 / len(self.profiles)
         else:
             step = 35
         for i in self.profiles:
