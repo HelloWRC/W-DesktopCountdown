@@ -3,10 +3,13 @@ import logging
 import os
 import platform
 import copy
+import subprocess
+import sys
 
 import win32file
 
 import properties
+import wcdapp
 from functions.hook import hook_target
 
 path_root = 'functions.base.'
@@ -76,7 +79,30 @@ class ConfigFileMgr:
 
 
 class UpdateMgr:
-    pass
+    def __init__(self, app, config):
+        self.app: wcdapp.WDesktopCD = app
+        self.cfg = config
+        self.source_co = ConfigFileMgr(properties.cache_prefix + 'meta.json', properties.update_meta_default)
+        self.source_co.load()
+        self.source = self.source_co.cfg
+
+        self.restart_to_update = None
+
+    def install_update(self):
+        pass
+
+    def check_update(self):
+        pass
+
+    def refresh_source(self):
+        pass
+
+    def load_config(self, config):
+        self.cfg = config
+
+    def update_progress(self):
+        if self.restart_to_update is not None:
+            subprocess.Popen('{} -u1 {} -ulv {}'.format(self.restart_to_update, sys.argv[0], properties.version_id))
 
 
 @hook_target(path_root + 'filename_chk')

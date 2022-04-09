@@ -46,9 +46,11 @@ class WDesktopCD(QApplication):
         self.splash.show()
         self.splash.update_status(10, '初始化…')
         self.processEvents()
+        self.full_mode = True
 
         # Enter update
         if arg.update_overwrite is not None:
+            self.full_mode = False
             self.install_update(arg.update_overwrite, arg.update_last_version)
             if os.path.exists(arg.update_overwrite):
                 sub = subprocess.Popen('{} -u2 {} -ulv {}'.format(arg.update_overwrite, sys.argv[0], arg.update_last_version))
@@ -60,7 +62,7 @@ class WDesktopCD(QApplication):
         self.starttime = time.time()
         self.app_cfg = functions.base.ConfigFileMgr('settings.json', properties.default_config)
         self.app_cfg.load()
-
+        self.update_mgr = functions.base.UpdateMgr(self, self.app_cfg.cfg)
 
         if not os.path.exists(properties.cache_prefix):
             os.mkdir(properties.cache_prefix)
@@ -174,7 +176,9 @@ class WDesktopCD(QApplication):
     @hook_target('wdcd_app.quit')
     def quit(self, stat=None) -> None:
         logging.info('Stopping!')
-        if 'plugin_mgr' in dir(self) and 'profile_mgr' in dir(self):
+        if self.full_mode:
+            self.app_cfg.write()
             self.plugin_mgr.on_app_quit()
             self.profile_mgr.unload_all()
+            self.update_mgr.update_progress()
         super(WDesktopCD, self).quit()

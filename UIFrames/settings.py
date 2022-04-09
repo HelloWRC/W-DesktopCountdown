@@ -11,6 +11,7 @@ from PyQt5.QtCore import QEvent
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import QColorDialog
+from PyQt5.QtWidgets import QInputDialog
 from PyQt5.Qt import pyqtSignal
 
 import functions.appearance
@@ -45,7 +46,7 @@ class Settings(QWidget):
             platform.platform())))
         for i in properties.default_colors:
             self.ui.cb_colortheme.addItem(i)
-        # self.ui.tb_thanks.setSource(QUrl('qrc:///res/doc/contributors.md'), 4)
+        self.ui.tb_thanks.setSource(QUrl('qrc://resources/doc/contributors.md'), 4)
         self.ui.cb_custom_font.setFont(QFont(self.cfg['appearance']['custom_font']))
         self.load_val()
         self.click_count = 0
@@ -108,6 +109,10 @@ class Settings(QWidget):
 
     def on_btn_crash_report_released(self):
         os.startfile(os.getcwd() + '/' + properties.log_root + 'crash.txt')
+
+    def on_btn_install_local_update_released(self):
+        self.app.update_mgr.restart_to_update = QInputDialog.getText(self, '自定义更新文件', '输入自定义更新文件的文件名（需要文件后缀）。完成后应用会马上重启并更新。')[0]
+        self.app.quit()
 
     def update_theme(self):
         if not self.__finished_init:

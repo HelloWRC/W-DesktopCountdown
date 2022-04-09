@@ -840,23 +840,16 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="2" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_5">
+        <widget class="QPushButton" name="btn_check_ui">
          <property name="text">
           <string>检查界面</string>
          </property>
         </widget>
        </item>
        <item row="3" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_6">
+        <widget class="QPushButton" name="btn_install_local_update">
          <property name="text">
           <string>安装本地更新</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_7">
-         <property name="text">
-          <string>下载自定义更新</string>
          </property>
         </widget>
        </item>

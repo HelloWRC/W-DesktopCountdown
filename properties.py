@@ -1,6 +1,7 @@
 version = '0.5.1 beta'
 version_code = '0.5.1b'
-version_id = 50102
+version_id = 50104
+app_uuid = '721A9FA1-351A-B68A-AE4B-52E9B9460144'
 
 log_styles = '[%(asctime)s] [%(threadName)s/%(module)s.%(funcName)s(%(lineno)s)/%(levelname)s] %(message)s'
 datefmt = '%Y/%m/%d %H:%M:%S'
@@ -10,6 +11,8 @@ qss_prefix = work_root + 'qss-styles/'
 plugins_prefix = work_root + 'plugins/'
 cache_prefix = work_root + 'cache/'
 log_root = 'logs/'
+update_prefix = cache_prefix + 'update/'
+
 log_file_fmt = log_root + '%Y-%m-%d %H-%M-%S.log'
 latest_log_file_fmt = log_root + 'latest.log'
 debug_log_file_fmt = log_root + 'debug.log'
@@ -109,7 +112,6 @@ default_widget_enabled = {
     'border-width': False,
     'border-color': False,
     'border-style': False
-
 }
 
 countdown_widget_id = [
@@ -125,6 +127,13 @@ countdown_widget_id = [
 countdown_widget_name = [
     '倒计时背景', '文字：倒计时标题', '文字：结束日期', '文字：“距离”', '文字：“还有”', '倒计时文字', '进度条'
 ]
+
+update_meta_default = {
+    'name': 'W-DesktopCountdown',
+    'uuid': app_uuid,
+    'last_updated': 0,
+    'branches': {}
+}
 
 default_automate_section = {
     'name': '',
@@ -207,3 +216,5 @@ DARK_THEME_TEMPLE = '''
 '''
 
 countdown_skipped = ['effects', 'automate']
+
+update_source = ''
