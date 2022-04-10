@@ -104,7 +104,9 @@ class UpdateMgr(QObject):
         self.source = self.source_co.cfg
         self.status = self.UnChecked
         self.latest_version = None
+        self.download_target = ''
         self.downloading = False
+        self.download_thread = UpdateThread(lambda: self.download_update(self.download_target))
 
         self.restart_to_update = None
 
@@ -143,6 +145,13 @@ class UpdateMgr(QObject):
 
     def load_config(self, config):
         self.cfg = config
+        branch = self.cfg['download']['branch']
+        channel = self.cfg['download']['channel']
+        if branch != '' and channel != '':
+            version = self.source['branches'][branch]['channels'][channel]['version']
+            self.download_target = self.source['versions'][version]['download']
+        else:
+            self.download_target = ''
 
         if self.can_update():
             self.status = self.cfg['status']
@@ -152,10 +161,9 @@ class UpdateMgr(QObject):
     def save_config(self):
         self.cfg['status'] = self.status
 
-    def restart_to_update(self, path=None):
-        if path is None:
-            path = self.cfg['']
+    def post_restart_to_update(self, path=None):
         self.restart_to_update = path
+        self.app.quit()
 
     def update_progress(self):
         if self.restart_to_update is not None:
@@ -171,7 +179,7 @@ class UpdateMgr(QObject):
             self.downloading = False
             return
 
-        with open('update.zip', 'wb') as upd:
+        with open('update.exe', 'wb') as upd:
             for i in rq.iter_content(32):
                 upd.write(i)
 
@@ -186,8 +194,12 @@ class UpdateMgr(QObject):
 class UpdateThread(QThread):
     sig_update = pyqtSignal()
 
-    def __init__(self):
+    def __init__(self, target):
         super(UpdateThread, self).__init__()
+        self.sig_update.connect(target)
+
+    def run(self) -> None:
+        self.sig_update.emit()
 
 
 @hook_target(path_root + 'filename_chk')

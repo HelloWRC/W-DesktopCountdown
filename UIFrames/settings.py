@@ -131,6 +131,13 @@ class Settings(QWidget):
             logging.error('Could not refresh update metadata. %s', exp)
             QMessageBox.critical(self, '获取更新信息失败', '获取更新信息失败，请稍后再试。{}'.format(exp))
 
+    def on_btn_update_now_released(self):
+        self.save_val()
+        self.load_val()
+        self.app.update_mgr.download_thread.start()
+        self.app.update_mgr.download_thread.wait()
+        self.app.update_mgr.post_restart_to_update('update.exe')
+
     def update_theme(self):
         if not self.__finished_init:
             return
