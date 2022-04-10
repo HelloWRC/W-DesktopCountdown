@@ -1,3 +1,6 @@
+import logging
+
+import requests
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QMenu, QAction
@@ -12,6 +15,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import QColorDialog
 from PyQt5.QtWidgets import QInputDialog
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.Qt import pyqtSignal
 
 import functions.appearance
@@ -114,6 +118,19 @@ class Settings(QWidget):
         self.app.update_mgr.restart_to_update = QInputDialog.getText(self, '自定义更新文件', '输入自定义更新文件的文件名（需要文件后缀）。完成后应用会马上重启并更新。')[0]
         self.app.quit()
 
+    def on_btn_dbg_download_update_released(self):
+        self.app.update_mgr.download_update(QInputDialog.getText(self, '测试下载更新', '下载地址：')[0])
+
+    def on_btn_check_update_released(self):
+        try:
+            self.save_val()
+            self.app.update_mgr.refresh_source()
+            self.app.update_mgr.check_update()
+            self.load_val()
+        except requests.RequestException as exp:
+            logging.error('Could not refresh update metadata. %s', exp)
+            QMessageBox.critical(self, '获取更新信息失败', '获取更新信息失败，请稍后再试。{}'.format(exp))
+
     def update_theme(self):
         if not self.__finished_init:
             return
@@ -169,6 +186,28 @@ class Settings(QWidget):
             item = QListWidgetItem(i.plugin_name)
             item.setToolTip(i.description)
             self.ui.lst_plugins.addItem(item)
+        # update
+        self.ui.cb_update_branch.clear()
+        self.ui.cb_update_channel.clear()
+        for i in self.app.update_mgr.source['branches']:
+            self.ui.cb_update_branch.addItem(i)
+        if self.cfg['update']['download']['branch'] == '' and len(self.app.update_mgr.source['branches']):
+            self.cfg['update']['download']['branch'] = self.app.update_mgr.source['branches'][0]
+        if self.cfg['update']['download']['branch'] in self.app.update_mgr.source['branches']:
+            for i in self.app.update_mgr.source['branches'][self.cfg['update']['download']['branch']]['channels']:
+                self.ui.cb_update_channel.addItem(i)
+
+        self.ui.cb_update_branch.setCurrentText(self.cfg['update']['download']['branch'])
+        self.ui.cb_update_channel.setCurrentText(self.cfg['update']['download']['channel'])
+        self.ui.cb_auto_check_update.setChecked(self.cfg['update']['auto_update']['auto_check'])
+        self.ui.cb_auto_download_update.setChecked(self.cfg['update']['auto_update']['auto_download'])
+        self.ui.cb_auto_install_update.setChecked(self.cfg['update']['auto_update']['auto_install'])
+
+        self.ui.lb_update_status.setText('<html><head/><body><p><span style=" font-size:20pt; font-weight:700;">{}</span></p></body></html>'.format(properties.update_status[self.app.update_mgr.status + 1]))
+        if self.app.update_mgr.status >= 2:
+            self.ui.lb_update_info.setText('{} -> {}'.format(properties.version, self.app.update_mgr.latest_version))
+        else:
+            self.ui.lb_update_info.setText('')
         # crash
         self.ui.btn_crash_report.setEnabled(os.path.exists(properties.log_root + 'crash.txt'))
 
@@ -185,6 +224,14 @@ class Settings(QWidget):
                 self.cfg['appearance']['color_theme']['type'] = i
         self.cfg['appearance']['color_theme']['color'] = self.ui.btn_selcolor.text()
         self.cfg['appearance']['custom_font'] = self.ui.cb_custom_font.currentFont().family()
+        # update
+        self.cfg['update']['download']['branch'] = self.ui.cb_update_branch.currentText()
+        self.cfg['update']['download']['channel'] = self.ui.cb_update_channel.currentText()
+        self.cfg['update']['auto_update']['auto_check'] = self.ui.cb_auto_check_update.isChecked()
+        self.cfg['update']['auto_update']['auto_download'] = self.ui.cb_auto_download_update.isChecked()
+        self.cfg['update']['auto_update']['auto_install'] = self.ui.cb_auto_install_update.isChecked()
+
+        self.app.update_mgr.load_config(self.cfg['update'])
 
     def on_btn_crash_released(self):
         raise RuntimeError

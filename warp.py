@@ -53,7 +53,8 @@ if __name__ == "__main__":
 
     properties.exp_flags = arg.experiment_feature
 
-    for i in (properties.profile_prefix, properties.plugins_prefix, properties.cache_prefix, properties.log_root):
+    for i in (properties.profile_prefix, properties.plugins_prefix, properties.cache_prefix, properties.log_root,
+              properties.update_prefix):
         if not os.path.exists(i):
             os.mkdir(i)
 

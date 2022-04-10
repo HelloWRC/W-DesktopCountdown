@@ -24,7 +24,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <property name="tabBarAutoHide">
       <bool>true</bool>
@@ -325,15 +325,31 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_10">
+           <property name="spacing">
+            <number>2</number>
+           </property>
            <item>
-            <widget class="QLabel" name="label_5">
+            <widget class="QLabel" name="lb_update_status">
              <property name="text">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:700;&quot;&gt;{}&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="lb_version_2">
+            <spacer name="horizontalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_update_info">
              <property name="text">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;{}&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
@@ -347,25 +363,12 @@ p, li { white-space: pre-wrap; }
            </item>
           </layout>
          </item>
-         <item>
-          <spacer name="horizontalSpacer_5">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
         </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="btn_check_update">
            <property name="text">
             <string>检查更新</string>
            </property>
@@ -387,16 +390,9 @@ p, li { white-space: pre-wrap; }
         </layout>
        </item>
        <item>
-        <widget class="QProgressBar" name="progressBar">
-         <property name="value">
-          <number>24</number>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QTabWidget" name="about_info_2">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab_update_info">
           <attribute name="title">
@@ -424,22 +420,11 @@ p, li { white-space: pre-wrap; }
             </spacer>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <item>
-              <widget class="QPushButton" name="pushButton_2">
-               <property name="text">
-                <string>立刻更新</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_3">
-               <property name="text">
-                <string>跳过此更新</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            <widget class="QPushButton" name="btn_update_now">
+             <property name="text">
+              <string>立刻更新</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -456,7 +441,7 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QComboBox" name="comboBox"/>
+            <widget class="QComboBox" name="cb_update_branch"/>
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_6">
@@ -466,10 +451,10 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QComboBox" name="comboBox_2"/>
+            <widget class="QComboBox" name="cb_update_channel"/>
            </item>
            <item row="3" column="0" colspan="2">
-            <widget class="QPushButton" name="pushButton_4">
+            <widget class="QPushButton" name="btn_force_update">
              <property name="text">
               <string>强制更新到选定分支和频道的最新版本</string>
              </property>
@@ -499,21 +484,21 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item row="6" column="0" colspan="2">
-            <widget class="QCheckBox" name="checkBox">
+            <widget class="QCheckBox" name="cb_auto_check_update">
              <property name="text">
               <string>自动检查更新</string>
              </property>
             </widget>
            </item>
            <item row="7" column="0" colspan="2">
-            <widget class="QCheckBox" name="checkBox_2">
+            <widget class="QCheckBox" name="cb_auto_download_update">
              <property name="text">
               <string>自动下载更新</string>
              </property>
             </widget>
            </item>
            <item row="8" column="0" colspan="2">
-            <widget class="QCheckBox" name="checkBox_3">
+            <widget class="QCheckBox" name="cb_auto_install_update">
              <property name="text">
               <string>自动安装更新</string>
              </property>
@@ -846,10 +831,17 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2">
+       <item row="4" column="0" colspan="2">
         <widget class="QPushButton" name="btn_install_local_update">
          <property name="text">
           <string>安装本地更新</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QPushButton" name="btn_dbg_download_update">
+         <property name="text">
+          <string>测试下载更新</string>
          </property>
         </widget>
        </item>

@@ -1,3 +1,5 @@
 PyQt5~=5.15.6
 pywin32
 qt_material==2.8.13
+requests
+future~=0.18.2

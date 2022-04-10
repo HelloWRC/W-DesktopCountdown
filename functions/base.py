@@ -5,18 +5,24 @@ import platform
 import copy
 import subprocess
 import sys
+import zipfile
 
-import win32file
+import requests
 
 import properties
 import wcdapp
 from functions.hook import hook_target
+
+from PyQt5.QtCore import QObject
+from PyQt5.QtCore import QThread
+from PyQt5.QtCore import pyqtSignal
 
 path_root = 'functions.base.'
 
 
 @hook_target(path_root + 'call_browser')
 def call_browser(link: str):
+    logging.info('Opening link in browser: %s', link)
     if platform.system() == 'Windows':
         os.system('start {}'.format(link))
     elif platform.system() == 'Linux':
@@ -78,13 +84,27 @@ class ConfigFileMgr:
         self.write()
 
 
-class UpdateMgr:
+class UpdateMgr(QObject):
+    # status
+    UnSupport = -1
+    UnChecked = 0
+    UpToDate = 1
+    UpdateAvailable = 2
+    UpdateDownloaded = 3
+
+    # slots
+    update_status = pyqtSignal(str)
+    
     def __init__(self, app, config):
+        super(UpdateMgr, self).__init__()
         self.app: wcdapp.WDesktopCD = app
         self.cfg = config
-        self.source_co = ConfigFileMgr(properties.cache_prefix + 'meta.json', properties.update_meta_default)
+        self.source_co = ConfigFileMgr(properties.update_meta, properties.update_meta_default)
         self.source_co.load()
         self.source = self.source_co.cfg
+        self.status = self.UnChecked
+        self.latest_version = None
+        self.downloading = False
 
         self.restart_to_update = None
 
@@ -92,17 +112,82 @@ class UpdateMgr:
         pass
 
     def check_update(self):
-        pass
+        logging.info('Checking updates...')
+        branch = self.cfg['download']['branch']
+        channel = self.cfg['download']['channel']
+        version = self.source['branches'][branch]['channels'][channel]['version']
+
+        if version is None:
+            self.status = self.UpToDate
+            self.latest_version = None
+            logging.info('No version in current channel.')
+            return
+
+        if self.source['versions'][version]['version_id'] > properties.version_id:
+            self.status = self.UpdateAvailable
+            self.latest_version = self.source['versions'][version]['version_name']
+            logging.info('Found update (%s -> %s)', properties.version_id, self.source['versions'][version]['version_id'])
+        else:
+            self.status = self.UpToDate
+            self.latest_version = None
+            logging.info('Already up to date.')
 
     def refresh_source(self):
-        pass
+        logging.info('Refreshing sources from %s', properties.update_source)
+        re = requests.get(properties.update_source)
+        re.raise_for_status()
+        self.source = re.json()
+        self.source_co.cfg = self.source
+        self.source_co.write()
+        logging.info('Successfully refreshed sources.')
 
     def load_config(self, config):
         self.cfg = config
 
+        if self.can_update():
+            self.status = self.cfg['status']
+        else:
+            self.status = self.UnSupport
+
+    def save_config(self):
+        self.cfg['status'] = self.status
+
+    def restart_to_update(self, path=None):
+        if path is None:
+            path = self.cfg['']
+        self.restart_to_update = path
+
     def update_progress(self):
         if self.restart_to_update is not None:
             subprocess.Popen('{} -u1 {} -ulv {}'.format(self.restart_to_update, sys.argv[0], properties.version_id))
+
+    def download_update(self, target):
+        if self.downloading:
+            raise RuntimeError('更新已经正在下载！')
+        self.downloading = True
+        rq = requests.get(target, stream=True)
+
+        if rq.status_code != 200:
+            self.downloading = False
+            return
+
+        with open('update.zip', 'wb') as upd:
+            for i in rq.iter_content(32):
+                upd.write(i)
+
+        self.downloading = False
+
+    def can_update(self):
+        if sys.argv[0][-3] == '.py' or sys.argv[0][-4] == '.pyw':
+            return False
+        return True
+
+
+class UpdateThread(QThread):
+    sig_update = pyqtSignal()
+
+    def __init__(self):
+        super(UpdateThread, self).__init__()
 
 
 @hook_target(path_root + 'filename_chk')

@@ -62,7 +62,7 @@ class WDesktopCD(QApplication):
         self.starttime = time.time()
         self.app_cfg = functions.base.ConfigFileMgr('settings.json', properties.default_config)
         self.app_cfg.load()
-        self.update_mgr = functions.base.UpdateMgr(self, self.app_cfg.cfg)
+        self.update_mgr = functions.base.UpdateMgr(self, self.app_cfg.cfg['update'])
 
         if not os.path.exists(properties.cache_prefix):
             os.mkdir(properties.cache_prefix)
@@ -177,8 +177,14 @@ class WDesktopCD(QApplication):
     def quit(self, stat=None) -> None:
         logging.info('Stopping!')
         if self.full_mode:
-            self.app_cfg.write()
+            logging.info('Closing opened windows')
+            for i in (self.profile_mgr_ui, self.settings_ui):
+                i.close()
+
             self.plugin_mgr.on_app_quit()
             self.profile_mgr.unload_all()
+            logging.info('Writing config')
+            self.update_mgr.save_config()
+            self.app_cfg.write()
             self.update_mgr.update_progress()
         super(WDesktopCD, self).quit()

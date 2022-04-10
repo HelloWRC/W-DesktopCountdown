@@ -1,6 +1,6 @@
 version = '0.5.1 beta'
 version_code = '0.5.1b'
-version_id = 50104
+version_id = 50105
 app_uuid = '721A9FA1-351A-B68A-AE4B-52E9B9460144'
 
 log_styles = '[%(asctime)s] [%(threadName)s/%(module)s.%(funcName)s(%(lineno)s)/%(levelname)s] %(message)s'
@@ -16,6 +16,8 @@ update_prefix = cache_prefix + 'update/'
 log_file_fmt = log_root + '%Y-%m-%d %H-%M-%S.log'
 latest_log_file_fmt = log_root + 'latest.log'
 debug_log_file_fmt = log_root + 'debug.log'
+update_file = work_root + 'update.exe'
+update_meta = update_prefix + 'meta.json'
 default_profile_name = '@@_default_@@.json'
 
 extra_ui_cfg = {'font_family': 'Microsoft YaHei UI',
@@ -132,6 +134,7 @@ update_meta_default = {
     'name': 'W-DesktopCountdown',
     'uuid': app_uuid,
     'last_updated': 0,
+    'versions': {},
     'branches': {}
 }
 
@@ -174,6 +177,7 @@ default_config = {
     },
     'update': {
         'last_checked': 0,
+        'status': 0,
         'download': {
             'source': '',
             'branch': '',
@@ -217,4 +221,12 @@ DARK_THEME_TEMPLE = '''
 
 countdown_skipped = ['effects', 'automate']
 
-update_source = ''
+update_source = 'https://gitee.com/userwrc/static_data/raw/master/app_services/update/W-DesktopCountdown/metadata.json'
+
+update_status = [
+    '当前状态不支持更新',
+    '没有检查更新',
+    '您已是最新',
+    '发现新版本',
+    '发现新版本，准备安装'
+]
