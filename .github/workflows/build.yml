@@ -44,6 +44,6 @@ jobs:
       - name: Update to release
         uses: ncipollo/release-action@v1.10.0
         with:
-          artifacts: ./dists/*
+          artifacts: ./dist/*
           draft: true
 
