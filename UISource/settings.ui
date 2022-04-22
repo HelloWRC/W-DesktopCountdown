@@ -24,7 +24,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <property name="tabBarAutoHide">
       <bool>true</bool>
@@ -464,6 +464,20 @@ p, li { white-space: pre-wrap; }
            <string>更新设置</string>
           </attribute>
           <layout class="QFormLayout" name="formLayout_3">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>下载源</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="pushButton_8">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_4">
              <property name="text">
@@ -518,34 +532,6 @@ p, li { white-space: pre-wrap; }
             <widget class="QCheckBox" name="cb_auto_check_update">
              <property name="text">
               <string>自动检查更新</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="0" colspan="2">
-            <widget class="QCheckBox" name="cb_auto_download_update">
-             <property name="text">
-              <string>自动下载更新</string>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="0" colspan="2">
-            <widget class="QCheckBox" name="cb_auto_install_update">
-             <property name="text">
-              <string>自动安装更新</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_10">
-             <property name="text">
-              <string>下载源</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QPushButton" name="pushButton_8">
-             <property name="text">
-              <string/>
              </property>
             </widget>
            </item>

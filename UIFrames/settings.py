@@ -236,8 +236,6 @@ class Settings(QWidget):
         self.ui.cb_update_branch.setCurrentText(self.cfg['update']['download']['branch'])
         self.ui.cb_update_channel.setCurrentText(self.cfg['update']['download']['channel'])
         self.ui.cb_auto_check_update.setChecked(self.cfg['update']['auto_update']['auto_check'])
-        self.ui.cb_auto_download_update.setChecked(self.cfg['update']['auto_update']['auto_download'])
-        self.ui.cb_auto_install_update.setChecked(self.cfg['update']['auto_update']['auto_install'])
 
         self.ui.lb_update_status.setText('<html><head/><body><p><span style=" font-size:20pt; font-weight:700;">{}</span></p></body></html>'.format(properties.update_status[self.app.update_mgr.status + 1]))
         if self.app.update_mgr.status >= 2:
@@ -263,8 +261,6 @@ class Settings(QWidget):
         self.cfg['update']['download']['branch'] = self.ui.cb_update_branch.currentText()
         self.cfg['update']['download']['channel'] = self.ui.cb_update_channel.currentText()
         self.cfg['update']['auto_update']['auto_check'] = self.ui.cb_auto_check_update.isChecked()
-        self.cfg['update']['auto_update']['auto_download'] = self.ui.cb_auto_download_update.isChecked()
-        self.cfg['update']['auto_update']['auto_install'] = self.ui.cb_auto_install_update.isChecked()
 
         self.app.update_mgr.load_config(self.cfg['update'])
 

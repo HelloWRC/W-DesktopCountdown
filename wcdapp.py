@@ -95,6 +95,10 @@ class WDesktopCD(QApplication):
         self.tray = SystemTray(self)
         self.tray.show()
         self.profile_mgr.init_countdown()
+        if self.app_cfg.cfg['update']['auto_update']['auto_check']:
+            self.settings_ui.on_btn_check_update_released()
+            if self.update_mgr.status == functions.base.UpdateMgr.UpdateAvailable:
+                self.tray.showMessage('检测到更新', '转到应用设置页面查看详细。')
         if len(self.profile_mgr.profiles) <= 1:
             self.tray.showMessage('W-DesktopCountdown正在后台运行。', '双击系统托盘图标以显示本应用。')
         if self.arg.update_remove is not None:
