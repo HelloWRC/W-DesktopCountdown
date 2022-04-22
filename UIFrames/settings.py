@@ -198,6 +198,7 @@ class Settings(QWidget):
         return False
 
     def load_val(self):
+        self.app.update_mgr.save_config()
         # appearance
         self.ui.cb_colortheme.setCurrentIndex(self.cfg['appearance']['color_theme']['theme'])
         self.ui.cb_ldstyle.setCurrentIndex(self.cfg['appearance']['ld_style'])
@@ -222,6 +223,15 @@ class Settings(QWidget):
         if self.cfg['update']['download']['branch'] in self.app.update_mgr.source['branches']:
             for i in self.app.update_mgr.source['branches'][self.cfg['update']['download']['branch']]['channels']:
                 self.ui.cb_update_channel.addItem(i)
+            if self.cfg['update']['download']['channel'] in self.app.update_mgr.source['branches'][self.cfg['update']['download']['branch']]['channels']:
+                root = self.app.update_mgr.source['branches'][self.cfg['update']['download']['branch']]['channels'][self.cfg['update']['download']['channel']]
+                download_version = root['version']
+                if download_version is not None:
+                    self.ui.lb_changelog.setText(self.app.update_mgr.source['versions'][download_version]['change_log'])
+        if self.app.update_mgr.status == functions.base.UpdateMgr.UpToDate:
+            self.ui.lb_changelog.setText('# 真棒！你已是最新！')
+        if self.app.update_mgr.status == functions.base.UpdateMgr.UnChecked:
+            self.ui.lb_changelog.setText('# 定期检查更新以确保获得最新的改进')
 
         self.ui.cb_update_branch.setCurrentText(self.cfg['update']['download']['branch'])
         self.ui.cb_update_channel.setCurrentText(self.cfg['update']['download']['channel'])
