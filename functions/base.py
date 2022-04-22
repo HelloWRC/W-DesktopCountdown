@@ -120,6 +120,10 @@ class UpdateMgr(QObject):
         logging.info('Checking updates...')
         branch = self.cfg['download']['branch']
         channel = self.cfg['download']['channel']
+        if branch == '' or channel == '':
+            branch = self.cfg['download']['branch'] = list(self.source['branches'].keys())[0]
+            channel = self.cfg['download']['channel'] = list(self.source['branches'][branch]['channels'].keys())[0]
+
         version = self.source['branches'][branch]['channels'][channel]['version']
 
         if version is None:
@@ -150,9 +154,12 @@ class UpdateMgr(QObject):
         self.cfg = config
         branch = self.cfg['download']['branch']
         channel = self.cfg['download']['channel']
-        if branch != '' and channel != '':
+        if branch and channel:
             version = self.source['branches'][branch]['channels'][channel]['version']
-            self.download_target = self.source['versions'][version]['download']
+            if version is not None:
+                self.download_target = self.source['versions'][version]['download']
+            else:
+                self.download_target = None
         else:
             self.download_target = ''
 
@@ -203,6 +210,8 @@ class UpdateThread(QThread):
         self.start(QThread.LowestPriority)
 
     def run(self) -> None:
+        if not self.update_mgr.download_target:
+            return
         try:
             self.sig_status.emit(-2, '正在准备从{}下载……'.format(self.update_mgr.download_target))
             rq = requests.get(self.update_mgr.download_target, stream=True, timeout=5000)
@@ -242,10 +251,7 @@ class UpdateThread(QThread):
 
     def finish(self):
         self.sig_status.emit(-1, '')
-        try:
-            os.remove('update.exe')
-        except:
-            pass
+
 
 @hook_target(path_root + 'filename_chk')
 def filename_chk(name):

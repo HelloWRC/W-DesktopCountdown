@@ -218,7 +218,7 @@ class Settings(QWidget):
         for i in self.app.update_mgr.source['branches']:
             self.ui.cb_update_branch.addItem(i)
         if self.cfg['update']['download']['branch'] == '' and len(self.app.update_mgr.source['branches']):
-            self.cfg['update']['download']['branch'] = self.app.update_mgr.source['branches'][0]
+            self.cfg['update']['download']['branch'] = list(self.app.update_mgr.source['branches'].keys())[0]
         if self.cfg['update']['download']['branch'] in self.app.update_mgr.source['branches']:
             for i in self.app.update_mgr.source['branches'][self.cfg['update']['download']['branch']]['channels']:
                 self.ui.cb_update_channel.addItem(i)
