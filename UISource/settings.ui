@@ -24,7 +24,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <property name="tabBarAutoHide">
       <bool>true</bool>
@@ -33,48 +33,7 @@
       <attribute name="title">
        <string>基本</string>
       </attribute>
-      <layout class="QFormLayout" name="formLayout">
-       <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="lb_dev_flags_warn">
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; color:#ffaa00;&quot;&gt;警告：“实验性功能”中多为正在开发且不稳定的功能。这些功能可能不是最终效果及品质，且可能在之后的版本中更改或移除。&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QCheckBox" name="cb_dev_flags">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>实验性功能</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-         <property name="tristate">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="QCheckBox" name="cb_run_on_start">
-         <property name="text">
-          <string>开机自动启动</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QCheckBox" name="cb_splash">
-         <property name="text">
-          <string>[实验] Splash Screen</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <layout class="QFormLayout" name="formLayout"/>
      </widget>
      <widget class="QWidget" name="tab_appearence">
       <attribute name="title">

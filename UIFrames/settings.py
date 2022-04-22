@@ -61,6 +61,8 @@ class Settings(QWidget):
         self.ui.lb_logo.setPixmap(QPixmap(":/resources/icons/colorful/logo.svg"))
         if not self.app.arg.dev:
             self.ui.tabWidget.removeTab(5)
+
+        # self.ui.tab_update.close()
         self.__finished_init = True
 
     def on_btn_opensource_released(self):
@@ -176,9 +178,6 @@ class Settings(QWidget):
         return False
 
     def load_val(self):
-        # basic
-        self.ui.cb_run_on_start.setChecked(self.cfg['basic']['auto_start'])
-        self.ui.cb_splash.setChecked(self.cfg['basic']['splash'])
         # appearance
         self.ui.cb_colortheme.setCurrentIndex(self.cfg['appearance']['color_theme']['theme'])
         self.ui.cb_ldstyle.setCurrentIndex(self.cfg['appearance']['ld_style'])
@@ -219,9 +218,6 @@ class Settings(QWidget):
         self.ui.btn_crash_report.setEnabled(os.path.exists(properties.log_root + 'crash.txt'))
 
     def save_val(self):
-        # basic
-        self.cfg['basic']['auto_start'] = self.ui.cb_run_on_start.isChecked()
-        self.cfg['basic']['splash'] = self.ui.cb_splash.isChecked()
 
         # appearance
         self.cfg['appearance']['color_theme']['theme'] = self.ui.cb_colortheme.currentIndex()
