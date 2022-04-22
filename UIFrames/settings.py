@@ -59,6 +59,7 @@ class Settings(QWidget):
         self.ui.lb_logo.setScaledContents(True)
         self.ui.lb_logo.setFixedSize(64, 64)
         self.ui.lb_logo.setPixmap(QPixmap(":/resources/icons/colorful/logo.svg"))
+        self.app.update_mgr.update_thread.sig_status.connect(self.update_download_status)
         if not self.app.arg.dev:
             self.ui.tabWidget.removeTab(5)
 
@@ -121,7 +122,14 @@ class Settings(QWidget):
         self.app.quit()
 
     def on_btn_dbg_download_update_released(self):
-        self.app.update_mgr.download_update(QInputDialog.getText(self, '测试下载更新', '下载地址：')[0])
+        download_target = QInputDialog.getText(self, '测试下载更新', '下载地址：')[0]
+        self.app.update_mgr.download_target = download_target
+        self.app.update_mgr.update_thread.launch(1)
+
+    def update_download_status(self, progress, text):
+        if progress == -1:
+            self.load_val()
+        self.ui.lb_update_info.setText(text)
 
     def on_btn_check_update_released(self):
         try:
@@ -136,9 +144,7 @@ class Settings(QWidget):
     def on_btn_update_now_released(self):
         self.save_val()
         self.load_val()
-        self.app.update_mgr.download_thread.start()
-        self.app.update_mgr.download_thread.wait()
-        self.app.update_mgr.post_restart_to_update('update.exe')
+        self.app.update_mgr.update_thread.launch(2)
 
     def update_theme(self):
         if not self.__finished_init:

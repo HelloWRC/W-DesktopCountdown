@@ -106,7 +106,9 @@ class UpdateMgr(QObject):
         self.latest_version = None
         self.download_target = ''
         self.downloading = False
-        self.download_thread = UpdateThread(lambda: self.download_update(self.download_target))
+        self.update_thread = UpdateThread(self)
+        self.update_thread.sig_start_download.connect(self.download_update)
+        self.update_thread.sig_restart.connect(self.post_restart_to_update)
 
         self.restart_to_update = None
 
@@ -170,20 +172,7 @@ class UpdateMgr(QObject):
             subprocess.Popen('{} -u1 {} -ulv {}'.format(self.restart_to_update, sys.argv[0], properties.version_id))
 
     def download_update(self, target):
-        if self.downloading:
-            raise RuntimeError('更新已经正在下载！')
-        self.downloading = True
-        rq = requests.get(target, stream=True)
-
-        if rq.status_code != 200:
-            self.downloading = False
-            return
-
-        with open('update.exe', 'wb') as upd:
-            for i in rq.iter_content(32):
-                upd.write(i)
-
-        self.downloading = False
+        pass
 
     def can_update(self):
         if sys.argv[0][-3] == '.py' or sys.argv[0][-4] == '.pyw':
@@ -192,14 +181,49 @@ class UpdateMgr(QObject):
 
 
 class UpdateThread(QThread):
-    sig_update = pyqtSignal()
+    action_download = 1
+    action_install = 2
 
-    def __init__(self, target):
+    sig_status = pyqtSignal(int, str)
+    sig_restart = pyqtSignal(str)
+    sig_start_download = pyqtSignal()
+    sig_start_install = pyqtSignal()
+
+    def __init__(self, update_mgr):
         super(UpdateThread, self).__init__()
-        self.sig_update.connect(target)
+        self.update_mgr: UpdateMgr = update_mgr
+        self.action_type = -1
+        self.setObjectName('UpdateThread')
+
+    def launch(self, action):
+        self.action_type = action
+        self.start()
 
     def run(self) -> None:
-        self.sig_update.emit()
+        try:
+            self.sig_status.emit(0, '正在准备从{}下载……'.format(self.update_mgr.download_target))
+            rq = requests.get(self.update_mgr.download_target, stream=True)
+            size = int(rq.headers.get('Content-Length'))
+            logging.info('Download size: %s', size)
+
+            if rq.status_code != 200:
+                return
+
+            downloaded = 0
+            with open('update.exe', 'wb') as upd:
+                for i in rq.iter_content(32):
+                    progress = downloaded / size
+                    downloaded += upd.write(i)
+                    self.sig_status.emit(progress, '已下载：{}/{}'.format(downloaded, size))
+
+            self.sig_status.emit(-1, '')
+            logging.info('Download completed.')
+
+            if self.action_type == self.action_install:
+                self.sig_status.emit(0, '正在重启应用…')
+                self.sig_restart.emit('update.exe')
+        except Exception as exp:
+            self.sig_status.emit('无法下载更新：{}'.format(exp))
 
 
 @hook_target(path_root + 'filename_chk')

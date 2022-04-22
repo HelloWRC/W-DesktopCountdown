@@ -24,7 +24,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <property name="tabBarAutoHide">
       <bool>true</bool>
@@ -334,6 +334,13 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="btn_stop_update">
+           <property name="text">
+            <string>终止更新过程</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="horizontalSpacer_6">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -351,7 +358,7 @@ p, li { white-space: pre-wrap; }
        <item>
         <widget class="QTabWidget" name="about_info_2">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab_update_info">
           <attribute name="title">
