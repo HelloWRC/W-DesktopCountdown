@@ -5,6 +5,7 @@ import platform
 import copy
 import subprocess
 import sys
+import time
 import zipfile
 
 import requests
@@ -194,15 +195,17 @@ class UpdateThread(QThread):
         self.update_mgr: UpdateMgr = update_mgr
         self.action_type = -1
         self.setObjectName('UpdateThread')
+        self.stopped = False
 
     def launch(self, action):
         self.action_type = action
-        self.start()
+        self.stopped = False
+        self.start(QThread.LowestPriority)
 
     def run(self) -> None:
         try:
-            self.sig_status.emit(0, '正在准备从{}下载……'.format(self.update_mgr.download_target))
-            rq = requests.get(self.update_mgr.download_target, stream=True)
+            self.sig_status.emit(-2, '正在准备从{}下载……'.format(self.update_mgr.download_target))
+            rq = requests.get(self.update_mgr.download_target, stream=True, timeout=5000)
             size = int(rq.headers.get('Content-Length'))
             logging.info('Download size: %s', size)
 
@@ -210,21 +213,39 @@ class UpdateThread(QThread):
                 return
 
             downloaded = 0
+            last_updated = time.time()
+            if self.stopped:
+                self.finish()
+                return
             with open('update.exe', 'wb') as upd:
                 for i in rq.iter_content(32):
-                    progress = downloaded / size
+                    progress = int(downloaded / size * 100)
                     downloaded += upd.write(i)
-                    self.sig_status.emit(progress, '已下载：{}/{}'.format(downloaded, size))
+                    if time.time() - last_updated >= 0.1:
+                        self.sig_status.emit(progress, '已下载：{:.2f}MB/{:.2f}MB'.format(downloaded/(1024 * 1024), size/(1024 * 1024)))
+                        last_updated = time.time()
+                    if self.stopped:
+                        self.finish()
+                        return
 
-            self.sig_status.emit(-1, '')
+            self.finish()
             logging.info('Download completed.')
 
             if self.action_type == self.action_install:
                 self.sig_status.emit(0, '正在重启应用…')
                 self.sig_restart.emit('update.exe')
         except Exception as exp:
-            self.sig_status.emit('无法下载更新：{}'.format(exp))
+            self.sig_status.emit(0, '无法下载更新：{}'.format(exp))
 
+    def stop(self):
+        self.stopped = True
+
+    def finish(self):
+        self.sig_status.emit(-1, '')
+        try:
+            os.remove('update.exe')
+        except:
+            pass
 
 @hook_target(path_root + 'filename_chk')
 def filename_chk(name):

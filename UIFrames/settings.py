@@ -16,6 +16,8 @@ from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import QColorDialog
 from PyQt5.QtWidgets import QInputDialog
 from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QProgressDialog
+from PyQt5.QtWidgets import QPushButton
 from PyQt5.Qt import pyqtSignal
 
 import functions.appearance
@@ -117,6 +119,9 @@ class Settings(QWidget):
     def on_btn_crash_report_released(self):
         os.startfile(os.getcwd() + '/' + properties.log_root + 'crash.txt')
 
+    def on_btn_stop_update_released(self):
+        self.app.update_mgr.update_thread.stop()
+
     def on_btn_install_local_update_released(self):
         self.app.update_mgr.restart_to_update = QInputDialog.getText(self, '自定义更新文件', '输入自定义更新文件的文件名（需要文件后缀）。完成后应用会马上重启并更新。')[0]
         self.app.quit()
@@ -129,6 +134,15 @@ class Settings(QWidget):
     def update_download_status(self, progress, text):
         if progress == -1:
             self.load_val()
+            self.ui.update_progress.setVisible(False)
+            return
+        if progress == -2:
+            self.ui.update_progress.setRange(0, 0)
+            self.ui.update_progress.setValue(0)
+        else:
+            self.ui.update_progress.setRange(0, 100)
+            self.ui.update_progress.setValue(progress)
+        self.ui.update_progress.setVisible(True)
         self.ui.lb_update_info.setText(text)
 
     def on_btn_check_update_released(self):
@@ -222,6 +236,8 @@ class Settings(QWidget):
             self.ui.lb_update_info.setText('')
         # crash
         self.ui.btn_crash_report.setEnabled(os.path.exists(properties.log_root + 'crash.txt'))
+
+        self.ui.update_progress.setVisible(False)
 
     def save_val(self):
 
