@@ -40,11 +40,10 @@ jobs:
         run: |
           cd Scripts
           cmd /c Build.bat
-        
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2.3.1
+      
+      - name: Update to release
+        uses: ncipollo/release-action@v1.10.0
         with:
-          name: release
-          path: ./dist/W-DesktopCountdown*.exe
-        
+          artifacts: ./dists/*
+          draft: true
 
