@@ -6,7 +6,6 @@ import copy
 import subprocess
 import sys
 import time
-import zipfile
 
 import requests
 
@@ -148,6 +147,9 @@ class UpdateMgr(QObject):
         re = requests.get(properties.update_source)
         re.raise_for_status()
         self.source = re.json()
+        if self.source['uuid'] != properties.app_uuid:
+            logging.error('Update source uuid not match. Refreshing aborted!')
+            raise RuntimeError('错误：更新源与本应用不匹配。')
         self.source_co.cfg = self.source
         self.source_co.write()
         logging.info('Successfully refreshed sources.')

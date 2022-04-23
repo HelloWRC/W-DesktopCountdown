@@ -1,5 +1,6 @@
 import copy
 import logging
+import platform
 import re
 
 import UIFrames.countdown
@@ -123,3 +124,17 @@ def hexcnv(color: int):
     # print(t1)
     t2 = t1[4:6] + t1[2:4] + t1[0:2]
     return '#{}'.format(t2)
+
+
+def read_system_settings():
+    if 'Windows' in platform.system():
+        import winreg
+        try:
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'SOFTWARE\Microsoft\Windows\DWM') as key:
+                properties.system_color = hexcnv(winreg.QueryValueEx(key, 'AccentColor')[0])
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER,
+                                r'Software\Microsoft\Windows\CurrentVersion\Themes\Personalize') as key:
+                properties.ld_themes[2] = properties.ld_themes[1 - winreg.QueryValueEx(key, 'AppsUseLightTheme')[0]]
+        except:
+            pass
+    logging.info('Loaded system settings.')

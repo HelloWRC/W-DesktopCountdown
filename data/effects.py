@@ -209,12 +209,18 @@ class AcrylicEffect:
         # self.countdown.ui.window_bg.setAttribute(Qt.WA_paint, False)
         self.countdown.ui.window_bg.setStyleSheet('background:rgba(0,0,0,0)')
         self.countdown.setAutoFillBackground(True)
-        blur_effects.WindowEffect().setAcrylicEffect(int(self.countdown.winId()), self.bg_color)
+        try:
+            blur_effects.WindowEffect().setAcrylicEffect(int(self.countdown.winId()), self.bg_color, True)
+        except:
+            logging.info('Unable to enable acrylic effect')
         self.countdown.show()
 
     def update_config(self, config):
         self.load_config(config)
-        blur_effects.WindowEffect().setAcrylicEffect(int(self.countdown.winId()), self.bg_color)
+        try:
+            blur_effects.WindowEffect().setAcrylicEffect(int(self.countdown.winId()), self.bg_color, True)
+        except:
+            logging.info('Unable to enable acrylic effect')
         self.countdown.show()
 
     def unload(self):

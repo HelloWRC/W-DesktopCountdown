@@ -149,6 +149,8 @@ class WDesktopCD(QApplication):
             return
 
         logging.info('Updating app theme')
+        functions.appearance.read_system_settings()
+
         if config is None:
             config = self.app_cfg.cfg
         properties.extra_ui_cfg['font_family'] = config['appearance']['custom_font']
