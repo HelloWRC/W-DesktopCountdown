@@ -105,6 +105,7 @@ class UpdateMgr(QObject):
         self.source = self.source_co.cfg
         self.status = self.UnChecked
         self.latest_version = None
+        self.last_checked = 0
         self.download_target = ''
         self.downloading = False
         self.update_thread = UpdateThread(self)
@@ -117,7 +118,7 @@ class UpdateMgr(QObject):
         pass
 
     def check_update(self, force=False):
-        logging.info('Checking updates...')
+        logging.info('Checking updates... (force: %s)', force)
         branch = self.cfg['download']['branch']
         channel = self.cfg['download']['channel']
         if branch == '' or channel == '':
@@ -140,6 +141,7 @@ class UpdateMgr(QObject):
             self.status = self.UpToDate
             self.latest_version = None
             logging.info('Already up to date.')
+        self.last_checked = time.time()
 
     def refresh_source(self):
         logging.info('Refreshing sources from %s', properties.update_source)
@@ -167,9 +169,11 @@ class UpdateMgr(QObject):
             self.status = self.cfg['status']
         else:
             self.status = self.UnSupport
+        self.last_checked = self.cfg['last_checked']
 
     def save_config(self):
         self.cfg['status'] = self.status
+        self.cfg['last_checked'] = self.last_checked
 
     def post_restart_to_update(self, path=None):
         self.restart_to_update = path

@@ -1,4 +1,5 @@
 import logging
+import time
 
 import requests
 from PyQt5.QtCore import Qt
@@ -65,7 +66,6 @@ class Settings(QWidget):
         if not self.app.arg.dev:
             self.ui.tabWidget.removeTab(5)
 
-        # self.ui.tab_update.close()
         self.__finished_init = True
 
     def on_btn_opensource_released(self):
@@ -145,6 +145,9 @@ class Settings(QWidget):
         if progress == -1:
             self.load_val()
             self.ui.update_progress.setVisible(False)
+            for i in (self.ui.btn_check_update, self.ui.btn_update_now, self.ui.btn_force_update):
+                i.setEnabled(True)
+            self.ui.btn_stop_update.setEnabled(False)
             return
         if progress == -2:
             self.ui.update_progress.setRange(0, 0)
@@ -152,6 +155,9 @@ class Settings(QWidget):
         else:
             self.ui.update_progress.setRange(0, 100)
             self.ui.update_progress.setValue(progress)
+        for i in (self.ui.btn_check_update, self.ui.btn_update_now, self.ui.btn_force_update):
+            i.setEnabled(False)
+        self.ui.btn_stop_update.setEnabled(True)
         self.ui.update_progress.setVisible(True)
         self.ui.lb_update_info.setText(text)
 
@@ -250,8 +256,15 @@ class Settings(QWidget):
         self.ui.lb_update_status.setText('<html><head/><body><p><span style=" font-size:20pt; font-weight:700;">{}</span></p></body></html>'.format(properties.update_status[self.app.update_mgr.status + 1]))
         if self.app.update_mgr.status >= 2:
             self.ui.lb_update_info.setText('{} -> {}'.format(properties.version, self.app.update_mgr.latest_version))
+            self.ui.btn_update_now.setEnabled(True)
+        elif self.app.update_mgr.status == functions.base.UpdateMgr.UpToDate:
+            self.ui.lb_update_info.setText('上次检查更新：{}'.format(time.asctime(time.localtime(self.app.update_mgr.last_checked))))
+            self.ui.btn_update_now.setEnabled(False)
+        # elif self.app.update_mgr.status == functions.base.UpdateMgr.UnSupport:
+        #     self.ui.lb_update_info.setText('自动更新功能在本设备上不可用。')
         else:
             self.ui.lb_update_info.setText('')
+
         # crash
         self.ui.btn_crash_report.setEnabled(os.path.exists(properties.log_root + 'crash.txt'))
 
