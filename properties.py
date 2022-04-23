@@ -1,6 +1,6 @@
 version = '0.5.2 beta'
 version_code = '0.5.2b'
-version_id = 50200
+version_id = 50201
 app_uuid = '721A9FA1-351A-B68A-AE4B-52E9B9460144'
 
 log_styles = '[%(asctime)s] [%(threadName)s/%(module)s.%(funcName)s(%(lineno)s)/%(levelname)s] %(message)s'

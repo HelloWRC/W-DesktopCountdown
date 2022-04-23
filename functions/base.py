@@ -116,7 +116,7 @@ class UpdateMgr(QObject):
     def install_update(self):
         pass
 
-    def check_update(self):
+    def check_update(self, force=False):
         logging.info('Checking updates...')
         branch = self.cfg['download']['branch']
         channel = self.cfg['download']['channel']
@@ -132,7 +132,7 @@ class UpdateMgr(QObject):
             logging.info('No version in current channel.')
             return
 
-        if self.source['versions'][version]['version_id'] > properties.version_id:
+        if self.source['versions'][version]['version_id'] > properties.version_id or force:
             self.status = self.UpdateAvailable
             self.latest_version = self.source['versions'][version]['version_name']
             logging.info('Found update (%s -> %s)', properties.version_id, self.source['versions'][version]['version_id'])

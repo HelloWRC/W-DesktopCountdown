@@ -119,6 +119,16 @@ class Settings(QWidget):
     def on_btn_crash_report_released(self):
         os.startfile(os.getcwd() + '/' + properties.log_root + 'crash.txt')
 
+    def on_btn_force_update_released(self):
+        try:
+            self.save_val()
+            self.app.update_mgr.refresh_source()
+            self.app.update_mgr.check_update(True)
+            self.load_val()
+        except requests.RequestException as exp:
+            logging.error('Could not refresh update metadata. %s', exp)
+            QMessageBox.critical(self, '获取更新信息失败', '获取更新信息失败，请稍后再试。{}'.format(exp))
+
     def on_btn_stop_update_released(self):
         self.app.update_mgr.update_thread.stop()
 
