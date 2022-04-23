@@ -17,10 +17,10 @@ from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import QColorDialog
 from PyQt5.QtWidgets import QInputDialog
 from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtWidgets import QProgressDialog
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.Qt import pyqtSignal
 
+from PyQt5.uic import loadUi
 import functions.appearance
 import functions.base
 from UIFrames.license import LicenseRead
@@ -140,6 +140,14 @@ class Settings(QWidget):
         download_target = QInputDialog.getText(self, '测试下载更新', '下载地址：')[0]
         self.app.update_mgr.download_target = download_target
         self.app.update_mgr.update_thread.launch(1)
+
+    def on_btn_check_ui_released(self):
+        try:
+            form_name = QInputDialog.getText(self, '检查界面', '输入要打开的界面名称（.ui）')[0]
+            self.__du = loadUi('./UISource/' + form_name)
+            self.__du.show()
+        except Exception as exp:
+            QMessageBox.critical(self, '打开界面时出错', str(exp))
 
     def update_download_status(self, progress, text):
         if progress == -1:

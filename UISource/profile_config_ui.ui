@@ -194,11 +194,22 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="le_target_format">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;占位符说明：&lt;/p&gt;&lt;p&gt;%Y：年（%y：当年后两位数）&lt;/p&gt;&lt;p&gt;%M：月&lt;/p&gt;&lt;p&gt;%d：日&lt;/p&gt;&lt;p&gt;%H：小时（24小时制）&lt;/p&gt;&lt;p&gt;%h：小时（12小时制）&lt;/p&gt;&lt;p&gt;%m：分钟&lt;/p&gt;&lt;p&gt;%s：秒&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item>
+          <widget class="QLineEdit" name="le_target_format">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;占位符说明：&lt;/p&gt;&lt;p&gt;%Y：年（%y：当年后两位数）&lt;/p&gt;&lt;p&gt;%M：月&lt;/p&gt;&lt;p&gt;%d：日&lt;/p&gt;&lt;p&gt;%H：小时（24小时制）&lt;/p&gt;&lt;p&gt;%h：小时（12小时制）&lt;/p&gt;&lt;p&gt;%m：分钟&lt;/p&gt;&lt;p&gt;%s：秒&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_edit_target_format">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="lb_countdown_format">
@@ -211,14 +222,25 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLineEdit" name="le_countdown_format">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;占位符说明：&lt;/p&gt;&lt;p&gt;%D：天&lt;/p&gt;&lt;p&gt;%H：小时&lt;/p&gt;&lt;p&gt;%M：分钟&lt;/p&gt;&lt;p&gt;%S：秒&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="clearButtonEnabled">
-          <bool>false</bool>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
+         <item>
+          <widget class="QLineEdit" name="le_countdown_format">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;占位符说明：&lt;/p&gt;&lt;p&gt;%D：天&lt;/p&gt;&lt;p&gt;%H：小时&lt;/p&gt;&lt;p&gt;%M：分钟&lt;/p&gt;&lt;p&gt;%S：秒&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_edit_countdown_format">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item row="2" column="0" colspan="2">
         <widget class="QLabel" name="lb_countdown_format_description">
@@ -253,32 +275,19 @@
        <item row="4" column="1">
         <widget class="QLineEdit" name="le_end_text"/>
        </item>
-       <item row="5" column="0" colspan="2">
+       <item row="5" column="0">
         <widget class="QCheckBox" name="cb_show_progressbar">
          <property name="text">
           <string>显示进度条</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="2">
+       <item row="6" column="0">
         <widget class="QCheckBox" name="cb_reverse_progressbar">
          <property name="text">
           <string>进度条反转</string>
          </property>
         </widget>
-       </item>
-       <item row="8" column="0" colspan="2">
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
        </item>
        <item row="7" column="0" colspan="2">
         <widget class="QLabel" name="label_2">
@@ -762,8 +771,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>548</width>
-            <height>250</height>
+            <width>203</width>
+            <height>290</height>
            </rect>
           </property>
           <attribute name="label">
