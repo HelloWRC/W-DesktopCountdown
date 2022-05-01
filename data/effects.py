@@ -346,6 +346,7 @@ class CharmBase(QObject):
         self.update_thread = CharmUpdateThread(self)
 
     def set_enabled(self):
+        self.update_config(self.cfg)
         self.start_time = time.time()
         self.update_thread.start()
 

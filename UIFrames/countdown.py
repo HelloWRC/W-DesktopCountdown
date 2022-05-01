@@ -132,8 +132,8 @@ class CountdownWin(QWidget):
     def write_config(self):
         self.cfg.cfg['window']['width'] = self.geometry().width()
         self.cfg.cfg['window']['height'] = self.geometry().height()
-        self.cfg.cfg['window']['pos_x'] = self.x()
-        self.cfg.cfg['window']['pos_y'] = self.y()
+        self.cfg.cfg['window']['pos_x'] = self.pos().x()
+        self.cfg.cfg['window']['pos_y'] = self.pos().y()
         self.cfg.cfg['window']['window_mode'] = self.win_mode
         self.cfg.cfg['window']['show_title_bar'] = self.title_visible
         self.cfg.write()

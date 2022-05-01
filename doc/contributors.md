@@ -15,6 +15,8 @@
 
 包括但不限于提交issues，提交PR
 
+[查看贡献列表](https://github.com/HelloWRC/W-DesktopCountdown/graphs/contributors)
+
 -----
 -----
 

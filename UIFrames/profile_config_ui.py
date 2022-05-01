@@ -24,6 +24,7 @@ from PyQt5.QtGui import QColor
 from PyQt5.QtGui import QFont
 from UIFrames.universe_configure import UniverseConfigure
 from UIFrames.automate_cfg import AutomateConfigure
+from UIFrames.format_edit import FormatEdit
 
 
 class ProfileConfigUI(QWidget):
@@ -57,6 +58,10 @@ class ProfileConfigUI(QWidget):
         self.load_val()
         self.widgets = (self.ui.window_bg, self.ui.lb_event, self.ui.lb_targetddate, self.ui.lb_text1,
                         self.ui.lb_text2, self.ui.lb_CountDown, self.ui.progressBar)
+
+        self.target_format_edit = FormatEdit('编辑目标时间格式', self.ui.le_target_format.setText, {})
+        self.countdown_format_edit = FormatEdit('编辑倒计时格式', self.ui.le_countdown_format.setText, {})
+
         for i in self.widgets:
             i.installEventFilter(self)
 
@@ -93,6 +98,12 @@ class ProfileConfigUI(QWidget):
             QMessageBox.critical(self, '错误', '发现错误的参数，请修正。')
             return
         self.save_val()
+
+    def on_btn_edit_target_format_released(self):
+        self.target_format_edit.open_edit_window(self.ui.le_target_format.text())
+
+    def on_btn_edit_countdown_format_released(self):
+        self.countdown_format_edit.open_edit_window(self.ui.le_countdown_format.text())
 
     def on_btn_reset_default_released(self):
         r = QMessageBox.warning(self, '重置'.format(self.cfg.cfg['countdown']['title']),

@@ -24,6 +24,7 @@ tr = QCoreApplication.translate
 class CountdownCard(QWidget):
     def __init__(self, name, item, cfg, cfgui, countdown, app,
                  default_cfg=False):
+        self.__finished = False
         from UIFrames.countdown import CountdownWin
         super(CountdownCard, self).__init__()
         self.item: QListWidgetItem = item
@@ -36,6 +37,7 @@ class CountdownCard(QWidget):
         self.ui = Ui_CountdownCard()
         self.ui.setupUi(self)
         self.load_val()
+        self.__finished = True
 
     def load_val(self):
         from UIFrames.countdown import CountdownWin
@@ -77,6 +79,8 @@ class CountdownCard(QWidget):
         QMessageBox.information(self, '导出成功', '导出成功')
 
     def on_cb_enabled_toggled(self, stat):
+        if not self.__finished:
+            return
         self.cfg.cfg['enabled'] = stat
         self.cfg.write()
         self.countdown.load_config()
