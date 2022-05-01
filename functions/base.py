@@ -94,6 +94,7 @@ class UpdateMgr(QObject):
 
     # slots
     update_status = pyqtSignal(str)
+    update_error = pyqtSignal(str)
     
     def __init__(self, app, config):
         super(UpdateMgr, self).__init__()
@@ -200,6 +201,7 @@ class UpdateThread(QThread):
 
     sig_status = pyqtSignal(int, str)
     sig_restart = pyqtSignal(str)
+    sig_error = pyqtSignal(str)
     sig_start_download = pyqtSignal()
     sig_start_install = pyqtSignal()
 
@@ -250,7 +252,9 @@ class UpdateThread(QThread):
                 self.sig_status.emit(0, '正在重启应用…')
                 self.sig_restart.emit('update.exe')
         except Exception as exp:
-            self.sig_status.emit(0, '无法下载更新：{}'.format(exp))
+            self.sig_error.emit('无法下载更新：{}'.format(exp))
+        finally:
+            self.sig_status.emit(-1, '')
 
     def stop(self):
         self.stopped = True

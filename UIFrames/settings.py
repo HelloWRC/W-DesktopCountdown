@@ -63,6 +63,7 @@ class Settings(QWidget):
         self.ui.lb_logo.setFixedSize(64, 64)
         self.ui.lb_logo.setPixmap(QPixmap(":/resources/icons/colorful/logo.svg"))
         self.app.update_mgr.update_thread.sig_status.connect(self.update_download_status)
+        self.app.update_mgr.update_thread.sig_error.connect(self.error_status)
         if not self.app.arg.dev:
             self.ui.tabWidget.removeTab(5)
 
@@ -156,6 +157,8 @@ class Settings(QWidget):
             for i in (self.ui.btn_check_update, self.ui.btn_update_now, self.ui.btn_force_update):
                 i.setEnabled(True)
             self.ui.btn_stop_update.setEnabled(False)
+            self.save_val()
+            self.load_val()
             return
         if progress == -2:
             self.ui.update_progress.setRange(0, 0)
@@ -168,6 +171,10 @@ class Settings(QWidget):
         self.ui.btn_stop_update.setEnabled(True)
         self.ui.update_progress.setVisible(True)
         self.ui.lb_update_info.setText(text)
+        self.app.processEvents()
+
+    def error_status(self, text):
+        QMessageBox.critical(self, '错误', text)
 
     def on_btn_check_update_released(self):
         try:
