@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>775</width>
-    <height>425</height>
+    <width>915</width>
+    <height>491</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,14 +29,18 @@
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QTextEdit" name="te_edit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QTextEdit" name="te_edit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QFrame" name="frame">
@@ -71,14 +75,14 @@
           <item>
            <widget class="QLabel" name="label">
             <property name="text">
-             <string>可用的占位符</string>
+             <string>可用的占位符：</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="lb_placeholders">
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
             </property>
            </widget>
           </item>
@@ -94,6 +98,14 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>点击占位符链接可快速插入
+支持部分html语法</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>

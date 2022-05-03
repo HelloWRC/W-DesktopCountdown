@@ -21,6 +21,8 @@ from PyQt5.QtWidgets import QPushButton
 from PyQt5.Qt import pyqtSignal
 
 from PyQt5.uic import loadUi
+
+import UIFrames.format_edit
 import functions.appearance
 import functions.base
 from UIFrames.license import LicenseRead
@@ -67,6 +69,10 @@ class Settings(QWidget):
         if not self.app.arg.dev:
             self.ui.tabWidget.removeTab(5)
 
+        self.format_edit = UIFrames.format_edit.FormatEdit('编辑文本', self.ui.le_text_dev.setText, {
+            '%a': '占位符1',
+            '%b': '占位符2'
+        })
         self.__finished_init = True
 
     def on_btn_opensource_released(self):
@@ -304,3 +310,9 @@ class Settings(QWidget):
 
     def on_btn_crash_released(self):
         raise RuntimeError
+
+    def on_le_text_dev_textChanged(self, text):
+        self.ui.lb_text_dev_show.setText(text)
+
+    def on_btn_text_dev_edit_released(self):
+        self.format_edit.open_edit_window(self.ui.le_text_dev.text())

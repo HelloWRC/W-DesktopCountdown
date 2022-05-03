@@ -249,6 +249,41 @@
          </property>
         </widget>
        </item>
+       <item row="6" column="0">
+        <widget class="QCheckBox" name="cb_show_progressbar">
+         <property name="text">
+          <string>显示进度条</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QCheckBox" name="cb_reverse_progressbar">
+         <property name="text">
+          <string>进度条反转</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0" colspan="2">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>将鼠标放在对应的文本框上可以查看占位符说明。</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <item>
+          <widget class="QLineEdit" name="le_start_text"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_edit_st_format">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
        <item row="3" column="0">
         <widget class="QLabel" name="lb_start_text">
          <property name="text">
@@ -259,8 +294,19 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="le_start_text"/>
+       <item row="4" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <item>
+          <widget class="QLineEdit" name="le_end_text"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_edit_et_format">
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item row="4" column="0">
         <widget class="QLabel" name="lb_endtext">
@@ -269,30 +315,6 @@
          </property>
          <property name="buddy">
           <cstring>le_end_text</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLineEdit" name="le_end_text"/>
-       </item>
-       <item row="5" column="0">
-        <widget class="QCheckBox" name="cb_show_progressbar">
-         <property name="text">
-          <string>显示进度条</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QCheckBox" name="cb_reverse_progressbar">
-         <property name="text">
-          <string>进度条反转</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0" colspan="2">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>将鼠标放在对应的文本框上可以查看占位符说明。</string>
          </property>
         </widget>
        </item>

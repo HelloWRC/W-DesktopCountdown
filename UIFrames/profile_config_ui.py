@@ -59,8 +59,24 @@ class ProfileConfigUI(QWidget):
         self.widgets = (self.ui.window_bg, self.ui.lb_event, self.ui.lb_targetddate, self.ui.lb_text1,
                         self.ui.lb_text2, self.ui.lb_CountDown, self.ui.progressBar)
 
-        self.target_format_edit = FormatEdit('编辑目标时间格式', self.ui.le_target_format.setText, {})
-        self.countdown_format_edit = FormatEdit('编辑倒计时格式', self.ui.le_countdown_format.setText, {})
+        self.target_format_edit = FormatEdit('编辑目标时间格式', self.ui.le_target_format.setText, {
+            '%Y': '年（完整形式）',
+            '%y': '年（后两位数简写）',
+            '%M': '月',
+            '%d': '日',
+            '%H': '小时（24小时制）',
+            '%h': '小时（12小时制）',
+            '%m': '分钟',
+            '%s': '秒'
+        })
+        self.countdown_format_edit = FormatEdit('编辑倒计时格式', self.ui.le_countdown_format.setText, {
+            '%D': '天',
+            '%H': '小时',
+            '%M': '分钟',
+            '%S': '秒'
+        })
+        self.start_text_format_edit = FormatEdit('编辑开始前占位文字格式', self.ui.le_start_text.setText, {})
+        self.end_text_format_edit = FormatEdit('编辑结束后占位文字格式', self.ui.le_end_text.setText, {})
 
         for i in self.widgets:
             i.installEventFilter(self)
@@ -104,6 +120,12 @@ class ProfileConfigUI(QWidget):
 
     def on_btn_edit_countdown_format_released(self):
         self.countdown_format_edit.open_edit_window(self.ui.le_countdown_format.text())
+
+    def on_btn_edit_st_format_released(self):
+        self.start_text_format_edit.open_edit_window(self.ui.le_start_text.text())
+
+    def on_btn_edit_et_format_released(self):
+        self.end_text_format_edit.open_edit_window(self.ui.le_end_text.text())
 
     def on_btn_reset_default_released(self):
         r = QMessageBox.warning(self, '重置'.format(self.cfg.cfg['countdown']['title']),
