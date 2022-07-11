@@ -35,7 +35,7 @@ class FormatEdit(QWidget):
         self.sig_update_data.emit(self.ui.te_edit.toPlainText())
     
     def open_edit_window(self, text) -> None:
-        self.ui.te_edit.setText(text)
+        self.ui.te_edit.setPlainText(text)
         self.show()
 
     def on_te_edit_textChanged(self):

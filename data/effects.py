@@ -3,7 +3,7 @@ import time
 
 from PyQt5.QtCore import QThread, QObject
 from PyQt5.QtGui import QColor
-from PyQt5.Qt import pyqtSignal
+from PyQt5.Qt import pyqtSignal, QEvent
 
 import logging
 
@@ -190,6 +190,12 @@ class AcrylicEffect:
             'min': 0,
             'max': 255,
             'description': '背景颜色不透明度，范围0-255。'
+        },
+        'disable_on_move': {
+            'type': 'bool',
+            'name': '移动时禁用',
+            'default': True,
+            'description': '窗体移动时禁用亚克力效果'
         }
     }
     light_bg = 'f5f5f5'
@@ -203,6 +209,7 @@ class AcrylicEffect:
         self.config = config
         self.bg_color = '00000000'
         self.raw_style = self.countdown.styleSheet()
+        self.win_moving = False
 
     def set_enabled(self):
         self.load_config()
@@ -244,6 +251,16 @@ class AcrylicEffect:
         else:
             self.bg_color = self.config['background_color'][1:]
         self.bg_color += str(hex(self.config['transparent']))[2:]
+
+    def on_event(self, watched, event: QEvent):
+        if self.config['disable_on_move']:
+            if event.type() == QEvent.Move and self.countdown.drag_flag and not self.win_moving:
+                self.unload()
+                self.win_moving = True
+            if (not self.countdown.drag_flag) and self.win_moving:
+                self.set_enabled()
+                self.win_moving = False
+
 
 
 class CharmUpdateThread(QThread):

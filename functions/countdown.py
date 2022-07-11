@@ -182,6 +182,7 @@ class ProfileMgr(QObject):
 
 
 class Automate:
+    @hook_target(path_root + 'Automate.__init__')
     def __init__(self, app, countdown, config):
         self.app = app
         self.countdown = countdown
@@ -208,6 +209,7 @@ class Automate:
                 logging.error('Action %s not found! skipped.', i)
         self.trigger_type = config['trigger_type']
 
+    @hook_target(path_root + 'Automate.update')
     def update(self):
         passed = False
         for trigger in self.triggers:
@@ -252,6 +254,7 @@ class AutomateMgr:
                 auto.update()
 
 
+@hook_target(path_root + 'make_auto_sentence')
 def make_auto_sentence(config):
     triggers = config['triggers']
     actions = config['actions']

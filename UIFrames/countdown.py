@@ -251,7 +251,7 @@ class UpdateThread(QThread):
                 self.sig_update.emit()
             if self.stopped:
                 break
-            self.sleep(1)
+            self.msleep(50)
 
     @hook_target(path_root + 'upd_thread.stop')
     def stop(self):
