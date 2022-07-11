@@ -1,6 +1,7 @@
 import logging
 import time
 import datetime
+import properties
 
 import functions.base
 from UIFrames.ui_new_countdown import Ui_NewCountdown
@@ -14,6 +15,7 @@ class NewCountdownWin(QWidget):
         self.app = app
         self.ui = Ui_NewCountdown()
         self.ui.setupUi(self)
+        self.countdown_mapping = []
         self.show()
         logging.info('new countdown window requested.')
         self.on_le_input_textChanged('')
@@ -34,7 +36,11 @@ class NewCountdownWin(QWidget):
             return
 
         logging.debug('new profile: %s', profile_name)
-        self.app.profile_mgr.create_profile(profile_name, start_time, end_time)
+        if self.ui.cbx_create_from.isChecked():
+            self.app.profile_mgr.create_profile(profile_name, start_time, end_time,
+                                                self.countdown_mapping[self.ui.cmb_create_from.currentIndex()])
+        else:
+            self.app.profile_mgr.create_profile(profile_name, start_time, end_time, None)
         self.close()
 
     def on_le_input_textChanged(self, text):
@@ -44,3 +50,12 @@ class NewCountdownWin(QWidget):
             self.ui.btn_confirm.setEnabled(False)
         else:
             self.ui.btn_confirm.setEnabled(True)
+
+    def showEvent(self, event) -> None:
+        self.ui.cmb_create_from.clear()
+        self.countdown_mapping.clear()
+        for i in self.app.profile_mgr.config_mgr:
+            if i == properties.default_profile_name:
+                continue
+            self.countdown_mapping.append(i)
+            self.ui.cmb_create_from.addItem(self.app.profile_mgr.config_mgr[i].cfg['countdown']['title'])

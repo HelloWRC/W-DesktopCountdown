@@ -101,10 +101,12 @@ class ProfileMgr(QObject):
         self.countdowns_win[name].close()
 
     @hook_target(path_root + 'ProfileMgr.create_profile')
-    def create_profile(self, name: str, start_time=0, end_time=0):
+    def create_profile(self, name: str, start_time=0, end_time=0, temple=None):
+        if temple is None:
+            temple = properties.default_profile_name
         logging.info('creating new profile: %s', name)
         self.profiles.append(name)
-        self.config_mgr[name] = ConfigFileMgr(profile_prefix + name, self.config_mgr[default_profile_name].cfg)
+        self.config_mgr[name] = ConfigFileMgr(profile_prefix + name, self.config_mgr[temple].cfg)
         self.config_mgr[name].load()
         self.config_mgr[name].cfg['countdown']['title'] = name
         self.config_mgr[name].cfg['countdown']['start'] = start_time
