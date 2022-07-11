@@ -633,7 +633,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="pg_background">
           <property name="geometry">
@@ -750,7 +750,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>169</width>
+            <width>565</width>
             <height>87</height>
            </rect>
           </property>
@@ -793,8 +793,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>203</width>
-            <height>290</height>
+            <width>548</width>
+            <height>250</height>
            </rect>
           </property>
           <attribute name="label">
@@ -1152,6 +1152,69 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>content</tabstop>
+  <tabstop>btn_reset_default</tabstop>
+  <tabstop>btn_save_as_default</tabstop>
+  <tabstop>btn_open_folder</tabstop>
+  <tabstop>btn_trust</tabstop>
+  <tabstop>le_event_name</tabstop>
+  <tabstop>dte_starttime</tabstop>
+  <tabstop>dte_endtime</tabstop>
+  <tabstop>le_target_format</tabstop>
+  <tabstop>btn_edit_target_format</tabstop>
+  <tabstop>le_countdown_format</tabstop>
+  <tabstop>btn_edit_countdown_format</tabstop>
+  <tabstop>le_start_text</tabstop>
+  <tabstop>btn_edit_st_format</tabstop>
+  <tabstop>le_end_text</tabstop>
+  <tabstop>btn_edit_et_format</tabstop>
+  <tabstop>cb_show_progressbar</tabstop>
+  <tabstop>cb_reverse_progressbar</tabstop>
+  <tabstop>winpos_x</tabstop>
+  <tabstop>winpos_y</tabstop>
+  <tabstop>winsize_w</tabstop>
+  <tabstop>winsize_h</tabstop>
+  <tabstop>cbl_win_mode</tabstop>
+  <tabstop>cb_titlebar</tabstop>
+  <tabstop>cb_skip_taskbar</tabstop>
+  <tabstop>cb_widgets</tabstop>
+  <tabstop>lb_bgcolor</tabstop>
+  <tabstop>btn_bgcolor</tabstop>
+  <tabstop>lb_bgpic</tabstop>
+  <tabstop>le_bgpic</tabstop>
+  <tabstop>btn_browse_bgpic</tabstop>
+  <tabstop>cb_clip_bg</tabstop>
+  <tabstop>lb_bgpos</tabstop>
+  <tabstop>cb_bgpos1</tabstop>
+  <tabstop>cb_bgpos2</tabstop>
+  <tabstop>lb_font</tabstop>
+  <tabstop>btn_font</tabstop>
+  <tabstop>lb_color</tabstop>
+  <tabstop>btn_color</tabstop>
+  <tabstop>cb_custom_border</tabstop>
+  <tabstop>lb_radius</tabstop>
+  <tabstop>sb_radius</tabstop>
+  <tabstop>lb_border_size</tabstop>
+  <tabstop>sb_bordersize</tabstop>
+  <tabstop>lb_border_color</tabstop>
+  <tabstop>btn_bordercolor</tabstop>
+  <tabstop>lb_border_style</tabstop>
+  <tabstop>cb_border_style</tabstop>
+  <tabstop>lst_enabled_effect</tabstop>
+  <tabstop>btn_effect_enable</tabstop>
+  <tabstop>btn_effect_disable</tabstop>
+  <tabstop>btn_effect_configure</tabstop>
+  <tabstop>lst_disabled_effect</tabstop>
+  <tabstop>cb_auto_enabled</tabstop>
+  <tabstop>btn_new_action</tabstop>
+  <tabstop>btn_action_cfg</tabstop>
+  <tabstop>btn_rm_action</tabstop>
+  <tabstop>lst_action_list</tabstop>
+  <tabstop>btn_confirm</tabstop>
+  <tabstop>btn_cancle</tabstop>
+  <tabstop>btn_apply</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

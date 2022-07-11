@@ -302,6 +302,21 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>le_name</tabstop>
+  <tabstop>cb_trigger_type</tabstop>
+  <tabstop>lst_trigger</tabstop>
+  <tabstop>btn_add_trigger</tabstop>
+  <tabstop>btn_cfg_trigger</tabstop>
+  <tabstop>btn_rm_trigger</tabstop>
+  <tabstop>lst_actions</tabstop>
+  <tabstop>btn_add_action</tabstop>
+  <tabstop>btn_cfg_action</tabstop>
+  <tabstop>btn_up_action</tabstop>
+  <tabstop>btn_down_action</tabstop>
+  <tabstop>btn_rm_action</tabstop>
+  <tabstop>btn_confirm</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

@@ -17,7 +17,8 @@
    <string>创建倒计时</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="document-new"/>
+   <iconset theme="document-new">
+    <normaloff>.</normaloff>.</iconset>
   </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="1" column="1">
@@ -118,8 +119,11 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>btn_confirm</tabstop>
+  <tabstop>le_input</tabstop>
+  <tabstop>dte_starttime</tabstop>
+  <tabstop>dte_endtime</tabstop>
   <tabstop>btn_cancel</tabstop>
+  <tabstop>btn_confirm</tabstop>
  </tabstops>
  <resources/>
  <connections/>

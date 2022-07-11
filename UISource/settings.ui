@@ -397,8 +397,8 @@ p, li { white-space: pre-wrap; }
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
-                <height>245</height>
+                <width>487</width>
+                <height>289</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -927,6 +927,47 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>cb_lang</tabstop>
+  <tabstop>cb_appstyle</tabstop>
+  <tabstop>cb_ldstyle</tabstop>
+  <tabstop>rb_default</tabstop>
+  <tabstop>cb_colortheme</tabstop>
+  <tabstop>rb_syscolor</tabstop>
+  <tabstop>rb_customcolor</tabstop>
+  <tabstop>btn_selcolor</tabstop>
+  <tabstop>cb_custom_font</tabstop>
+  <tabstop>lst_plugins</tabstop>
+  <tabstop>btn_configure_plug</tabstop>
+  <tabstop>btn_plug_info</tabstop>
+  <tabstop>btn_plug_func</tabstop>
+  <tabstop>btn_plugin_folder</tabstop>
+  <tabstop>btn_check_update</tabstop>
+  <tabstop>btn_stop_update</tabstop>
+  <tabstop>about_info_2</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>btn_update_now</tabstop>
+  <tabstop>cb_update_branch</tabstop>
+  <tabstop>cb_update_channel</tabstop>
+  <tabstop>btn_force_update</tabstop>
+  <tabstop>cb_auto_check_update</tabstop>
+  <tabstop>btn_projhome</tabstop>
+  <tabstop>btn_feedback</tabstop>
+  <tabstop>btn_opensource</tabstop>
+  <tabstop>about_info</tabstop>
+  <tabstop>btn_log</tabstop>
+  <tabstop>btn_log_folder</tabstop>
+  <tabstop>btn_crash_report</tabstop>
+  <tabstop>tb_thanks</tabstop>
+  <tabstop>btn_crash</tabstop>
+  <tabstop>btn_check_ui</tabstop>
+  <tabstop>btn_dbg_download_update</tabstop>
+  <tabstop>btn_install_local_update</tabstop>
+  <tabstop>le_text_dev</tabstop>
+  <tabstop>btn_text_dev_edit</tabstop>
+  <tabstop>btn_close</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
