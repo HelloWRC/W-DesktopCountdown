@@ -23,6 +23,7 @@ from PyQt5.Qt import pyqtSignal
 from PyQt5.uic import loadUi
 
 import UIFrames.format_edit
+import UIFrames.universe_configure
 import functions.appearance
 import functions.base
 from UIFrames.license import LicenseRead
@@ -47,6 +48,11 @@ class Settings(QWidget):
         self.cfg = config_mgr.cfg
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+        self.page_basic = UIFrames.universe_configure.UniverseConfigure(self.cfg['basic'],
+                                                                        properties.default_basic_config,
+                                                                        True)
+        self.ui.tab_gernel.layout().addWidget(self.page_basic)
+
         self.plug_func_menu = QMenu()
         self.ui.btn_plug_func.setMenu(self.plug_func_menu)
         self.ui.lb_version.setText(self.ui.lb_version.text().format(properties.version, properties.version_id))
@@ -236,6 +242,8 @@ class Settings(QWidget):
 
     def load_val(self):
         self.app.update_mgr.save_config()
+        # basic
+        self.page_basic.load_val()
         # appearance
         self.ui.cb_colortheme.setCurrentIndex(self.cfg['appearance']['color_theme']['theme'])
         self.ui.cb_ldstyle.setCurrentIndex(self.cfg['appearance']['ld_style'])
@@ -292,7 +300,8 @@ class Settings(QWidget):
         self.ui.update_progress.setVisible(False)
 
     def save_val(self):
-
+        # basic
+        self.page_basic.save_val()
         # appearance
         self.cfg['appearance']['color_theme']['theme'] = self.ui.cb_colortheme.currentIndex()
         self.cfg['appearance']['ld_style'] = self.ui.cb_ldstyle.currentIndex()

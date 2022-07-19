@@ -152,9 +152,7 @@ default_auto_value = {
 
 default_config = {
     'basic': {
-        'splash': True,
-        'auto_start': False,
-        'exp_flags': True
+        # Generated from default_basic_config
     },
     'appearance': {
         'language': 'zhs',
@@ -187,6 +185,41 @@ default_config = {
             'auto_check': True
         }
     }
+}
+
+default_basic_config = {
+    'title_auto_align': {
+        'type': 'label',
+        'text': '<h2>对齐</h2><p>可以在移动倒计时时快速和其他窗口对齐</p>',
+        'word_warp': True
+    },
+    'align_enabled': {
+        'type': 'bool',
+        'name': '启用对齐',
+        'default': True
+    },
+    'align_offset': {
+        'type': 'int',
+        'name': '对齐误差范围',
+        'default': 5,
+        'min': 0,
+        'max': 128,
+        'description': '触发对齐的误差值。'
+    },
+    'line_1': {
+        'type': 'line'
+    },
+    'title_advanced': {
+        'type': 'label',
+        'text': '<h2>杂项</h2>',
+        'word_warp': True
+    },
+    'launch_on_start': {
+        'type': 'bool',
+        'name': '开机自启',
+        'default': True,
+        'description': '让应用在系统启动时自动启动'
+    },
 }
 
 exp_flags = True

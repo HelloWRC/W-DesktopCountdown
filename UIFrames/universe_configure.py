@@ -1,22 +1,26 @@
 from UIFrames.ui_universe_configure import Ui_Configure
-from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QCheckBox, QSpinBox, QDoubleSpinBox, QComboBox, QPushButton, QColorDialog
+from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QCheckBox, QSpinBox, QDoubleSpinBox, QComboBox, QPushButton, \
+    QColorDialog, QFrame, QFormLayout
 from PyQt5.QtGui import QColor
-from PyQt5.Qt import QApplication, Qt
+from PyQt5.Qt import QApplication, Qt, QSize
 import logging
 import properties
 from data import effects
 
 
 class UniverseConfigure(QWidget):
-    def __init__(self, config, config_temple):
+    def __init__(self, config, config_temple, emb=None):
         super(UniverseConfigure, self).__init__()
         self.ui = Ui_Configure()
         self.ui.setupUi(self)
         self.config_temple = config_temple
         self.config = config
+        self.parent = emb
         self.gen_ui = {}
         self.set_val = {}
         self.get_val = {}
+        if self.parent is not None:
+            self.ui.btn_confirm.setVisible(False)
 
         # Generate UI
         for i in self.config_temple:
@@ -28,13 +32,19 @@ class UniverseConfigure(QWidget):
                 if 'selectable' in root:
                     if root['selectable']:
                         label.setTextInteractionFlags(Qt.TextSelectableByMouse | Qt.TextSelectableByKeyboard)
-                self.ui.container.addRow(label)
+                self.ui.container.layout().addRow(label)
+            elif root['type'] == 'line':
+                line = QFrame(self.ui.container)
+                line.setMinimumSize(QSize(0, 0))
+                line.setFrameShape(QFrame.HLine)
+                line.setFrameShadow(QFrame.Sunken)
+                self.ui.container.layout().setWidget(8, QFormLayout.SpanningRole, line)
             elif root['type'] == 'bool':
                 checkbox = QCheckBox(root['name'])
                 checkbox.setObjectName('cb_' + i)
                 if 'description' in root:
                     checkbox.setToolTip(root['description'])
-                self.ui.container.addRow(checkbox)
+                self.ui.container.layout().addRow(checkbox)
                 self.gen_ui['cb_' + i] = checkbox
                 self.set_val[i] = checkbox.setChecked
                 self.get_val[i] = checkbox.isChecked
@@ -86,7 +96,7 @@ class UniverseConfigure(QWidget):
                     continue
                 if 'description' in root:
                     content.setToolTip(root['description'])
-                self.ui.container.addRow(label, content)
+                self.ui.container.layout().addRow(label, content)
 
         self.load_val()
 
@@ -98,12 +108,16 @@ class UniverseConfigure(QWidget):
             if i not in self.config:
                 if self.config_temple[i]['type'] == 'label':
                     continue
+                if self.config_temple[i]['type'] == 'line':
+                    continue
                 self.config[i] = self.config_temple[i]['default']
             self.set_val[i](self.config[i])
 
     def save_val(self):
         for i in self.config_temple:
             if self.config_temple[i]['type'] == 'label':
+                continue
+            if self.config_temple[i]['type'] == 'line':
                 continue
             self.config[i] = self.get_val[i]()
 

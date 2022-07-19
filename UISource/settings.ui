@@ -33,7 +33,23 @@
       <attribute name="title">
        <string>基本</string>
       </attribute>
-      <layout class="QFormLayout" name="formLayout"/>
+      <layout class="QVBoxLayout" name="verticalLayout_12">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+      </layout>
      </widget>
      <widget class="QWidget" name="tab_appearence">
       <attribute name="title">
