@@ -236,8 +236,8 @@ class CountdownWin(QWidget):
                 for i in self.app.profile_mgr.countdowns_win.values():
                     if i is self:
                         continue
-                    if abs(ax - x) > abs(i.pos().x() - x):
-                        ax = i.pos().x()
+                    if abs(ax - x) > abs(i.frameGeometry().x() - x):
+                        ax = i.frameGeometry().x()
                         # print('X near countdown:', i.name)
                 if abs(ax - x) <= self.app.app_cfg.cfg['basic']['align_offset']:
                     align_target.setX(ax)
@@ -248,8 +248,8 @@ class CountdownWin(QWidget):
                 for i in self.app.profile_mgr.countdowns_win.values():
                     if i is self:
                         continue
-                    if abs(ay - y) > abs(i.pos().y() - y):
-                        ay = i.pos().y()
+                    if abs(ay - y) > abs(i.frameGeometry().y() - y):
+                        ay = i.frameGeometry().y()
                         # print('Y near countdown:', i.name)
                 if abs(ay - y) <= self.app.app_cfg.cfg['basic']['align_offset']:
                     align_target.setY(ay)

@@ -32,11 +32,14 @@ class NewCountdownWin(QWidget):
         start_time = int(time.mktime(self.ui.dte_starttime.dateTime().toPyDateTime().timetuple()))
         end_time = int(time.mktime(self.ui.dte_endtime.dateTime().toPyDateTime().timetuple()))
         if start_time > end_time:
-            QMessageBox.error(self, '错误', '请填写有效的时间。')
+            QMessageBox.critical(self, '错误', '请填写有效的时间。')
             return
 
         logging.debug('new profile: %s', profile_name)
         if self.ui.cbx_create_from.isChecked():
+            if self.ui.cmb_create_from.count() == 0:
+                QMessageBox.critical(self, '错误', '无效的倒计时')
+                return
             self.app.profile_mgr.create_profile(profile_name, start_time, end_time,
                                                 self.countdown_mapping[self.ui.cmb_create_from.currentIndex()])
         else:
