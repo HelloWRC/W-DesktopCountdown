@@ -228,29 +228,36 @@ class CountdownWin(QWidget):
                 align_target = QPoint(target)
                 x = target.x()
                 y = target.y()
+                w = self.size().width()
+                h = self.size().height()
                 # align x
-                ax = list(self.app.profile_mgr.countdowns_win.values())[0].pos().x()
+                # ax = list(self.app.profile_mgr.countdowns_win.values())[0].pos().x()
+                ax = -114514
                 for i in self.app.profile_mgr.countdowns_win.values():
                     if i is self:
                         continue
                     if abs(ax - x) > abs(i.pos().x() - x):
                         ax = i.pos().x()
+                        print('X near countdown:', i.name)
                 if abs(ax - x) <= self.app.app_cfg.cfg['basic']['align_offset']:
                     align_target.setX(ax)
                     print('aligned to', ax)
                 # align y
-                ay = list(self.app.profile_mgr.countdowns_win.values())[0].pos().y()
+                # ay = list(self.app.profile_mgr.countdowns_win.values())[0].pos().y()
+                ay = -114514
                 for i in self.app.profile_mgr.countdowns_win.values():
                     if i is self:
                         continue
                     if abs(ay - y) > abs(i.pos().y() - y):
                         ay = i.pos().y()
+                        print('Y near countdown:', i.name)
                 if abs(ay - y) <= self.app.app_cfg.cfg['basic']['align_offset']:
                     align_target.setY(ay)
                     print('aligned to', ay)
                 # check
                 target = align_target
                 print(ay - y, ax - x)
+                print('===========================')
             self.move(target)
         event.accept()
 

@@ -201,7 +201,7 @@ default_basic_config = {
     'align_offset': {
         'type': 'int',
         'name': '对齐误差范围',
-        'default': 5,
+        'default': 20,
         'min': 0,
         'max': 128,
         'description': '触发对齐的误差值。'
