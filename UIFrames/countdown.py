@@ -17,7 +17,7 @@ from PyQt5.QtCore import QEvent, QObject, Qt, QThread, pyqtSignal
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QMouseEvent
 from PyQt5.QtGui import QPainter, QColor
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QPoint
 from PyQt5.Qt import QRectF
 from PyQt5.QtGui import QCursor
 
@@ -33,7 +33,8 @@ class CountdownWin(QWidget):
 
     @hook_target(path_root + 'win.__init__')
     def __init__(self, app, name, config: functions.base.ConfigFileMgr):
-        self.app = app
+        import wcdapp
+        self.app: wcdapp.WDesktopCD = app
         self.hook_mgr = functions.hook.ClassHookMgr()
         self.name = name
         super(CountdownWin, self).__init__()
@@ -222,7 +223,35 @@ class CountdownWin(QWidget):
 
     def mouseMoveEvent(self, event: QMouseEvent) -> None:
         if Qt.LeftButton and self.drag_flag:
-            self.move(event.globalPos() - self.m_pos)
+            target = event.globalPos() - self.m_pos
+            if self.app.app_cfg.cfg['basic']['align_enabled']:  # Try to align to other countdowns
+                align_target = QPoint(target)
+                x = target.x()
+                y = target.y()
+                # align x
+                ax = list(self.app.profile_mgr.countdowns_win.values())[0].pos().x()
+                for i in self.app.profile_mgr.countdowns_win.values():
+                    if i is self:
+                        continue
+                    if abs(ax - x) > abs(i.pos().x() - x):
+                        ax = i.pos().x()
+                if abs(ax - x) <= self.app.app_cfg.cfg['basic']['align_offset']:
+                    align_target.setX(ax)
+                    print('aligned to', ax)
+                # align y
+                ay = list(self.app.profile_mgr.countdowns_win.values())[0].pos().y()
+                for i in self.app.profile_mgr.countdowns_win.values():
+                    if i is self:
+                        continue
+                    if abs(ay - y) > abs(i.pos().y() - y):
+                        ay = i.pos().y()
+                if abs(ay - y) <= self.app.app_cfg.cfg['basic']['align_offset']:
+                    align_target.setY(ay)
+                    print('aligned to', ay)
+                # check
+                target = align_target
+                print(ay - y, ax - x)
+            self.move(target)
         event.accept()
 
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:
