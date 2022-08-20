@@ -1,3 +1,4 @@
+import functions.plugins
 from UIFrames.ui_universe_configure import Ui_Configure
 from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QCheckBox, QSpinBox, QDoubleSpinBox, QComboBox, QPushButton, \
     QColorDialog, QFrame, QFormLayout
@@ -123,6 +124,51 @@ class UniverseConfigure(QWidget):
 
     def color_picker(self, index):
         self.set_val[index](QColorDialog.getColor(QColor(self.get_val[index]()), self).name())
+
+    def on_btn_confirm_released(self):
+        self.save_val()
+        self.close()
+
+
+class UniverseConfigureEXP(QWidget):
+    def __init__(self, config, config_temple, emb=False):
+        super(UniverseConfigureEXP, self).__init__()
+        self.ui = Ui_Configure()
+        self.ui.setupUi(self)
+        self.config_temple = config_temple
+        self.config = config
+        self.emb = emb
+        self.views = {}
+
+        if self.emb:
+            self.ui.btn_confirm.setVisible(False)
+
+        for i in self.config_temple:
+            root = self.config_temple[i]
+            view: functions.plugins.ConfigureView = functions.plugins.cfg_views[root['view']](root, self.ui.container)
+            widget = view.generate_widget()
+            if view.auto_construct:
+                if type(widget) == tuple:
+                    self.ui.container.layout().addRow(widget[0], widget[1])
+                else:
+                    self.ui.container.layout().addRow(widget)
+            self.views[i] = view
+
+        self.load_val()
+
+    def load_val(self):
+        for i in self.config_temple:
+            if not self.views[i].can_store:
+                continue
+            if i not in self.config:
+                self.config[i] = self.config_temple[i]['default']
+            self.views[i].load_val(self.config[i])
+
+    def save_val(self):
+        for i in self.config_temple:
+            if not self.views[i].can_store:
+                continue
+            self.config[i] = self.views[i].save_val()
 
     def on_btn_confirm_released(self):
         self.save_val()
