@@ -9,17 +9,17 @@ from data import effects
 
 
 class UniverseConfigure(QWidget):
-    def __init__(self, config, config_temple, emb=None):
+    def __init__(self, config, config_temple, emb=False):
         super(UniverseConfigure, self).__init__()
         self.ui = Ui_Configure()
         self.ui.setupUi(self)
         self.config_temple = config_temple
         self.config = config
-        self.parent = emb
+        self.emb = emb
         self.gen_ui = {}
         self.set_val = {}
         self.get_val = {}
-        if self.parent is not None:
+        if self.emb:
             self.ui.btn_confirm.setVisible(False)
 
         # Generate UI

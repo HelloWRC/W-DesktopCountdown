@@ -9,6 +9,8 @@ import logging
 
 import functions.base
 from functions.hook import hook_target
+from abc import *
+from PyQt5.QtWidgets import QWidget
 
 path_root = 'functions.plugins.'
 
@@ -178,3 +180,51 @@ class PluginMgr:
     def on_app_quit(self):
         for i in self.plugins:
             i.on_app_quit()
+
+
+class ConfigureView(ABC):
+    # 组件id
+    view_id = ''
+
+    # 组件名称
+    view_name = ''
+
+    # 是否存储数据。默认为True
+    can_store = True
+
+    # 是否由universe_configure放置组件。如果为否，那么需要组件自己进行放置。默认为True
+    auto_construct = True
+
+    @abstractmethod
+    def __init__(self, config, container):
+        """
+        初始化
+        """
+        pass
+
+    @abstractmethod
+    def generate_widget(self):
+        """
+        构造组件
+
+        :return: 如果auto_construct为True，那么需要返回一个组件或一个包含一对组件的元组
+        """
+        pass
+
+    @abstractmethod
+    def load_val(self, value):
+        """
+        将数据加载到组件中
+
+        :param value: 值
+        """
+        pass
+
+    @abstractmethod
+    def save_val(self):
+        """
+        返回组件中的数值
+
+        :return: 数值
+        """
+        pass

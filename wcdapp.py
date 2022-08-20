@@ -46,15 +46,15 @@ class WDesktopCD(QApplication):
         self.splash.show()
         self.splash.update_status(10, '初始化…')
         self.processEvents()
-        self.full_mode = True
+        self.full_mode = False
 
         # Enter update
         if arg.update_overwrite is not None:
-            self.full_mode = False
             self.install_update(arg.update_overwrite, arg.update_last_version)
             if os.path.exists(arg.update_overwrite):
                 sub = subprocess.Popen('{} -u2 {} -ulv {}'.format(arg.update_overwrite, sys.argv[0], arg.update_last_version))
-            sys.exit(0)
+            self.quit()
+        self.full_mode = True
         if arg.update_remove is not None:
             self.finish_update(arg.update_remove, arg.update_last_version)
 
@@ -124,13 +124,18 @@ class WDesktopCD(QApplication):
 
         logging.info('Copying file: %s -> %s', sys.argv[0], update_overwrite)
         self.splash.update_status(15, '正在复制文件…')
+        start_time = time.time()
         while True:
             try:
                 shutil.copy(sys.argv[0], update_overwrite)
                 break
             except:
                 pass
+            if time.time() - start_time > 60:
+                logging.error('Update time out.')
+                QMessageBox.critical(None, '更新失败', '无法安装更新，更新没有进行。')
         self.splash.update_status(80, '正在完成更新')
+        logging.info('Update finished.', sys.argv[0], update_overwrite)
 
     def finish_update(self, update_remove, update_last_version):
         logging.info('Finishing updating...')
@@ -189,6 +194,7 @@ class WDesktopCD(QApplication):
 
             self.plugin_mgr.on_app_quit()
             self.profile_mgr.unload_all()
+            self.processEvents()
             logging.info('Writing config')
             self.update_mgr.save_config()
             self.app_cfg.write()

@@ -1,3 +1,4 @@
+import copy
 import logging
 import time
 
@@ -39,6 +40,7 @@ from UIFrames.ui_settings import Ui_Form
 
 class Settings(QWidget):
     def __init__(self, config_mgr: functions.base.ConfigFileMgr, app):
+        self.theme_need_update = False
         self.description = None
         import wcdapp
         QWidget.__init__(self)
@@ -90,8 +92,20 @@ class Settings(QWidget):
         rgb = self.colr_sel.getRgb()
         self.ui.btn_selcolor.setText(functions.appearance.rgb2hex(rgb[0], rgb[1], rgb[2]))
 
-    def on_btn_close_released(self):
+    def on_btn_confirm_released(self):
+        self.save_val()
+        self.cm.write()
+        self.update_theme()
         self.close()
+
+    def on_btn_cancel_released(self):
+        self.close()
+
+    def on_btn_apply_released(self):
+        self.save_val()
+        self.cm.write()
+        self.update_theme()
+        self.load_val()
 
     def on_btn_plugin_folder_released(self):
         os.startfile(os.getcwd() + properties.plugins_prefix)
@@ -206,14 +220,8 @@ class Settings(QWidget):
     def update_theme(self):
         if not self.__finished_init:
             return
-        self.save_val()
-        self.app.update_theme()
-
-    def closeEvent(self, a0):
-        self.save_val()
-        self.cm.write()
-        self.update_theme()
-        super(Settings, self).closeEvent(a0)
+        if self.theme_need_update:
+            self.app.update_theme()
 
     def show(self) -> None:
         self.load_val()
@@ -303,6 +311,7 @@ class Settings(QWidget):
         # basic
         self.page_basic.save_val()
         # appearance
+        appearance_before = copy.deepcopy(self.cfg['appearance'])
         self.cfg['appearance']['color_theme']['theme'] = self.ui.cb_colortheme.currentIndex()
         self.cfg['appearance']['ld_style'] = self.ui.cb_ldstyle.currentIndex()
         for i in range(3):
@@ -310,6 +319,10 @@ class Settings(QWidget):
                 self.cfg['appearance']['color_theme']['type'] = i
         self.cfg['appearance']['color_theme']['color'] = self.ui.btn_selcolor.text()
         self.cfg['appearance']['custom_font'] = self.ui.cb_custom_font.currentFont().family()
+        if self.cfg['appearance'] != appearance_before:
+            self.theme_need_update = True
+        else:
+            self.theme_need_update = False
         # update
         self.cfg['update']['download']['branch'] = self.ui.cb_update_branch.currentText()
         self.cfg['update']['download']['channel'] = self.ui.cb_update_channel.currentText()
