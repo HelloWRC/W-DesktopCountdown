@@ -1,6 +1,7 @@
 import copy
 import logging
 import time
+import sys
 
 import requests
 from PyQt5.QtCore import Qt
@@ -48,6 +49,7 @@ class Settings(QWidget):
         self.app: wcdapp.WDesktopCD = app
         self.cm = config_mgr
         self.cfg = config_mgr.cfg
+        self.cfg_exp = {}
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.page_basic = UIFrames.universe_configure.UniverseConfigure(self.cfg['basic'],
@@ -83,98 +85,7 @@ class Settings(QWidget):
         })
         self.__finished_init = True
 
-    def on_btn_opensource_released(self):
-        self.license = LicenseRead(self)
-        self.license.show()
 
-    def on_btn_selcolor_released(self):
-        self.colr_sel = QColorDialog.getColor(initial=QColor(self.ui.btn_selcolor.text()), title='选择主题色')
-        rgb = self.colr_sel.getRgb()
-        self.ui.btn_selcolor.setText(functions.appearance.rgb2hex(rgb[0], rgb[1], rgb[2]))
-
-    def on_btn_confirm_released(self):
-        self.save_val()
-        self.cm.write()
-        self.update_theme()
-        self.close()
-
-    def on_btn_cancel_released(self):
-        self.close()
-
-    def on_btn_apply_released(self):
-        self.save_val()
-        self.cm.write()
-        self.update_theme()
-        self.load_val()
-
-    def on_btn_plugin_folder_released(self):
-        os.startfile(os.getcwd() + properties.plugins_prefix)
-
-    def on_lst_plugins_currentRowChanged(self, row):
-        if self.ui.lst_plugins.count() <= 0:
-            return
-        plugin = self.app.plugin_mgr.plugins[row]
-        if plugin.plugin_config_ui is None:
-            self.ui.btn_configure_plug.setEnabled(False)
-        else:
-            self.ui.btn_configure_plug.setEnabled(True)
-        self.plug_func_menu.clear()
-        self.description = QAction('以下动作由插件“{}”提供'.format(plugin.plugin_name))
-        self.description.setEnabled(False)
-        self.plug_func_menu.addAction(self.description)
-        self.plug_func_menu.addSeparator()
-        if plugin.plugin_actions:
-            self.ui.btn_plug_func.setEnabled(True)
-            self.plug_func_menu.addActions(plugin.plugin_actions)
-        else:
-            self.ui.btn_plug_func.setEnabled(False)
-        # print(self.app.plugin_mgr.plugins[row].plugin_actions)
-
-
-    def on_btn_configure_plug_released(self):
-        self.app.plugin_mgr.plugins[self.ui.lst_plugins.currentRow()].plugin_config_ui.show()
-
-    def on_btn_plug_info_released(self):
-        self.app.plugin_mgr.plugins[self.ui.lst_plugins.currentRow()].plugin_info_ui.show()
-
-    def on_btn_log_released(self):
-        os.startfile(os.getcwd() + '/' + properties.latest_log_file_fmt)
-
-    def on_btn_log_folder_released(self):
-        os.startfile(os.getcwd() + '/' + properties.log_root)
-
-    def on_btn_crash_report_released(self):
-        os.startfile(os.getcwd() + '/' + properties.log_root + 'crash.txt')
-
-    def on_btn_force_update_released(self):
-        try:
-            self.save_val()
-            self.app.update_mgr.refresh_source()
-            self.app.update_mgr.check_update(True)
-            self.load_val()
-        except requests.RequestException as exp:
-            logging.error('Could not refresh update metadata. %s', exp)
-            QMessageBox.critical(self, '获取更新信息失败', '获取更新信息失败，请稍后再试。{}'.format(exp))
-
-    def on_btn_stop_update_released(self):
-        self.app.update_mgr.update_thread.stop()
-
-    def on_btn_install_local_update_released(self):
-        self.app.update_mgr.restart_to_update = QInputDialog.getText(self, '自定义更新文件', '输入自定义更新文件的文件名（需要文件后缀）。完成后应用会马上重启并更新。')[0]
-        self.app.quit()
-
-    def on_btn_dbg_download_update_released(self):
-        download_target = QInputDialog.getText(self, '测试下载更新', '下载地址：')[0]
-        self.app.update_mgr.download_target = download_target
-        self.app.update_mgr.update_thread.launch(1)
-
-    def on_btn_check_ui_released(self):
-        try:
-            form_name = QInputDialog.getText(self, '检查界面', '输入要打开的界面名称（.ui）')[0]
-            self.__du = loadUi('./UISource/' + form_name)
-            self.__du.show()
-        except Exception as exp:
-            QMessageBox.critical(self, '打开界面时出错', str(exp))
 
     def update_download_status(self, progress, text):
         if progress == -1:
@@ -201,21 +112,6 @@ class Settings(QWidget):
 
     def error_status(self, text):
         QMessageBox.critical(self, '错误', text)
-
-    def on_btn_check_update_released(self):
-        try:
-            self.save_val()
-            self.app.update_mgr.refresh_source()
-            self.app.update_mgr.check_update()
-            self.load_val()
-        except requests.RequestException as exp:
-            logging.error('Could not refresh update metadata. %s', exp)
-            QMessageBox.critical(self, '获取更新信息失败', '获取更新信息失败，请稍后再试。{}'.format(exp))
-
-    def on_btn_update_now_released(self):
-        self.save_val()
-        self.load_val()
-        self.app.update_mgr.update_thread.launch(2)
 
     def update_theme(self):
         if not self.__finished_init:
@@ -304,6 +200,9 @@ class Settings(QWidget):
 
         # crash
         self.ui.btn_crash_report.setEnabled(os.path.exists(properties.log_root + 'crash.txt'))
+        # dev
+        if sys.excepthook is not None:
+            self.ui.cb_hook_exception.setChecked(True)
 
         self.ui.update_progress.setVisible(False)
 
@@ -330,6 +229,22 @@ class Settings(QWidget):
 
         self.app.update_mgr.load_config(self.cfg['update'])
 
+    # slots
+    def on_btn_check_update_released(self):
+        try:
+            self.save_val()
+            self.app.update_mgr.refresh_source()
+            self.app.update_mgr.check_update()
+            self.load_val()
+        except requests.RequestException as exp:
+            logging.error('Could not refresh update metadata. %s', exp)
+            QMessageBox.critical(self, '获取更新信息失败', '获取更新信息失败，请稍后再试。{}'.format(exp))
+
+    def on_btn_update_now_released(self):
+        self.save_val()
+        self.load_val()
+        self.app.update_mgr.update_thread.launch(2)
+
     def on_btn_crash_released(self):
         raise RuntimeError
 
@@ -338,3 +253,184 @@ class Settings(QWidget):
 
     def on_btn_text_dev_edit_released(self):
         self.format_edit.open_edit_window(self.ui.le_text_dev.text())
+
+    def on_btn_opensource_released(self):
+        self.license = LicenseRead(self)
+        self.license.show()
+
+    def on_btn_selcolor_released(self):
+        self.colr_sel = QColorDialog.getColor(initial=QColor(self.ui.btn_selcolor.text()), title='选择主题色')
+        rgb = self.colr_sel.getRgb()
+        self.ui.btn_selcolor.setText(functions.appearance.rgb2hex(rgb[0], rgb[1], rgb[2]))
+
+    def on_btn_confirm_released(self):
+        self.save_val()
+        self.cm.write()
+        self.update_theme()
+        self.close()
+
+    def on_btn_cancel_released(self):
+        self.close()
+
+    def on_btn_apply_released(self):
+        self.save_val()
+        self.cm.write()
+        self.update_theme()
+        self.load_val()
+
+    def on_btn_plugin_folder_released(self):
+        os.startfile(os.getcwd() + properties.plugins_prefix)
+
+    def on_lst_plugins_currentRowChanged(self, row):
+        if self.ui.lst_plugins.count() <= 0:
+            return
+        plugin = self.app.plugin_mgr.plugins[row]
+        if plugin.plugin_config_ui is None:
+            self.ui.btn_configure_plug.setEnabled(False)
+        else:
+            self.ui.btn_configure_plug.setEnabled(True)
+        self.plug_func_menu.clear()
+        self.description = QAction('以下动作由插件“{}”提供'.format(plugin.plugin_name))
+        self.description.setEnabled(False)
+        self.plug_func_menu.addAction(self.description)
+        self.plug_func_menu.addSeparator()
+        if plugin.plugin_actions:
+            self.ui.btn_plug_func.setEnabled(True)
+            self.plug_func_menu.addActions(plugin.plugin_actions)
+        else:
+            self.ui.btn_plug_func.setEnabled(False)
+        # print(self.app.plugin_mgr.plugins[row].plugin_actions)
+
+    def on_btn_configure_plug_released(self):
+        self.app.plugin_mgr.plugins[self.ui.lst_plugins.currentRow()].plugin_config_ui.show()
+
+    def on_btn_plug_info_released(self):
+        self.app.plugin_mgr.plugins[self.ui.lst_plugins.currentRow()].plugin_info_ui.show()
+
+    def on_btn_log_released(self):
+        os.startfile(os.getcwd() + '/' + properties.latest_log_file_fmt)
+
+    def on_btn_log_folder_released(self):
+        os.startfile(os.getcwd() + '/' + properties.log_root)
+
+    def on_btn_crash_report_released(self):
+        os.startfile(os.getcwd() + '/' + properties.log_root + 'crash.txt')
+
+    def on_btn_force_update_released(self):
+        try:
+            self.save_val()
+            self.app.update_mgr.refresh_source()
+            self.app.update_mgr.check_update(True)
+            self.load_val()
+        except requests.RequestException as exp:
+            logging.error('Could not refresh update metadata. %s', exp)
+            QMessageBox.critical(self, '获取更新信息失败', '获取更新信息失败，请稍后再试。{}'.format(exp))
+
+    def on_btn_stop_update_released(self):
+        self.app.update_mgr.update_thread.stop()
+
+    def on_btn_install_local_update_released(self):
+        self.app.update_mgr.restart_to_update = \
+        QInputDialog.getText(self, '自定义更新文件', '输入自定义更新文件的文件名（需要文件后缀）。完成后应用会马上重启并更新。')[0]
+        self.app.quit()
+
+    def on_btn_dbg_download_update_released(self):
+        download_target = QInputDialog.getText(self, '测试下载更新', '下载地址：')[0]
+        self.app.update_mgr.download_target = download_target
+        self.app.update_mgr.update_thread.launch(1)
+
+    def on_btn_check_ui_released(self):
+        try:
+            form_name = QInputDialog.getText(self, '检查界面', '输入要打开的界面名称（.ui）')[0]
+            self.__du = loadUi('./UISource/' + form_name)
+            self.__du.show()
+        except Exception as exp:
+            QMessageBox.critical(self, '打开界面时出错', str(exp))
+
+    def on_cb_hook_exception_toggled(self, stat):
+        import warp
+        if stat:
+            sys.excepthook = warp.exception_hook
+        else:
+            sys.excepthook = None
+
+    def on_btn_ucfg_exp_released(self):
+        self.cfg_exp = {}
+        cfg_temple = {
+            'label': {
+                'view': 'wdcd.label',
+                'text': 'Hello world!'
+            },
+            'line': {
+                'view': 'wdcd.line'
+            },
+            'checkbox': {
+                'view': 'wdcd.check_box',
+                'name': '这是一个复选框',
+                'default': True,
+                'description': '这是一个复选框'
+            },
+            'line_edit': {
+                'view': 'wdcd.line_edit',
+                'name': '这是一个单行文本框',
+                'default': '欸嘿~',
+                'placeholder': 'ehe',
+                'description': '在这里随便输入点啥……'
+            },
+            'int': {
+                'view': 'wdcd.spin_box',
+                'type': 'int',
+                'name': '这是一个整数',
+                'default': 0,
+                'min': 0,
+                'max': 10,
+                # 可选选项
+                'description': '在这里输入一个整数',
+                'step': 1,
+                'prefix': '',
+                'suffix': ''
+            },
+            'float': {
+                'view': 'wdcd.spin_box',
+                'type': 'float',
+                'name': '这是一个浮点数',
+                'default': 11.4514,
+                'min': 0,
+                'max': 100,
+                # 可选选项
+                'description': '在这里输入一个浮点数',
+                'step': 0.1,
+                'prefix': '',
+                'suffix': ''
+            },
+            'combo_box': {
+                'view': 'wdcd.combo_box',
+                'name': '这是一个下拉框',
+                'items': [
+                    'venti', 'kazuha', 'xiao', 'heizou'
+                ],
+                'default': 0,  # 索引值
+                # 可选选项
+                'description': '在这里选择一个颜色'
+            },
+            'color1': {
+                'view': 'wdcd.color_picker',
+                'name': '这是一个颜色',
+                'default': '#45b5a8',  # 索引值
+                # 可选选项
+                'description': '在这里选择一个颜色'
+            },
+            'color2': {
+                'view': 'wdcd.color_picker',
+                'name': '这是一个颜色',
+                'default': '#c84232',  # 索引值
+                # 可选选项
+                'description': '在这里选择一个颜色'
+            }
+        }
+
+        self.ucfg_exp = UIFrames.universe_configure.UniverseConfigureEXP(self.cfg_exp, cfg_temple)
+        self.ucfg_exp.show()
+
+    def on_btn_get_ucfg_value_released(self):
+        QMessageBox.information(self, '结果', str(self.cfg_exp))

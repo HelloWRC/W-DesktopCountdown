@@ -15,13 +15,12 @@ class Label(CV):
 
     def __init__(self, config, container):
         self.config = config
-        self.widget = QLabel()
-        label = QLabel(self.config['text'])
+        self.widget = QLabel(self.config['text'])
         if 'word_warp' in self.config:
-            label.setWordWrap(self.config['word_warp'])
+            self.widget.setWordWrap(self.config['word_warp'])
         if 'selectable' in self.config:
             if self.config['selectable']:
-                label.setTextInteractionFlags(Qt.TextSelectableByMouse | Qt.TextSelectableByKeyboard)
+                self.widget.setTextInteractionFlags(Qt.TextSelectableByMouse | Qt.TextSelectableByKeyboard)
 
     def generate_widget(self):
         return self.widget
@@ -60,12 +59,15 @@ class Line(CV):
 # Valuable widgets
 class LCV(CV, ABC):
     def __init__(self, config, container):
+        self.config = config
         self.content = None
         self.label = QLabel(config['name'])
         if 'description' in config:
             self.label.setToolTip(config['description'])
 
     def generate_widget(self):
+        if 'description' in self.config:
+            self.content.setToolTip(self.config['description'])
         return self.label, self.content
 
 
@@ -98,7 +100,7 @@ class LineEdit(LCV):
         super(LineEdit, self).__init__(config, container)
         self.content = QLineEdit()
         if 'placeholder' in config:
-            config.setPlaceholderText(config['placeholder'])
+            self.content.setPlaceholderText(config['placeholder'])
 
     def load_val(self, value):
         self.content.setText(value)
@@ -131,16 +133,19 @@ class ColorPicker(LCV):
         super(ColorPicker, self).__init__(config, container)
         self.color = QColor()
         self.content = QPushButton()
-        self.content.released.connect()
+        self.content.released.connect(self.set_color)
 
     def load_val(self, value):
         self.content.setText(value)
+        self.content.setStyleSheet('color: {}'.format(value))
 
     def save_val(self):
         return self.content.text()
 
     def set_color(self):
-        self.content.setText(QColorDialog.getColor(QColor(self.content.text())).name())
+        color = QColorDialog.getColor(QColor(self.content.text())).name()
+        self.content.setText(color)
+        self.content.setStyleSheet('color: {}'.format(color))
 
 
 class SpinBox(LCV):
