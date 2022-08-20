@@ -30,6 +30,7 @@ import functions.appearance
 import functions.base
 from UIFrames.license import LicenseRead
 from UIFrames.plugin_info import PluginInfo
+from UIFrames.toast import Toast
 
 import json
 import os
@@ -434,3 +435,6 @@ class Settings(QWidget):
 
     def on_btn_get_ucfg_value_released(self):
         QMessageBox.information(self, '结果', str(self.cfg_exp))
+
+    def on_btn_show_toast_released(self):
+        Toast.show_toast(self, 0, self.ui.le_toast_text.text(), 2500)
