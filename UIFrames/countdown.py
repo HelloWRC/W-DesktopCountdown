@@ -12,6 +12,7 @@ import functions.countdown
 import properties
 from UIFrames.ui_countdown import Ui_Countdown
 from UIFrames.profile_config_ui import ProfileConfigUI
+from UIFrames.toast import Toast
 from PyQt5.QtWidgets import QWidget, QMessageBox
 from PyQt5.QtCore import QEvent, QObject, Qt, QThread, pyqtSignal
 from PyQt5.QtCore import pyqtSlot

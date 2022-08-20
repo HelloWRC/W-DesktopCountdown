@@ -8,6 +8,7 @@ import wcdapp
 from UIFrames.ui_profilemgr import Ui_ProfileMgr
 from UIFrames.ui_countdown_card import Ui_CountdownCard
 from UIFrames.new_countdown import NewCountdownWin
+from UIFrames.toast import Toast
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QListWidgetItem
@@ -70,13 +71,14 @@ class CountdownCard(QWidget):
                                 defaultButton=QMessageBox.No)
         if r == QMessageBox.Yes:
             self.app.profile_mgr.remove_profile(self.name)
+            Toast.toast(self.app.profile_mgr_ui, '倒计时已删除。')
 
     def on_btn_export_released(self):
         path = QFileDialog.getSaveFileName(self, filter='W-DesktopCountdown配置文件(*.wdcd)')
         if path[0] == '':
             return
         shutil.copy(self.cfg.filename, path[0])
-        QMessageBox.information(self, '导出成功', '导出成功')
+        Toast.toast(self.app.profile_mgr_ui, '导出成功。')
 
     def on_cb_enabled_toggled(self, stat):
         if not self.__finished:
@@ -151,6 +153,7 @@ class ProfileMgrUI(QMainWindow):
         if path[0] == '':
             return
         self.app.profile_mgr.import_profile(path[0])
+        Toast.toast(self, '导入成功。')
 
     @pyqtSlot(bool)
     def on_action_settings_triggered(self, triggered):

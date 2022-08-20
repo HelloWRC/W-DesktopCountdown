@@ -4,7 +4,7 @@ from PyQt5.QtCore import QTimer, Qt, QPropertyAnimation, QEasingCurve
 from UIFrames.ui_toast import Ui_Toast
 import time
 
-showed_toasts = None
+global showed_toasts
 
 
 class Toast(QDialog):
@@ -66,13 +66,13 @@ class Toast(QDialog):
         self.close()
 
     @staticmethod
-    def toast(parent, text, timeout):
+    def toast(parent, text, timeout=5):
         """
         显示Toast
 
         :param parent: 要显示Toast的父窗口
         :param text: Toast内容
-        :param timeout: Toast自动关闭时间（秒）
+        :param timeout: （可选）Toast自动关闭时间（秒），默认值为5
         """
         global showed_toasts
         toast = showed_toasts = Toast(parent, text, timeout)
