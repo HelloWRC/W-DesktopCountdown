@@ -437,4 +437,4 @@ class Settings(QWidget):
         QMessageBox.information(self, '结果', str(self.cfg_exp))
 
     def on_btn_show_toast_released(self):
-        Toast.show_toast(self, self.ui.le_toast_text.text(), 2500)
+        Toast.toast(self, self.ui.le_toast_text.text(), 15)
