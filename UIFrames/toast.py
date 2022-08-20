@@ -37,6 +37,9 @@ class Toast(QDialog):
     def paintEvent(self, a0) -> None:
         self.set_pos()
 
+    def closeEvent(self, a0) -> None:
+        self.timer.stop()
+
     def set_pos(self):
         px = self.parent_w.pos().x()
         py = self.parent_w.pos().y()
