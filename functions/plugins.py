@@ -17,6 +17,7 @@ path_root = 'functions.plugins.'
 effects = {}
 actions = {}
 triggers = {}
+cfg_views = {}
 
 
 class Plugin:
@@ -41,6 +42,7 @@ class Plugin:
         self.provided_effects = {}
         self.provided_triggers = {}
         self.provided_actions = {}
+        self.provided_views = {}
         self.tray_actions = {}
         self.pm_actions = {}
 
@@ -51,6 +53,7 @@ class Plugin:
         self.module = importlib.import_module(self.module_path)
         self.plugin_id = self.module.plugin_id
         self.plugin_name = self.module.plugin_name
+        logging.info('Loading plugin %s', self.plugin_id)
         if 'plugin_default_config' in dir(self.module):
             self.plugin_default_cfg = self.module.plugin_default_config
         if self.plugin_id not in self.app.app_cfg.cfg['plugins']:
@@ -79,14 +82,22 @@ class Plugin:
             for effect in self.module.provided_effects:
                 effects[effect.effect_id] = effect
                 self.provided_effects[effect.effect_id] = effect
+                logging.info('Loaded effect %s', effect.effect_id)
         if 'provided_actions' in dir(self.module):
             for action in self.module.provided_actions:
                 actions[action.action_id] = action
                 self.provided_actions[action.action_id] = action
+                logging.info('Loaded action %s', action.action_id)
         if 'provided_triggers' in dir(self.module):
             for trigger in self.module.provided_triggers:
                 triggers[trigger.trigger_id] = trigger
                 self.provided_triggers[trigger.trigger_id] = trigger
+                logging.info('Loaded trigger %s', trigger.trigger_id)
+        if 'provided_cfg_views' in dir(self.module):
+            for view in self.module.provided_cfg_views:
+                cfg_views[view.view_id] = view
+                self.provided_views[view.view_id] = view
+                logging.info('Loaded cfg view %s', view.view_id)
 
         self.module.on_load(self.plugin_config, self.app)
 

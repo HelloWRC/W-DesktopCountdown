@@ -5,7 +5,7 @@ from PyQt5.QtGui import QColor
 from PyQt5.Qt import QApplication, Qt, QSize
 import logging
 import properties
-from data import effects
+# from data import effects
 
 
 class UniverseConfigure(QWidget):
@@ -130,16 +130,4 @@ class UniverseConfigure(QWidget):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO,
-                        format=properties.log_styles,
-                        datefmt=properties.datefmt,
-                        filemode='w',
-                        filename='latest.log')
-    logger = logging.getLogger(__name__)
-    logger.info('Welcome to W-DesktopCountdown %s.', properties.version)
-    app = QApplication([])
-    config = {}
-    effect_config = UniverseConfigure(config, effects.SampleEffect.default_config)
-    effect_config.show()
-    app.exec_()
-    print(config)
+    pass
