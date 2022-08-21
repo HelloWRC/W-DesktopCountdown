@@ -67,6 +67,7 @@
         <file>resources/img/contributors/qt.png</file>
         <file>resources/img/contributors/lib.svg</file>
         <file>resources/img/contributors/other-people.svg</file>
+        <file>doc/changelogs.md</file>
     </qresource>
     <qresource prefix="/icons"/>
 </RCC>

@@ -15,7 +15,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import QObject
 from PyQt5.QtCore import QEvent
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtCore import QUrl
+from PyQt5.QtCore import QUrl, QFile, QIODevice, QTextStream, QTextCodec
 from PyQt5.QtWidgets import QColorDialog
 from PyQt5.QtWidgets import QInputDialog
 from PyQt5.QtWidgets import QMessageBox
@@ -93,6 +93,12 @@ class Settings(QWidget):
             self.ui.container_people.addWidget(CobBlock(i))
         for i in properties.cob_projects:
             self.ui.container_projects.addWidget(CobBlock(i))
+        self.changelog = QFile(':/doc/changelogs.md')
+        self.changelog.open(QIODevice.ReadOnly)
+        self.stream = QTextStream(self.changelog)
+        self.stream.setCodec(QTextCodec.codecForName('utf-8'))
+        self.ui.lb_changelog_history.setText(self.stream.readAll())
+        self.changelog.close()
         self.__finished_init = True
 
     def update_download_status(self, progress, text):
