@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>613</width>
-    <height>668</height>
+    <height>738</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -633,7 +633,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="pg_background">
           <property name="geometry">
@@ -750,7 +750,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>565</width>
+            <width>169</width>
             <height>87</height>
            </rect>
           </property>
@@ -793,8 +793,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>548</width>
-            <height>250</height>
+            <width>565</width>
+            <height>270</height>
            </rect>
           </property>
           <attribute name="label">
