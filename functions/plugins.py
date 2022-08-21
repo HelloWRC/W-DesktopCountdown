@@ -64,8 +64,8 @@ class Plugin:
             self.plugin_config_ui = self.module.plugin_configure_ui
         else:
             if self.plugin_default_cfg:
-                self.plugin_config_ui = UIFrames.universe_configure.UniverseConfigure(self.plugin_config,
-                                                                                      self.plugin_default_cfg)
+                self.plugin_config_ui = UIFrames.universe_configure.UniverseConfigureEXP(self.plugin_config,
+                                                                                         self.plugin_default_cfg)
             else:
                 self.plugin_config_ui = None
 

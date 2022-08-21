@@ -1,39 +1,12 @@
 import time
 
 
-class SampleTrigger:
-    trigger_id = 'wdcd.sample_trigger'
-    trigger_name = '测试触发器'
-    default_config = {}
-
-    def __init__(self, app, countdown, config):
-        self.app = app
-        self.countdown = countdown
-        self.config = config
-
-    def check(self):
-        return True
-
-
-class AlwaysFalse:
-    trigger_id = 'wdcd.always_false'
-    trigger_name = '总是返回否的触发器'
-    default_config = {}
-
-    def __init__(self, app, countdown, config):
-        self.app = app
-        self.countdown = countdown
-        self.config = config
-
-    def check(self):
-        return False
-
-
 class WhenCountdownEnd:
     trigger_id = 'wdcd.countdown_end'
     trigger_name = '倒计时结束时'
     default_config = {
         'offset': {
+            'view': 'wdcd.spin_box',
             'type': 'int',
             'name': '延后时间',
             'default': 0,
@@ -46,6 +19,7 @@ class WhenCountdownEnd:
             'suffix': '秒'
         },
         'delay': {
+            'view': 'wdcd.check_box',
             'type': 'bool',
             'name': '如果已经结束，依然触发',
             'default': False
@@ -81,6 +55,7 @@ class WhenCountdownStart:
     trigger_name = '倒计时开始时'
     default_config = {
         'offset': {
+            'view': 'wdcd.spin_box',
             'type': 'int',
             'name': '提前时间',
             'default': 0,
@@ -93,7 +68,7 @@ class WhenCountdownStart:
             'suffix': '秒'
         },
         'delay': {
-            'type': 'bool',
+            'view': 'wdcd.check_box',
             'name': '如果已经开始，依然触发',
             'default': False
         }

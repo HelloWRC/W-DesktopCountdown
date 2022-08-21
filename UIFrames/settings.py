@@ -54,9 +54,9 @@ class Settings(QWidget):
         self.cfg_exp = {}
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-        self.page_basic = UIFrames.universe_configure.UniverseConfigure(self.cfg['basic'],
-                                                                        properties.default_basic_config,
-                                                                        True)
+        self.page_basic = UIFrames.universe_configure.UniverseConfigureEXP(self.cfg['basic'],
+                                                                           properties.default_basic_config,
+                                                                           True)
         self.ui.tab_gernel.layout().addWidget(self.page_basic)
 
         self.plug_func_menu = QMenu()
@@ -67,7 +67,7 @@ class Settings(QWidget):
             platform.platform())))
         for i in properties.default_colors:
             self.ui.cb_colortheme.addItem(i)
-        self.ui.tb_thanks.setSource(QUrl('qrc://resources/doc/contributors.md'), 4)
+        # self.ui.tb_thanks.setSource(QUrl('qrc://resources/doc/contributors.md'), 4)
         self.ui.cb_custom_font.setFont(QFont(self.cfg['appearance']['custom_font']))
         self.load_val()
         self.click_count = 0

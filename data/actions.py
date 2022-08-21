@@ -8,49 +8,13 @@ from PyQt5.QtWidgets import QMessageBox
 import wcdapp
 
 
-class SampleAction:
-    action_id = 'wdcd.sample_action'
-    action_name = '测试动作'
-    default_config = {
-        'string': {
-            'type': 'string',
-            'name': '要打印的内容',
-            'default': 'Hello!'
-        }
-    }
-
-    def __init__(self, app, countdown, config):
-        self.cfg = config
-
-    def run(self):
-        print(self.cfg['string'])
-
-
-class SampleAction2:
-    action_id = 'wdcd.sample_action2'
-    action_name = '测试动作2号'
-    default_config = {
-        'string': {
-            'type': 'string',
-            'name': '要打印的内容',
-            'default': 'Hello!'
-        }
-    }
-
-    def __init__(self, app, countdown, config):
-        self.cfg = config
-
-    def run(self):
-        print(self.cfg['string'])
-
-
 class RunCommand:
     action_id = 'wdcd.run_command'
     action_name = '运行命令'
     action_description = '运行指定的命令。'
     default_config = {
         'command': {
-            'type': 'string',
+            'view': 'wdcd.line_edit',
             'name': '命令行',
             'default': ''
         }
@@ -69,7 +33,7 @@ class StartFile:
     action_description = '打开指定的文件'
     default_config = {
         'path': {
-            'type': 'string',
+            'view': 'wdcd.line_edit',
             'name': '文件路径',
             'default': '',
             'description': '要打开的文件路径'
@@ -92,6 +56,7 @@ class PushCountdownBack:
     action_descriprion = '将倒计时延后。'
     default_config = {
         'start_offset': {
+            'view': 'wdcd.spin_box',
             'type': 'int',
             'name': '开始时间延后',
             'default': 0,
@@ -104,6 +69,7 @@ class PushCountdownBack:
             'suffix': '秒'
         },
         'end_offset': {
+            'view': 'wdcd.spin_box',
             'type': 'int',
             'name': '结束时间延后',
             'default': 0,
@@ -163,7 +129,7 @@ class PopMessageBox:
     action_descriprion = '弹出一个自定义的提示框'
     default_config = {
         'msg_type': {
-            'type': 'combo_box',
+            'view': 'wdcd.combo_box',
             'name': '提示类型',
             'items': [
                 '信息',
@@ -175,13 +141,13 @@ class PopMessageBox:
             'description': '弹出的提示框的类型'
         },
         'title': {
-            'type': 'string',
+            'view': 'wdcd.line_edit',
             'name': '消息标题',
             'default': '',
             'description': '提示框标题栏内容'
         },
         'text': {
-            'type': 'string',
+            'view': 'wdcd.line_edit',
             'name': '消息文本',
             'default': '',
             'description': '提示框要显示的文本'
@@ -206,13 +172,13 @@ class PopNotification:
     action_descriprion = '弹出一个自定义的通知'
     default_config = {
         'title': {
-            'type': 'string',
+            'view': 'wdcd.line_edit',
             'name': '通知标题',
             'default': '',
             'description': '通知标题'
         },
         'text': {
-            'type': 'string',
+            'view': 'wdcd.line_edit',
             'name': '通知文本',
             'default': '',
             'description': '要显示的文本'

@@ -8,7 +8,7 @@ import functions.countdown
 import functions.plugins
 import properties
 from UIFrames.ui_automate_cfg import Ui_AutomateConfigure
-from UIFrames.universe_configure import UniverseConfigure
+from UIFrames.universe_configure import UniverseConfigureEXP
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QMenu
 from PyQt5.QtWidgets import QAction
@@ -116,13 +116,13 @@ class AutomateConfigure(QWidget):
                 self.ui.lst_trigger.addItem(functions.plugins.triggers[i['id']].trigger_name)
             else:
                 self.ui.lst_trigger.addItem(i['id'])
-            self.trigger_cfg.append(UniverseConfigure(i['config'], functions.plugins.triggers[i['id']].default_config))
+            self.trigger_cfg.append(UniverseConfigureEXP(i['config'], functions.plugins.triggers[i['id']].default_config))
         for i in self.cfg['actions']:
             if i['id'] in functions.plugins.actions:
                 self.ui.lst_actions.addItem(functions.plugins.actions[i['id']].action_name)
             else:
                 self.ui.lst_actions.addItem(i['id'])
-            self.action_cfg.append(UniverseConfigure(i['config'], functions.plugins.actions[i['id']].default_config))
+            self.action_cfg.append(UniverseConfigureEXP(i['config'], functions.plugins.actions[i['id']].default_config))
 
     def on_btn_cfg_trigger_released(self):
         if self.ui.lst_trigger.count() <= 0:

@@ -12,6 +12,7 @@ import requests
 import properties
 import wcdapp
 from functions.hook import hook_target
+import functions.plugins
 
 from PyQt5.QtCore import QObject
 from PyQt5.QtCore import QThread
@@ -278,7 +279,7 @@ def filename_chk(name):
 @hook_target(path_root + 'rich_default_pass')
 def rich_default_pass(default_config, config):
     for k in default_config:
-        if default_config[k]['type'] == 'label':
+        if not functions.plugins.cfg_views[default_config[k]['view']].can_store:
             continue
         if k not in config:
             config[k] = default_config[k]['default']

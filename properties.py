@@ -189,16 +189,17 @@ default_config = {
 
 default_basic_config = {
     'title_auto_align': {
-        'type': 'label',
+        'view': 'wdcd.label',
         'text': '<h2>对齐</h2><p>可以在移动倒计时时快速和其他窗口对齐</p>',
         'word_warp': True
     },
     'align_enabled': {
-        'type': 'bool',
+        'view': 'wdcd.check_box',
         'name': '启用对齐',
         'default': True
     },
     'align_offset': {
+        'view': 'wdcd.spin_box',
         'type': 'int',
         'name': '对齐误差范围',
         'default': 20,
@@ -207,15 +208,15 @@ default_basic_config = {
         'description': '触发对齐的误差值。'
     },
     'line_1': {
-        'type': 'line'
+        'view': 'wdcd.line'
     },
     'title_advanced': {
-        'type': 'label',
+        'view': 'wdcd.label',
         'text': '<h2>杂项</h2>',
         'word_warp': True
     },
     'launch_on_start': {
-        'type': 'bool',
+        'view': 'wdcd.check_box',
         'name': '开机自启',
         'default': True,
         'description': '让应用在系统启动时自动启动'
