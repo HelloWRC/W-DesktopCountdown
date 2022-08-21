@@ -29,9 +29,9 @@ class PluginInfo(QWidget):
         ))
 
         lists = (self.ui.lst_effects, self.ui.lst_actions, self.ui.lst_triggers,
-                 self.ui.lst_pm_actions, self.ui.lst_tray_actions)
+                 self.ui.lst_pm_actions, self.ui.lst_tray_actions, self.ui.lst_ucfg_views)
         sources = (self.plugin.provided_effects, self.plugin.provided_actions, self.plugin.provided_triggers,
-                   self.plugin.pm_actions, self.plugin.tray_actions)
+                   self.plugin.pm_actions, self.plugin.tray_actions, self.plugin.provided_views)
         for i in range(0, 3):
             lists[i].addItems(sources[i])
         for i in range(3, 5):
@@ -39,6 +39,8 @@ class PluginInfo(QWidget):
                 item = QListWidgetItem(k.text())
                 item.setIcon(k.icon())
                 lists[i].addItem(item)
+        lists[5].addItems(sources[5])
+
 
     def showEvent(self, event):
         self.ui.btn_browse_plugin.setEnabled(os.path.exists(properties.work_root + '/'.join(self.plugin.module_path.split('.'))))

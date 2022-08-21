@@ -42,7 +42,7 @@ class Plugin:
         self.provided_effects = {}
         self.provided_triggers = {}
         self.provided_actions = {}
-        self.provided_views = {}
+        self. provided_views = {}
         self.tray_actions = {}
         self.pm_actions = {}
 
