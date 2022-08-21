@@ -31,6 +31,7 @@ import functions.base
 from UIFrames.license import LicenseRead
 from UIFrames.plugin_info import PluginInfo
 from UIFrames.toast import Toast
+from UIFrames.cob_block import CobBlock
 
 import json
 import os
@@ -75,6 +76,9 @@ class Settings(QWidget):
         self.ui.lb_logo.setScaledContents(True)
         self.ui.lb_logo.setFixedSize(64, 64)
         self.ui.lb_logo.setPixmap(QPixmap(":/resources/icons/colorful/logo.svg"))
+        self.ui.lb_logo_2.setScaledContents(True)
+        self.ui.lb_logo_2.setFixedSize(64, 64)
+        self.ui.lb_logo_2.setPixmap(QPixmap(":/resources/icons/colorful/logo.svg"))
         self.app.update_mgr.update_thread.sig_status.connect(self.update_download_status)
         self.app.update_mgr.update_thread.sig_error.connect(self.error_status)
         if not self.app.arg.dev:
@@ -84,9 +88,12 @@ class Settings(QWidget):
             '%a': '占位符1',
             '%b': '占位符2'
         })
+
+        for i in properties.cob_people:
+            self.ui.container_people.addWidget(CobBlock(i))
+        for i in properties.cob_projects:
+            self.ui.container_projects.addWidget(CobBlock(i))
         self.__finished_init = True
-
-
 
     def update_download_status(self, progress, text):
         if progress == -1:
@@ -357,80 +364,7 @@ class Settings(QWidget):
 
     def on_btn_ucfg_exp_released(self):
         self.cfg_exp = {}
-        cfg_temple = {
-            'label': {
-                'view': 'wdcd.label',
-                'text': 'Hello world!'
-            },
-            'line': {
-                'view': 'wdcd.line'
-            },
-            'checkbox': {
-                'view': 'wdcd.check_box',
-                'name': '这是一个复选框',
-                'default': True,
-                'description': '这是一个复选框'
-            },
-            'line_edit': {
-                'view': 'wdcd.line_edit',
-                'name': '这是一个单行文本框',
-                'default': '欸嘿~',
-                'placeholder': 'ehe',
-                'description': '在这里随便输入点啥……'
-            },
-            'int': {
-                'view': 'wdcd.spin_box',
-                'type': 'int',
-                'name': '这是一个整数',
-                'default': 0,
-                'min': 0,
-                'max': 10,
-                # 可选选项
-                'description': '在这里输入一个整数',
-                'step': 1,
-                'prefix': '',
-                'suffix': ''
-            },
-            'float': {
-                'view': 'wdcd.spin_box',
-                'type': 'float',
-                'name': '这是一个浮点数',
-                'default': 11.4514,
-                'min': 0,
-                'max': 100,
-                # 可选选项
-                'description': '在这里输入一个浮点数',
-                'step': 0.1,
-                'prefix': '',
-                'suffix': ''
-            },
-            'combo_box': {
-                'view': 'wdcd.combo_box',
-                'name': '这是一个下拉框',
-                'items': [
-                    'venti', 'kazuha', 'xiao', 'heizou'
-                ],
-                'default': 0,  # 索引值
-                # 可选选项
-                'description': '在这里选择一个颜色'
-            },
-            'color1': {
-                'view': 'wdcd.color_picker',
-                'name': '这是一个颜色',
-                'default': '#45b5a8',  # 索引值
-                # 可选选项
-                'description': '在这里选择一个颜色'
-            },
-            'color2': {
-                'view': 'wdcd.color_picker',
-                'name': '这是一个颜色',
-                'default': '#c84232',  # 索引值
-                # 可选选项
-                'description': '在这里选择一个颜色'
-            }
-        }
-
-        self.ucfg_exp = UIFrames.universe_configure.UniverseConfigureEXP(self.cfg_exp, cfg_temple)
+        self.ucfg_exp = UIFrames.universe_configure.UniverseConfigureEXP(self.cfg_exp, properties.ucfg_test_temple)
         self.ucfg_exp.show()
 
     def on_btn_get_ucfg_value_released(self):

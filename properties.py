@@ -261,3 +261,198 @@ update_status = [
     '发现新版本',
     '发现新版本，准备安装'
 ]
+
+ucfg_test_temple = {
+    'label': {
+        'view': 'wdcd.label',
+        'text': 'Hello world!'
+    },
+    'line': {
+        'view': 'wdcd.line'
+    },
+    'checkbox': {
+        'view': 'wdcd.check_box',
+        'name': '这是一个复选框',
+        'default': True,
+        'description': '这是一个复选框'
+    },
+    'line_edit': {
+        'view': 'wdcd.line_edit',
+        'name': '这是一个单行文本框',
+        'default': '欸嘿~',
+        'placeholder': 'ehe',
+        'description': '在这里随便输入点啥……'
+    },
+    'int': {
+        'view': 'wdcd.spin_box',
+        'type': 'int',
+        'name': '这是一个整数',
+        'default': 0,
+        'min': 0,
+        'max': 10,
+        # 可选选项
+        'description': '在这里输入一个整数',
+        'step': 1,
+        'prefix': '',
+        'suffix': ''
+    },
+    'float': {
+        'view': 'wdcd.spin_box',
+        'type': 'float',
+        'name': '这是一个浮点数',
+        'default': 11.4514,
+        'min': 0,
+        'max': 100,
+        # 可选选项
+        'description': '在这里输入一个浮点数',
+        'step': 0.1,
+        'prefix': '',
+        'suffix': ''
+    },
+    'combo_box': {
+        'view': 'wdcd.combo_box',
+        'name': '这是一个下拉框',
+        'items': [
+            'venti', 'kazuha', 'xiao', 'heizou'
+        ],
+        'default': 0,  # 索引值
+        # 可选选项
+        'description': '在这里选择一个颜色'
+    },
+    'color1': {
+        'view': 'wdcd.color_picker',
+        'name': '这是一个颜色',
+        'default': '#45b5a8',  # 索引值
+        # 可选选项
+        'description': '在这里选择一个颜色'
+    },
+    'color2': {
+        'view': 'wdcd.color_picker',
+        'name': '这是一个颜色',
+        'default': '#c84232',  # 索引值
+        # 可选选项
+        'description': '在这里选择一个颜色'
+    }
+}
+
+cob_people = [
+    {
+        'icon': ':/resources/img/contributors/HelloWRC.jpg',
+        'title': 'HelloWRC',
+        'content': '项目作者，目前主要开发者。',
+        'links': [
+            {
+                'text': 'Github',
+                'link': 'https://github.com/HelloWRC'
+            }
+        ]
+    },
+    {
+        'icon': '',
+        'title': '其他为此项目做出贡献的人员',
+        'content': '包括但不限于提交、提出Issues、提交PR',
+        'links': [
+            {
+                'text': '在Github上查看贡献列表',
+                'link': 'https://github.com/HelloWRC/W-DesktopCountdown/graphs/contributors'
+            }
+        ]
+    }
+]
+
+cob_projects = [
+    {
+        'icon': ':/resources/img/contributors/qt-material.png',
+        'title': 'Qt Material',
+        'content': '全局主题',
+        'links': [
+            {
+                'text': 'Github仓库',
+                'link': 'https://github.com/UN-GCPDS/qt-material'
+            },
+            {
+                'text': '许可证：BSD-2-Clause License',
+                'link': 'https://github.com/UN-GCPDS/qt-material/blob/master/LICENSE'
+            },
+            {
+                'text': '作者：UN-GCPDS',
+                'link': 'https://github.com/UN-GCPDS/qt-material'
+            }
+        ]
+    },
+    {
+        'icon': ':/resources/img/contributors/kde.svg',
+        'title': 'Breeze Icons',
+        'content': '图标主题',
+        'links': [
+            {
+                'text': 'kde.org',
+                'link': 'https://kde.org'
+            },
+            {
+                'text': 'Github仓库',
+                'link': 'https://github.com/KDE/breeze-icons'
+            },
+            {
+                'text': '许可证：GPLv2.1',
+                'link': 'https://github.com/KDE/breeze-icons/blob/master/COPYING.LIB'
+            },
+            {
+                'text': '作者：KDE',
+                'link': 'https://github.com/KDE'
+            }
+        ]
+    },
+    {
+        'icon': ':/resources/img/contributors/lib.svg',
+        'title': 'Qt-Frameless-Window',
+        'content': '从中提取了亚克力效果的部分',
+        'links': [
+            {
+                'text': 'Github仓库',
+                'link': 'https://github.com/zhiyiYo/PyQt-Frameless-Window'
+            },
+            {
+                'text': '许可证：MIT License',
+                'link': 'https://github.com/zhiyiYo/PyQt-Frameless-Window/blob/master/LICENSE'
+            },
+            {
+                'text': '作者：之一',
+                'link': 'https://github.com/zhiyiYo'
+            }
+        ]
+    },
+    {
+        'icon': ':/resources/img/contributors/qt.png',
+        'title': 'Qt & PyQt',
+        'content': '本项目基于Qt框架和PyQt开发',
+        'links': [
+            {
+                'text': 'qt.io',
+                'link': 'https://www.qt.io'
+            },
+            {
+                'text': '许可证：BSD-2-Clause License',
+                'link': 'https://github.com/UN-GCPDS/qt-material/blob/master/LICENSE'
+            }
+        ]
+    },
+    {
+        'icon': ':/resources/img/contributors/python.png',
+        'title': 'Python',
+        'content': '本项目由Python驱动',
+        'links': [
+            {
+                'text': 'python.org',
+                'link': 'https://python.org'
+            }
+        ]
+    },
+    {
+        'icon': ':/resources/img/contributors/lib.svg',
+        'title': '其余的一些依赖库',
+        'content': 'pywin32 - 调用win32 api\nrequests - 文件下载\nzipfile - 解压文件\npyinstaller - 将Python包打包为可执行文件',
+        'links': [
+        ]
+    }
+]

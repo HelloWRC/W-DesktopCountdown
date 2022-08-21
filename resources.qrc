@@ -59,6 +59,14 @@
         <file>resources/icons/breeze-light/actions/32/document-import.svg</file>
         <file>resources/icons/breeze-light/actions/32/document-new.svg</file>
         <file>resources/icons/breeze-light/actions/32/multiple.svg</file>
+        <file>resources/img/contributors/HelloWRC.jpg</file>
+        <file>resources/img/contributors/kde.svg</file>
+        <file>resources/img/contributors/qt-material.png</file>
+        <file>resources/img/contributors/qt.svg</file>
+        <file>resources/img/contributors/python.png</file>
+        <file>resources/img/contributors/qt.png</file>
+        <file>resources/img/contributors/lib.svg</file>
+        <file>resources/img/contributors/other-people.svg</file>
     </qresource>
     <qresource prefix="/icons"/>
 </RCC>
