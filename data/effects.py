@@ -70,11 +70,6 @@ class AcrylicEffect:
     effect_friendly_name = '亚克力效果'
     effect_description = '将倒计时页面背景应用亚克力效果。需要Windows10以及更新版本的Windows。'
     default_config = {
-        'description': {
-            'view': 'wdcd.label',
-            'text': '本特效利用了dwm内置的api，由zhiyiyo提供的基于MIT协议开源代码调用。本特效仅能在Windows 10以及更新版本的Windows上工作。',
-            'word_warp': True
-        },
         'background_color_type': {
             'view': 'wdcd.combo_box',
             'name': '背景色来源',
