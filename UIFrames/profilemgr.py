@@ -71,7 +71,7 @@ class CountdownCard(QWidget):
                                 defaultButton=QMessageBox.No)
         if r == QMessageBox.Yes:
             self.app.profile_mgr.remove_profile(self.name)
-            Toast.toast(self.app.profile_mgr_ui, '倒计时已删除。')
+            Toast.toast(self.app.profile_mgr_ui, '倒计时删除成功。')
 
     def on_btn_export_released(self):
         path = QFileDialog.getSaveFileName(self, filter='W-DesktopCountdown配置文件(*.wdcd)')

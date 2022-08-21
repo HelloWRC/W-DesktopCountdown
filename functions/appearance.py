@@ -81,7 +81,7 @@ class EffectManager:
             logging.info('enabled effect: %s', i)
         for i in changed_effects:
             for k in functions.plugins.effects[i].default_config:
-                if functions.plugins.effects[i].default_config[k]['type'] == 'label':
+                if not functions.plugins.cfg_views[functions.plugins.effects[i].default_config[k]['view']].can_store:
                     continue
                 if k not in config[i]:
                     config[i][k] = functions.plugins.effects[i].default_config[k]['default']

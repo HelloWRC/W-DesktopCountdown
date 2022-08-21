@@ -79,7 +79,7 @@
             <x>0</x>
             <y>0</y>
             <width>526</width>
-            <height>275</height>
+            <height>240</height>
            </rect>
           </property>
           <attribute name="label">
@@ -96,8 +96,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>526</width>
-            <height>275</height>
+            <width>107</width>
+            <height>107</height>
            </rect>
           </property>
           <attribute name="label">
@@ -115,7 +115,7 @@
             <x>0</x>
             <y>0</y>
             <width>526</width>
-            <height>275</height>
+            <height>240</height>
            </rect>
           </property>
           <attribute name="label">
@@ -133,7 +133,7 @@
             <x>0</x>
             <y>0</y>
             <width>526</width>
-            <height>275</height>
+            <height>240</height>
            </rect>
           </property>
           <attribute name="label">
@@ -151,7 +151,7 @@
             <x>0</x>
             <y>0</y>
             <width>526</width>
-            <height>275</height>
+            <height>240</height>
            </rect>
           </property>
           <attribute name="label">
@@ -160,6 +160,16 @@
           <layout class="QVBoxLayout" name="verticalLayout_8">
            <item>
             <widget class="QListWidget" name="lst_pm_actions"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="pg_ucfg_views">
+          <attribute name="label">
+           <string>配置单元</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_9">
+           <item>
+            <widget class="QListWidget" name="lst_ucfg_views"/>
            </item>
           </layout>
          </widget>

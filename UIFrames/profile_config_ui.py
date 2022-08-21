@@ -25,6 +25,7 @@ from PyQt5.QtGui import QFont
 from UIFrames.universe_configure import UniverseConfigureEXP
 from UIFrames.automate_cfg import AutomateConfigure
 from UIFrames.format_edit import FormatEdit
+from UIFrames.toast import Toast
 
 
 class ProfileConfigUI(QWidget):
@@ -139,6 +140,7 @@ class ProfileConfigUI(QWidget):
             if self.update_trigger is not None:
                 self.update_trigger()
             self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))
+            Toast.toast(self, '重置此档案成功。')
 
     def on_btn_save_as_default_released(self):
         r = QMessageBox.warning(self, '设为默认'.format(self.cfg.cfg['countdown']['title']),
@@ -149,6 +151,7 @@ class ProfileConfigUI(QWidget):
             import wcdapp
             self.app.profile_mgr.set_as_default(self.name)
             self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))
+            Toast.toast(self, '设置为默认值成功。')
 
     def on_btn_open_folder_released(self):
         os.startfile(os.getcwd() + properties.profile_prefix)
@@ -352,6 +355,7 @@ class ProfileConfigUI(QWidget):
         if r == QMessageBox.Yes:
             self.cfg.cfg['trusted'] = True
             self.on_btn_apply_released()
+            Toast.toast(self, '信任倒计时成功。')
 
     def load_widget_style(self, widget):
         style_root = functions.base.default_pass(self.cfg.cfg['style'][widget], properties.default_widget_style)
