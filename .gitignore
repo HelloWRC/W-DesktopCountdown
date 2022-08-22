@@ -84,3 +84,4 @@ UIFrames/ui*
 /dist/
 /build/
 /warp.spec
+/plugins/

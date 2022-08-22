@@ -1,4 +1,6 @@
+import copy
 import importlib
+import json
 import sys
 
 import UIFrames.universe_configure
@@ -18,6 +20,43 @@ effects = {}
 actions = {}
 triggers = {}
 cfg_views = {}
+
+
+class PluginAPI:
+    def __init__(self):
+        """
+        插件API
+        """
+        pass
+
+    def get_self_module(self):
+        """
+        获得当前插件的模块对象
+
+        :return: 插件对象
+        """
+        pass
+
+    def get_plugin_module(self, plugin_id):
+        """
+        获得指定插件的模块对象
+
+        :param plugin_id: 插件id
+        :return: 插件对象
+        """
+        pass
+
+    def toast(self, parent, text, timeout=5):
+        """
+        显示Toast
+        """
+        pass
+
+    def hook(self):
+        """
+        对指定函数上钩
+        """
+        pass
 
 
 class Plugin:
@@ -145,6 +184,63 @@ class PluginMgr:
             os.mkdir(properties.plugins_prefix)
         sys.path.append(os.getcwd())
 
+        self.plugin_metas = {}
+        self.preloaded_plugins = []
+        self.loading_tree = {}
+        # Preloading plugins
+        logging.info('Preloading plugins...')
+        for i in os.listdir(properties.plugins_prefix):
+            meta_path = properties.plugins_prefix + i + '/metadata.json'
+            metadata = {}
+            if not os.path.exists(meta_path):
+                logging.error('Invalid plugin: %s', i)
+                continue
+            with open(meta_path, 'r') as meta:
+                metadata = json.load(meta)
+                self.plugin_metas[i] = metadata
+                self.preloaded_plugins.append(metadata['id'])
+                logging.info('Found plugin: %s', metadata['id'])
+                self.loading_tree[metadata['id']] = {
+                    'in': [], 'out': [], 'id': metadata['id'], 'path': i
+                }
+
+        # Check dependency and build dependency tree
+        logging.info('Checking plugin dependency...')
+        for i in self.plugin_metas:
+            for k in self.plugin_metas[i]['depends']:
+                plugin_id = self.plugin_metas[i]['id']
+                if k not in self.preloaded_plugins:
+                    logging.critical('Plugin %s dependency %s not met', plugin_id, k)
+                    raise RuntimeError('Dependency error.')
+                self.loading_tree[plugin_id]['in'].append(k)
+                self.loading_tree[k]['out'].append(plugin_id)
+        logging.info('No dependency errors found.')
+
+        # Build loading order
+        self.loading_order = []
+        loading_queue = []
+        loading_tree = copy.deepcopy(self.loading_tree)
+        for i in self.loading_tree:
+            if len(loading_tree[i]['in']) == 0:
+                loading_queue.append(i)
+        while len(loading_queue):
+            req_remove = []
+            req_add = []
+            for i in loading_queue:
+                root = loading_tree[i]
+                if len(root['in']) == 0:
+                    # All depends loaded
+                    self.loading_order.append(i)
+                    req_remove.append(i)
+                    for k in root['out']:
+                        req_add.append(k)
+                        loading_tree[k]['in'].remove(i)
+            for i in req_add:
+                loading_queue.append(i)
+            for i in req_remove:
+                loading_queue.remove(i)
+
+        # Full loading plugins
         if self.app.arg.no_plugins:
             self.plugins = []
             return
