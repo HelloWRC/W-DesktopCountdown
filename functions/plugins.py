@@ -61,11 +61,12 @@ class PluginAPI:
 
 class Plugin:
     @hook_target(path_root + 'Plugin.__init__')
-    def __init__(self, app, module_path):
+    def __init__(self, app, module_path, metadata):
         import wcdapp
         self.app: wcdapp.WDesktopCD = app
         self.module_path = module_path
         self.module = None
+        self.metadata = metadata
         self.plugin_config_ui = None
         self.plugin_info_ui = None
         self.plugin_default_cfg = {}
@@ -81,7 +82,7 @@ class Plugin:
         self.provided_effects = {}
         self.provided_triggers = {}
         self.provided_actions = {}
-        self. provided_views = {}
+        self.provided_views = {}
         self.tray_actions = {}
         self.pm_actions = {}
 
@@ -90,8 +91,8 @@ class Plugin:
         logging.info('loading plugin as py package: %s', self.module_path
                      )
         self.module = importlib.import_module(self.module_path)
-        self.plugin_id = self.module.plugin_id
-        self.plugin_name = self.module.plugin_name
+        self.plugin_id = self.metadata['id']
+        self.plugin_name = self.metadata['name']
         logging.info('Loading plugin %s', self.plugin_id)
         if 'plugin_default_config' in dir(self.module):
             self.plugin_default_cfg = self.module.plugin_default_config
@@ -108,14 +109,14 @@ class Plugin:
             else:
                 self.plugin_config_ui = None
 
-        if 'plugin_author' in dir(self.module):
-            self.author = self.module.plugin_author
-        if 'plugin_description' in dir(self.module):
-            self.description = self.module.plugin_description
-        if 'plugin_website' in dir(self.module):
-            self.website = self.module.plugin_website
-        if 'plugin_actions' in dir(self.module):
-            self.plugin_actions = self.module.plugin_actions
+        if 'author' in dir(self.metadata):
+            self.author = self.metadata['author']
+        if 'description' in dir(self.metadata):
+            self.description = self.metadata['description']
+        if 'website' in dir(self.metadata):
+            self.website = self.metadata['website']
+        if 'actions' in dir(self.metadata):
+            self.plugin_actions = self.metadata['actions']
 
         if 'provided_effects' in dir(self.module):
             for effect in self.module.provided_effects:
@@ -185,6 +186,7 @@ class PluginMgr:
         sys.path.append(os.getcwd())
 
         self.plugin_metas = {}
+        self.plugin_metas_id = {}
         self.preloaded_plugins = []
         self.loading_tree = {}
         # Preloading plugins
@@ -195,9 +197,10 @@ class PluginMgr:
             if not os.path.exists(meta_path):
                 logging.error('Invalid plugin: %s', i)
                 continue
-            with open(meta_path, 'r') as meta:
+            with open(meta_path, 'r', encoding='utf-8') as meta:
                 metadata = json.load(meta)
                 self.plugin_metas[i] = metadata
+                self.plugin_metas_id[metadata['id']] = metadata
                 self.preloaded_plugins.append(metadata['id'])
                 logging.info('Found plugin: %s', metadata['id'])
                 self.loading_tree[metadata['id']] = {
@@ -230,7 +233,7 @@ class PluginMgr:
                 root = loading_tree[i]
                 if len(root['in']) == 0:
                     # All depends loaded
-                    self.loading_order.append(i)
+                    self.loading_order.append(root['path'])
                     req_remove.append(i)
                     for k in root['out']:
                         req_add.append(k)
@@ -239,22 +242,23 @@ class PluginMgr:
                 loading_queue.append(i)
             for i in req_remove:
                 loading_queue.remove(i)
+        logging.info('Loading order: %s', ', '.join(self.loading_order))
 
         # Full loading plugins
         if self.app.arg.no_plugins:
             self.plugins = []
             return
-        self.plugins = [Plugin(self.app, 'data')]
+        self.plugins = [Plugin(self.app, 'data', properties.plugin_wdcd_meta)]
         status = 10
-        if (len(os.listdir(properties.plugins_prefix)) - 1) > 0:
-            step = 20 / (len(os.listdir(properties.plugins_prefix)) - 1)
+        if (len(self.loading_order) - 1) > 0:
+            step = 20 / (len(self.loading_order) - 1)
         else:
             step = 20
-        for i in os.listdir(properties.plugins_prefix):
+        for i in self.loading_order:
             status += step
             self.app.splash.update_status(status, '正在初始化插件：{}'.format(i))
             if os.path.isdir(properties.plugins_prefix + i):
-                self.plugins.append(Plugin(self.app, self.plugin_module_prefix + i))
+                self.plugins.append(Plugin(self.app, self.plugin_module_prefix + i, self.plugin_metas[i]))
             else:
                 logging.info('skipped invalid plugin: %s', i)
 

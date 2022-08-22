@@ -457,3 +457,11 @@ cob_projects = [
         ]
     }
 ]
+
+plugin_wdcd_meta = {
+    'name': '内置',
+    'id': 'wdcd',
+    'website': 'https://github.com/HelloWRC/W-DesktopCountdown',
+    'depends': [],
+    'description': 'W-DesktopCountdown的内置数据'
+}
