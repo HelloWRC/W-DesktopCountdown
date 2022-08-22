@@ -14,7 +14,7 @@ from UIFrames.ui_countdown import Ui_Countdown
 from UIFrames.profile_config_ui import ProfileConfigUI
 from UIFrames.toast import Toast
 from PyQt5.QtWidgets import QWidget, QMessageBox
-from PyQt5.QtCore import QEvent, QObject, Qt, QThread, pyqtSignal
+from PyQt5.QtCore import QEvent, QObject, Qt, QThread, pyqtSignal, QTimer
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QMouseEvent
 from PyQt5.QtGui import QPainter, QColor
@@ -52,9 +52,9 @@ class CountdownWin(QWidget):
 
         self.ui = Ui_Countdown()
         self.ui.setupUi(self)
-        self.update_thread = UpdateThread()
-        self.update_thread.setPriority(QThread.IdlePriority)
-        self.update_thread.sig_update.connect(self.update_content)
+        self.update_timer = QTimer()
+        self.update_timer.setInterval(50)
+        self.update_timer.timeout.connect(self.update_content)
         self.em = functions.appearance.EffectManager(self, self.app, self.cfg)
         self.setWindowFlag(Qt.WindowCloseButtonHint, False)
         self.setWindowFlag(Qt.WindowTitleHint, False)
@@ -76,8 +76,7 @@ class CountdownWin(QWidget):
     def show(self) -> None:
         if not self.cfg.cfg['enabled']:
             return
-        if self.update_thread.stopped:
-            self.update_thread.start()
+        self.update_timer.start()
         super(CountdownWin, self).show()
 
     @hook_target(path_root + 'win.load_config')
@@ -173,7 +172,7 @@ class CountdownWin(QWidget):
     @class_hook_target('eventFilter')
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
         if watched == self and event.type() == event.Close:
-            self.update_thread.sig_stop.emit()
+            self.update_timer.stop()
             logging.info('countdown window %s closed', self.cfg.cfg['countdown']['title'])
             return True
         elif watched == self and event.type() == event.MouseButtonDblClick:
@@ -266,30 +265,3 @@ class CountdownWin(QWidget):
         self.drag_flag = False
         self.setCursor(QCursor(Qt.ArrowCursor))
         self.write_config()
-
-
-class UpdateThread(QThread):
-    sig_update = pyqtSignal()
-    sig_stop = pyqtSignal()
-
-    @hook_target(path_root + 'upd_thread.__init__')
-    def __init__(self):
-        super(UpdateThread, self).__init__()
-        self.stopped = True
-        self.sig_stop.connect(self.stop)
-
-    @hook_target(path_root + 'upd_thread.run')
-    def run(self):
-        past = int(time.time())
-        self.stopped = False
-        while True:
-            if int(time.time()) - past >= 1:
-                past = int(time.time())
-                self.sig_update.emit()
-            if self.stopped:
-                break
-            self.msleep(50)
-
-    @hook_target(path_root + 'upd_thread.stop')
-    def stop(self):
-        self.stopped = True

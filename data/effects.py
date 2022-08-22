@@ -1,7 +1,7 @@
 import copy
 import time
 
-from PyQt5.QtCore import QThread, QObject
+from PyQt5.QtCore import QThread, QObject, QTimer
 from PyQt5.QtGui import QColor
 from PyQt5.Qt import pyqtSignal, QEvent
 
@@ -167,26 +167,6 @@ class AcrylicEffect:
                 self.win_moving = False
 
 
-
-class CharmUpdateThread(QThread):
-    sig_stop = pyqtSignal()
-
-    def __init__(self, charm):
-        super(CharmUpdateThread, self).__init__()
-        self.charm: CharmBase = charm
-        self.sig_stop.connect(self.stop)
-        self.stopped = False
-
-    def run(self):
-        while not self.stopped:
-            sleep_gap = 1 / self.charm.cfg['fps'] * 1000
-            self.charm.sig_update.emit()
-            self.msleep(int(sleep_gap))
-
-    def stop(self):
-        self.stopped = True
-
-
 class CharmBase(QObject):
     sig_update = pyqtSignal()
     default_config = {
@@ -265,15 +245,15 @@ class CharmBase(QObject):
         self.countdown: UIFrames.countdown.CountdownWin = countdown
         self.cfg = config
         self.start_time = 0
-        self.sig_update.connect(self.update)
+        self.update_timer = QTimer()
+        self.update_timer.timeout.connect(self.update)
         self.start_color = QColor(self.cfg['start_color']).getRgb()
         self.end_color = QColor(self.cfg['end_color']).getRgb()
-        self.update_thread = CharmUpdateThread(self)
 
     def set_enabled(self):
         self.update_config(self.cfg)
         self.start_time = time.time()
-        self.update_thread.start()
+        self.update_timer.start()
 
     def update_config(self, config):
         self.cfg = config
@@ -286,9 +266,10 @@ class CharmBase(QObject):
             if self.start_color == self.end_color:
                 self.start_color = (0, self.start_color[1], self.start_color[2])
                 self.end_color = (359, self.end_color[1], self.end_color[2])
+        self.update_timer.setInterval(int(1 / self.cfg['fps'] * 1000))
 
     def unload(self):
-        self.update_thread.sig_stop.emit()
+        self.update_timer.stop()
         self.clear_color()
 
     def update(self):
