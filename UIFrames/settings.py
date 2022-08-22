@@ -69,6 +69,7 @@ class Settings(QWidget):
             self.ui.cb_colortheme.addItem(i)
         # self.ui.tb_thanks.setSource(QUrl('qrc://resources/doc/contributors.md'), 4)
         self.ui.cb_custom_font.setFont(QFont(self.cfg['appearance']['custom_font']))
+        self.startup_before = False
         self.load_val()
         self.click_count = 0
         self.ui.lb_logo.eventFilter = self.eventFilter
@@ -161,6 +162,7 @@ class Settings(QWidget):
     def load_val(self):
         self.app.update_mgr.save_config()
         # basic
+        self.startup_before = self.cfg['basic']['launch_on_start']
         self.page_basic.load_val()
         # appearance
         self.ui.cb_colortheme.setCurrentIndex(self.cfg['appearance']['color_theme']['theme'])
@@ -223,6 +225,16 @@ class Settings(QWidget):
     def save_val(self):
         # basic
         self.page_basic.save_val()
+        try:
+            if self.startup_before != self.cfg['basic']['launch_on_start']:
+                self.startup_before = self.cfg['basic']['launch_on_start']
+                if self.__finished_init:
+                    if self.cfg['basic']['launch_on_start']:
+                        functions.base.create_startup_shortcut()
+                    else:
+                        functions.base.remove_startup_shortcut()
+        except Exception as exp:
+            Toast.toast(self, '无法保存自启动设置。')
         # appearance
         appearance_before = copy.deepcopy(self.cfg['appearance'])
         self.cfg['appearance']['color_theme']['theme'] = self.ui.cb_colortheme.currentIndex()

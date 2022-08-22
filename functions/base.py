@@ -284,3 +284,18 @@ def rich_default_pass(default_config, config):
         if k not in config:
             config[k] = default_config[k]['default']
     return config
+
+
+def create_startup_shortcut():
+    import win32com.client as client
+    shortcut_path = os.getenv('appdata') + r'\Microsoft\Windows\Start Menu\Programs\Startup\W-DesktopCountdown.lnk'
+    shell = client.Dispatch('WScript.Shell')
+    shortcut = shell.CreateShortCut(shortcut_path)
+    shortcut.TargetPath = sys.argv[0]
+    shortcut.WorkingDirectory = os.getcwd()
+    shortcut.save()
+
+
+def remove_startup_shortcut():
+    shortcut_path = os.getenv('appdata') + r'\Microsoft\Windows\Start Menu\Programs\Startup\W-DesktopCountdown.lnk'
+    os.remove(shortcut_path)

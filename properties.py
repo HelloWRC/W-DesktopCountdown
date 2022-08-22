@@ -19,6 +19,7 @@ debug_log_file_fmt = log_root + 'debug.log'
 update_file = work_root + 'update.exe'
 update_meta = update_prefix + 'meta.json'
 default_profile_name = '@@_default_@@.json'
+startup_path = ''
 
 extra_ui_cfg = {'font_family': 'Microsoft YaHei UI',
 }
@@ -218,7 +219,7 @@ default_basic_config = {
     'launch_on_start': {
         'view': 'wdcd.check_box',
         'name': '开机自启',
-        'default': True,
+        'default': False,
         'description': '让应用在系统启动时自动启动'
     },
 }
