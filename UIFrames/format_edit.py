@@ -146,7 +146,7 @@ class FormatEdit(QWidget):
     # editor slot
     @text_formatter
     def on_cb_font_currentFontChanged(self, text_format: QTextCharFormat, font: QFont):
-        text_format.setFontFamily(font.family())
+        text_format.setFontFamilies([font.family()])
 
     @text_formatter
     def on_sb_size_valueChanged(self, text_format: QTextCharFormat, size):
