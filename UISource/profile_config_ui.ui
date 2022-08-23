@@ -750,39 +750,49 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>169</width>
-            <height>87</height>
+            <width>548</width>
+            <height>114</height>
            </rect>
           </property>
           <attribute name="label">
            <string>正文</string>
           </attribute>
           <layout class="QFormLayout" name="formLayout_7">
-           <item row="0" column="0">
+           <item row="1" column="0">
             <widget class="QCheckBox" name="lb_font">
              <property name="text">
               <string>字体</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
+           <item row="1" column="1">
             <widget class="QPushButton" name="btn_font">
              <property name="text">
               <string>{}</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
+           <item row="2" column="0">
             <widget class="QCheckBox" name="lb_color">
              <property name="text">
               <string>颜色</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
+           <item row="2" column="1">
             <widget class="QPushButton" name="btn_color">
              <property name="text">
               <string>{}</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>建议在【显示】页面中使用富文本编辑器来修改正文部分的字体和颜色。</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -793,8 +803,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>565</width>
-            <height>270</height>
+            <width>203</width>
+            <height>290</height>
            </rect>
           </property>
           <attribute name="label">

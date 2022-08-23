@@ -114,7 +114,7 @@ class ProfileMgr(QObject):
         self.config_mgr[name].write()
         self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, name, self.config_mgr[name])
         self.config_ui[name] = self.countdowns_win[name].config_ui
-        self.config_ui[name].show()
+        # self.config_ui[name].show()
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileFileEvent))
         self.app.plugin_mgr.on_countdown_created(self.countdowns_win[name])
 

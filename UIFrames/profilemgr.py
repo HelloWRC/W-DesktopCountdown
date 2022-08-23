@@ -16,7 +16,7 @@ from PyQt5.QtWidgets import QListWidgetItem
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtWidgets import QPushButton
-from PyQt5.QtCore import QSize
+from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtCore import QEvent
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import QCoreApplication
@@ -166,3 +166,7 @@ class ProfileMgrUI(QMainWindow):
     @pyqtSlot(bool)
     def on_action_settings_triggered(self, triggered):
         self.app.settings_ui.show()
+
+    def keyPressEvent(self, event) -> None:
+        if event.key() == Qt.Key_Escape:
+            self.close()

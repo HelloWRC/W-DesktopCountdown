@@ -177,6 +177,10 @@ class UniverseConfigureEXP(QWidget):
         self.save_val()
         self.close()
 
+    def keyPressEvent(self, event) -> None:
+        if event.key() == Qt.Key_Escape:
+            self.close()
+
 
 if __name__ == '__main__':
     pass
