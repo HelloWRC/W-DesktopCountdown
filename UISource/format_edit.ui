@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1693</width>
+    <width>1697</width>
     <height>630</height>
    </rect>
   </property>
@@ -73,7 +73,13 @@
                 <item>
                  <widget class="QSpinBox" name="sb_size">
                   <property name="suffix">
-                   <string>px</string>
+                   <string/>
+                  </property>
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>256</number>
                   </property>
                  </widget>
                 </item>
@@ -82,15 +88,24 @@
                   <property name="text">
                    <string>B</string>
                   </property>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
+                  <property name="autoDefault">
+                   <bool>false</bool>
+                  </property>
                   <property name="flat">
                    <bool>true</bool>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="btn_italics">
+                 <widget class="QPushButton" name="btn_italic">
                   <property name="text">
                    <string>I</string>
+                  </property>
+                  <property name="checkable">
+                   <bool>true</bool>
                   </property>
                   <property name="flat">
                    <bool>true</bool>
@@ -102,6 +117,9 @@
                   <property name="text">
                    <string>~S~</string>
                   </property>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
                   <property name="flat">
                    <bool>true</bool>
                   </property>
@@ -111,6 +129,9 @@
                  <widget class="QPushButton" name="btn_underlined">
                   <property name="text">
                    <string>U</string>
+                  </property>
+                  <property name="checkable">
+                   <bool>true</bool>
                   </property>
                   <property name="flat">
                    <bool>true</bool>
@@ -346,10 +367,10 @@
               <number>0</number>
              </property>
              <property name="bottomMargin">
-              <number>0</number>
+              <number>3</number>
              </property>
              <item>
-              <widget class="QPlainTextEdit" name="plainTextEdit"/>
+              <widget class="QPlainTextEdit" name="te_source"/>
              </item>
             </layout>
            </widget>

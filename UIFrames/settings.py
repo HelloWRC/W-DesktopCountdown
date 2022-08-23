@@ -375,10 +375,10 @@ class Settings(QWidget):
 
     def on_cb_hook_exception_toggled(self, stat):
         import warp
-        if stat:
-            sys.excepthook = warp.exception_hook
-        else:
-            sys.excepthook = None
+        # if stat:
+        #     sys.excepthook = warp.exception_hook
+        # else:
+        #     sys.excepthook = None
 
     def on_btn_ucfg_exp_released(self):
         self.cfg_exp = {}
