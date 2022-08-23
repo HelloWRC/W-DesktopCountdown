@@ -167,6 +167,10 @@ class ProfileMgrUI(QMainWindow):
     def on_action_settings_triggered(self, triggered):
         self.app.settings_ui.show()
 
+    @pyqtSlot(bool)
+    def on_action_help_triggered(self, triggered):
+        os.startfile('https://github.com/HelloWRC/W-DesktopCountdown/wiki')
+
     def keyPressEvent(self, event) -> None:
         if event.key() == Qt.Key_Escape:
             self.close()

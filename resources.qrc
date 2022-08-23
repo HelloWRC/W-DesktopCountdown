@@ -52,7 +52,6 @@
         <file>resources/icons/breeze-light/actions/24/zoom-in.svg</file>
         <file>resources/icons/breeze-light/actions/32/configure.svg</file>
         <file>resources/icons/breeze-light/index.theme</file>
-        <file>resources/icons/colorful/applogo.psd</file>
         <file>resources/icons/breeze-dark/actions/32/document-import.svg</file>
         <file>resources/icons/breeze-dark/actions/32/document-new.svg</file>
         <file>resources/icons/breeze-dark/actions/32/multiple.svg</file>
@@ -82,6 +81,10 @@
         <file>resources/icons/breeze-dark/actions/16/fill-color.svg</file>
         <file>resources/icons/breeze-light/actions/16/edit-reset.svg</file>
         <file>resources/icons/breeze-light/actions/16/fill-color.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/help-contents.svg</file>
+        <file>resources/icons/breeze-light/actions/16/help-contents.svg</file>
+        <file>resources/icons/colorful/Icon.ai</file>
+        <file>resources/icons/colorful/logo.ico</file>
     </qresource>
     <qresource prefix="/icons"/>
 </RCC>

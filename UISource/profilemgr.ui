@@ -90,6 +90,7 @@
    <addaction name="action_new_profile"/>
    <addaction name="action_import_countdown"/>
    <addaction name="action_settings"/>
+   <addaction name="action_help"/>
   </widget>
   <action name="action_new_profile">
    <property name="icon">
@@ -125,6 +126,20 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="action_help">
+   <property name="icon">
+    <iconset theme="help-contents"/>
+   </property>
+   <property name="text">
+    <string>帮助</string>
+   </property>
+   <property name="toolTip">
+    <string>阅读在线帮助文档</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
    </property>
   </action>
  </widget>
