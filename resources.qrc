@@ -68,6 +68,20 @@
         <file>resources/img/contributors/lib.svg</file>
         <file>resources/img/contributors/other-people.svg</file>
         <file>doc/changelogs.md</file>
+        <file>resources/icons/breeze-dark/actions/16/format-text-italic.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/format-text-strikethrough.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/format-text-underline.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/gnumeric-link-external.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/insert-image.svg</file>
+        <file>resources/icons/breeze-light/actions/16/format-text-italic.svg</file>
+        <file>resources/icons/breeze-light/actions/16/format-text-strikethrough.svg</file>
+        <file>resources/icons/breeze-light/actions/16/format-text-underline.svg</file>
+        <file>resources/icons/breeze-light/actions/16/gnumeric-link-external.svg</file>
+        <file>resources/icons/breeze-light/actions/16/insert-image.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/edit-reset.svg</file>
+        <file>resources/icons/breeze-dark/actions/16/fill-color.svg</file>
+        <file>resources/icons/breeze-light/actions/16/edit-reset.svg</file>
+        <file>resources/icons/breeze-light/actions/16/fill-color.svg</file>
     </qresource>
     <qresource prefix="/icons"/>
 </RCC>

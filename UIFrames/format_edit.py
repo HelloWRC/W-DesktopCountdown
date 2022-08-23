@@ -1,10 +1,11 @@
 import logging
+import os
 import time
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QColorDialog
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
-from PyQt5.QtGui import QTextCharFormat, QColor, QTextImageFormat
+from PyQt5.QtGui import QTextCharFormat, QColor, QTextImageFormat, QBrush, QFont
 
 import UIFrames.universe_configure
 from UIFrames.ui_format_edit import Ui_FormatEdit
@@ -97,12 +98,15 @@ class FormatEdit(QWidget):
             self.ui.lb_placeholders.setText('- 空 -')
         self.last_sel_time = 0
         self.color_fg = QColor()
+        self.color_bg = QColor()
 
     def closeEvent(self, event) -> None:
         self.sig_update_data.emit(self.ui.te_edit.toHtml())
     
     def open_edit_window(self, text) -> None:
         self.ui.te_edit.setHtml(text)
+        self.ui.te_edit.setStyleSheet('color: {QTMATERIAL_SECONDARYTEXTCOLOR}'.format(**os.environ))
+        self.update_editor_stat()
         self.show()
 
     def update_editor_stat(self):
@@ -110,7 +114,10 @@ class FormatEdit(QWidget):
         cursor = self.ui.te_edit.textCursor()
         text_format = cursor.charFormat()
         self.color_fg = text_format.foreground().color()
+        self.color_bg = text_format.background().color()
         self.ui.btn_color.setStyleSheet('color:{}'.format(self.color_fg.name()))
+        self.ui.btn_bg_color.setStyleSheet('color:{}'.format(self.color_bg.name()))
+        self.ui.cb_font.setCurrentFont(text_format.font())
         self.ui.sb_size.setValue(int(text_format.fontPointSize()))
         self.ui.btn_bold.setChecked(text_format.fontWeight() >= 87.5)
         self.ui.btn_italic.setChecked(text_format.fontItalic())
@@ -138,6 +145,10 @@ class FormatEdit(QWidget):
 
     # editor slot
     @text_formatter
+    def on_cb_font_currentFontChanged(self, text_format: QTextCharFormat, font: QFont):
+        text_format.setFontFamily(font.family())
+
+    @text_formatter
     def on_sb_size_valueChanged(self, text_format: QTextCharFormat, size):
         text_format.setFontPointSize(int(size))
 
@@ -164,6 +175,19 @@ class FormatEdit(QWidget):
     def on_btn_color_released(self, text_format: QTextCharFormat):
         inputs = QColorDialog.getColor(self.color_fg, self, '设置文本颜色')
         text_format.setForeground(inputs)
+        self.update_editor_stat()
+
+    @text_formatter
+    def on_btn_bg_color_released(self, text_format: QTextCharFormat):
+        inputs = QColorDialog.getColor(self.color_bg, self, '设置背景颜色')
+        text_format.setBackground(inputs)
+        self.update_editor_stat()
+
+    @text_formatter
+    def on_btn_clear_color_released(self, text_format: QTextCharFormat):
+        text_format.setForeground(QBrush())
+        text_format.setBackground(QBrush())
+        self.update_editor_stat()
 
     def on_btn_link_released(self):
         config = {}
@@ -172,6 +196,7 @@ class FormatEdit(QWidget):
 
     def callback_link_insert(self, config):
         self.ui.te_edit.textCursor().insertHtml('<a href="{}">{}</a>'.format(config['link'], config['text']))
+        self.update_editor_stat()
 
     def on_btn_image_released(self):
         config = {}
@@ -184,3 +209,4 @@ class FormatEdit(QWidget):
         image.setWidth(config['width'])
         image.setHeight(config['height'])
         self.ui.te_edit.textCursor().insertImage(image)
+        self.update_editor_stat()
