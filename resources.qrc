@@ -85,6 +85,8 @@
         <file>resources/icons/breeze-light/actions/16/help-contents.svg</file>
         <file>resources/icons/colorful/Icon.ai</file>
         <file>resources/icons/colorful/logo.ico</file>
+        <file>resources/icons/breeze-dark/actions/16/window-close.svg</file>
+        <file>resources/icons/breeze-light/actions/16/window-close.svg</file>
     </qresource>
     <qresource prefix="/icons"/>
 </RCC>

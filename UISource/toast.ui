@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>159</width>
+    <width>139</width>
     <height>91</height>
    </rect>
   </property>
@@ -93,7 +93,16 @@
         <item>
          <widget class="QPushButton" name="btn_close">
           <property name="text">
-           <string>确定</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset theme="window-close"/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
           </property>
           <property name="flat">
            <bool>true</bool>
