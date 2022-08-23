@@ -140,7 +140,7 @@ class ProfileConfigUI(QWidget):
             if self.update_trigger is not None:
                 self.update_trigger()
             self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))
-            Toast.toast(self, '重置此档案成功。')
+            Toast.toast(self, '已重置此倒计时。')
 
     def on_btn_save_as_default_released(self):
         r = QMessageBox.warning(self, '设为默认'.format(self.cfg.cfg['countdown']['title']),
@@ -151,7 +151,7 @@ class ProfileConfigUI(QWidget):
             import wcdapp
             self.app.profile_mgr.set_as_default(self.name)
             self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))
-            Toast.toast(self, '设置为默认值成功。')
+            Toast.toast(self, '已将此倒计时设置为默认值。')
 
     def on_btn_open_folder_released(self):
         os.startfile(os.getcwd() + properties.profile_prefix)
@@ -355,7 +355,7 @@ class ProfileConfigUI(QWidget):
         if r == QMessageBox.Yes:
             self.cfg.cfg['trusted'] = True
             self.on_btn_apply_released()
-            Toast.toast(self, '信任倒计时成功。')
+            Toast.toast(self, '已信任此倒计时。')
 
     def load_widget_style(self, widget):
         style_root = functions.base.default_pass(self.cfg.cfg['style'][widget], properties.default_widget_style)

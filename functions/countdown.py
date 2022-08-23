@@ -130,8 +130,9 @@ class ProfileMgr(QObject):
         self.config_mgr[name].copy_to(profile_prefix + filename_chk(name))
         self.countdowns_win[name] = UIFrames.countdown.CountdownWin(self.app, name, self.config_mgr[name])
         self.config_ui[name] = self.countdowns_win[name].config_ui
-        self.config_ui[name].show()
+        # self.config_ui[name].show()
         self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileFileEvent))
+        return name
 
     @hook_target(path_root + 'ProfileMgr.remove_profile')
     def remove_profile(self, name: str):

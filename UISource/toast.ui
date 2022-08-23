@@ -88,6 +88,9 @@
          </widget>
         </item>
         <item>
+         <layout class="QHBoxLayout" name="custom_buttons"/>
+        </item>
+        <item>
          <widget class="QPushButton" name="btn_close">
           <property name="text">
            <string>确定</string>

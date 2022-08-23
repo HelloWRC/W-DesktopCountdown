@@ -1,4 +1,5 @@
 import logging
+import os
 import time
 import shutil
 
@@ -14,6 +15,7 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QListWidgetItem
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtCore import QSize
 from PyQt5.QtCore import QEvent
 from PyQt5.QtCore import pyqtSlot
@@ -71,14 +73,17 @@ class CountdownCard(QWidget):
                                 defaultButton=QMessageBox.No)
         if r == QMessageBox.Yes:
             self.app.profile_mgr.remove_profile(self.name)
-            Toast.toast(self.app.profile_mgr_ui, '倒计时删除成功。')
+            Toast.toast(self.app.profile_mgr_ui, '已删除倒计时。')
 
     def on_btn_export_released(self):
         path = QFileDialog.getSaveFileName(self, filter='W-DesktopCountdown配置文件(*.wdcd)')
         if path[0] == '':
             return
         shutil.copy(self.cfg.filename, path[0])
-        Toast.toast(self.app.profile_mgr_ui, '导出成功。')
+        button = QPushButton('查看')
+        button.setFlat(True)
+        button.released.connect(lambda: os.startfile(os.path.dirname(path[0])))
+        Toast.toast(self.app.profile_mgr_ui, '已导出倒计时。', buttons=[button])
 
     def on_cb_enabled_toggled(self, stat):
         if not self.__finished:
@@ -152,8 +157,11 @@ class ProfileMgrUI(QMainWindow):
         path = QFileDialog.getOpenFileName(self, filter='W-DesktopCountdown配置文件(*.wdcd)')
         if path[0] == '':
             return
-        self.app.profile_mgr.import_profile(path[0])
-        Toast.toast(self, '导入成功。')
+        name = self.app.profile_mgr.import_profile(path[0])
+        button = QPushButton('查看')
+        button.setFlat(True)
+        button.released.connect(self.profile_mgr.config_ui[name].show)
+        Toast.toast(self, '已导入倒计时。', buttons=[button])
 
     @pyqtSlot(bool)
     def on_action_settings_triggered(self, triggered):

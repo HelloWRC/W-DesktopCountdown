@@ -8,7 +8,7 @@ global showed_toasts
 
 
 class Toast(QDialog):
-    def __init__(self, parent, text, timeout):
+    def __init__(self, parent, text, timeout, buttons, no_default_button):
         super(Toast, self).__init__()
         self.parent_w = parent
         self.ui = Ui_Toast()
@@ -24,6 +24,11 @@ class Toast(QDialog):
         effect.setOffset(0, 0)
         effect.setColor(Qt.black)
         effect.setBlurRadius(20)
+        self.buttons = buttons
+        for i in self.buttons:
+            self.ui.custom_buttons.addWidget(i)
+        if no_default_button:
+            self.ui.btn_close.setVisible(False)
         self.ui.frame.setGraphicsEffect(effect)
         self.show_time = time.time()
         self.timeout = timeout
@@ -66,14 +71,18 @@ class Toast(QDialog):
         self.close()
 
     @staticmethod
-    def toast(parent, text, timeout=5):
+    def toast(parent, text, timeout=5, buttons=None, no_default_button=False):
         """
         显示Toast
 
         :param parent: 要显示Toast的父窗口
         :param text: Toast内容
         :param timeout: （可选）Toast自动关闭时间（秒），默认值为5
+        :param buttons: （可选）Toast上要附加的按钮
+        :param no_default_button：（可选）是否显示原有的关闭按钮
         """
+        if buttons is None:
+            buttons = []
         global showed_toasts
-        toast = showed_toasts = Toast(parent, text, timeout)
+        toast = showed_toasts = Toast(parent, text, timeout, buttons, no_default_button)
         toast.show()
