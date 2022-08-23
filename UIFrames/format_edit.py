@@ -2,7 +2,7 @@ import logging
 import time
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget, QInputDialog
+from PyQt5.QtWidgets import QWidget, QColorDialog
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QTextCharFormat, QColor, QTextImageFormat
 
@@ -96,7 +96,7 @@ class FormatEdit(QWidget):
         else:
             self.ui.lb_placeholders.setText('- 空 -')
         self.last_sel_time = 0
-        self.current_color = QColor()
+        self.color_fg = QColor()
 
     def closeEvent(self, event) -> None:
         self.sig_update_data.emit(self.ui.te_edit.toHtml())
@@ -109,6 +109,8 @@ class FormatEdit(QWidget):
         self.last_sel_time = time.time()
         cursor = self.ui.te_edit.textCursor()
         text_format = cursor.charFormat()
+        self.color_fg = text_format.foreground().color()
+        self.ui.btn_color.setStyleSheet('color:{}'.format(self.color_fg.name()))
         self.ui.sb_size.setValue(int(text_format.fontPointSize()))
         self.ui.btn_bold.setChecked(text_format.fontWeight() >= 87.5)
         self.ui.btn_italic.setChecked(text_format.fontItalic())
@@ -157,6 +159,11 @@ class FormatEdit(QWidget):
     @text_formatter
     def on_btn_underlined_toggled(self, text_format: QTextCharFormat, state):
         text_format.setFontUnderline(state)
+
+    @text_formatter
+    def on_btn_color_released(self, text_format: QTextCharFormat):
+        inputs = QColorDialog.getColor(self.color_fg, self, '设置文本颜色')
+        text_format.setForeground(inputs)
 
     def on_btn_link_released(self):
         config = {}
