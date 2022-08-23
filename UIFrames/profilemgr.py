@@ -174,3 +174,7 @@ class ProfileMgrUI(QMainWindow):
     def keyPressEvent(self, event) -> None:
         if event.key() == Qt.Key_Escape:
             self.close()
+
+    def show(self) -> None:
+        super(ProfileMgrUI, self).show()
+        self.activateWindow()

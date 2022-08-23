@@ -136,6 +136,7 @@ class Settings(QWidget):
 
     def show(self) -> None:
         self.load_val()
+        self.activateWindow()
         super(Settings, self).show()
 
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
