@@ -131,7 +131,7 @@ class UniverseConfigure(QWidget):
 
 
 class UniverseConfigureEXP(QWidget):
-    def __init__(self, config, config_temple, emb=False):
+    def __init__(self, config, config_temple, emb=False, callback=None):
         super(UniverseConfigureEXP, self).__init__()
         self.ui = Ui_Configure()
         self.ui.setupUi(self)
@@ -139,6 +139,7 @@ class UniverseConfigureEXP(QWidget):
         self.config = config
         self.emb = emb
         self.views = {}
+        self.closed_call_back = callback
 
         if self.emb:
             self.ui.btn_confirm.setVisible(False)
@@ -169,6 +170,8 @@ class UniverseConfigureEXP(QWidget):
             if not self.views[i].can_store:
                 continue
             self.config[i] = self.views[i].save_val()
+        if self.closed_call_back is not None:
+            self.closed_call_back(self.config)
 
     def on_btn_confirm_released(self):
         self.save_val()

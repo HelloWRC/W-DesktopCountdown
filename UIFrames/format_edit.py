@@ -4,8 +4,9 @@ import time
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QInputDialog
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
-from PyQt5.QtGui import QTextCharFormat, QColor
+from PyQt5.QtGui import QTextCharFormat, QColor, QTextImageFormat
 
+import UIFrames.universe_configure
 from UIFrames.ui_format_edit import Ui_FormatEdit
 
 
@@ -24,6 +25,56 @@ class FormatEdit(QWidget):
     sig_update_data = pyqtSignal(str)
 
     placeholder_line = '<p><a href="{}">{}</a><span> - {}</span></p>'
+    cfg_insert_link = {
+        'heading': {
+            'view': 'wdcd.label',
+            'text': '<h1>插入链接</h1>'
+        },
+        'text': {
+            'view': 'wdcd.line_edit',
+            'name': '显示文本',
+            'default': '链接'
+        },
+        'link': {
+            'view': 'wdcd.line_edit',
+            'name': '链接',
+            'default': 'https://'
+        }
+    }
+    cfg_insert_img = {
+        'heading': {
+            'view': 'wdcd.label',
+            'text': '<h1>插入图片</h1>'
+        },
+        'path': {
+            'view': 'wdcd.line_edit',
+            'name': '图片位置',
+            'default': ''
+        },
+        'd': {
+            'view': 'wdcd.label',
+            'text': '可以是指向本地文件的相对路径、绝对路径或资源文件。'
+        },
+        'line': {
+            'view': 'wdcd.line'
+        },
+        'width': {
+            'view': 'wdcd.spin_box',
+            'type': 'int',
+            'name': '宽',
+            'default': 64,
+            'min': 1,
+            'max': 2048
+        },
+        'height': {
+            'view': 'wdcd.spin_box',
+            'type': 'int',
+            'name': '高',
+            'default': 64,
+            'min': 1,
+            'max': 2048
+        }
+    }
 
     def __init__(self, title, update, placeholders):
         super(FormatEdit, self).__init__()
@@ -106,3 +157,23 @@ class FormatEdit(QWidget):
     @text_formatter
     def on_btn_underlined_toggled(self, text_format: QTextCharFormat, state):
         text_format.setFontUnderline(state)
+
+    def on_btn_link_released(self):
+        config = {}
+        self.ucfg_link = UIFrames.universe_configure.UniverseConfigureEXP(config, self.cfg_insert_link, callback=self.callback_link_insert)
+        self.ucfg_link.show()
+
+    def callback_link_insert(self, config):
+        self.ui.te_edit.textCursor().insertHtml('<a href="{}">{}</a>'.format(config['link'], config['text']))
+
+    def on_btn_image_released(self):
+        config = {}
+        self.ucfg_image = UIFrames.universe_configure.UniverseConfigureEXP(config, self.cfg_insert_img, callback=self.callback_image_insert)
+        self.ucfg_image.show()
+
+    def callback_image_insert(self, config):
+        image = QTextImageFormat()
+        image.setName(config['path'])
+        image.setWidth(config['width'])
+        image.setHeight(config['height'])
+        self.ui.te_edit.textCursor().insertImage(image)
