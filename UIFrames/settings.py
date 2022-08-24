@@ -389,3 +389,8 @@ class Settings(QWidget):
 
     def on_btn_show_toast_released(self):
         Toast.toast(self, self.ui.le_toast_text.text(), 15)
+
+    def on_cb_update_channel_currentTextChanged(self, text):
+        if self.__finished_init:
+            if text:
+                self.ui.lb_channel_info.setText(self.app.update_mgr.source['branches'][self.cfg['update']['download']['branch']]['channels'][text]['description'])

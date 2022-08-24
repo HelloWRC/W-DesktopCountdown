@@ -176,7 +176,7 @@ default_config = {
             'theme': 0,
             'color': '#FF5D99'
         },
-        'custom_font': 'Microsoft YaHei',
+        'custom_font': '微软雅黑',
         'custom_dpi': {
             'enabled': False,
             'dpi': 1,

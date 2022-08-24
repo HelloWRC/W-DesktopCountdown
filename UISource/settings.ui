@@ -575,13 +575,23 @@ p, li { white-space: pre-wrap; }
             <widget class="QComboBox" name="cb_update_channel"/>
            </item>
            <item row="2" column="0" colspan="2">
+            <widget class="QLabel" name="lb_channel_info">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0" colspan="2">
             <widget class="QPushButton" name="btn_force_update">
              <property name="text">
               <string>强制更新到选定分支和频道的最新版本</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="0" colspan="2">
+           <item row="4" column="0" colspan="2">
             <widget class="QLabel" name="label_7">
              <property name="text">
               <string>如果当前版本比此分支和频道的最新版本新，您可以使用此选项退回到这里的最新版本，或者是等待此分支更新到比当前版本更新的版本。</string>
@@ -591,7 +601,7 @@ p, li { white-space: pre-wrap; }
              </property>
             </widget>
            </item>
-           <item row="4" column="0" colspan="2">
+           <item row="5" column="0" colspan="2">
             <widget class="Line" name="line">
              <property name="minimumSize">
               <size>
@@ -604,7 +614,7 @@ p, li { white-space: pre-wrap; }
              </property>
             </widget>
            </item>
-           <item row="5" column="0" colspan="2">
+           <item row="6" column="0" colspan="2">
             <widget class="QCheckBox" name="cb_auto_check_update">
              <property name="text">
               <string>自动检查更新</string>
@@ -793,8 +803,8 @@ p, li { white-space: pre-wrap; }
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>509</width>
-                <height>378</height>
+                <width>98</width>
+                <height>375</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_16">
@@ -953,8 +963,8 @@ p, li { white-space: pre-wrap; }
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>509</width>
-                <height>378</height>
+                <width>275</width>
+                <height>199</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_15">
