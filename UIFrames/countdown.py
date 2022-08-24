@@ -16,7 +16,7 @@ from UIFrames.toast import Toast
 from PyQt5.QtWidgets import QWidget, QMessageBox
 from PyQt5.QtCore import QEvent, QObject, Qt, QThread, pyqtSignal, QTimer
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtGui import QMouseEvent
+from PyQt5.QtGui import QMouseEvent, QKeyEvent
 from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.Qt import QRectF
@@ -47,6 +47,7 @@ class CountdownWin(QWidget):
         self.m_pos = None
         self.title_visible = True
         self.cfg = config
+        self.auto_align_enabled_temp = True
         self.app.logger.info('created countdown window')
         # self.windowHandle().screenChanged.connect(self.__onScreenChanged)
 
@@ -224,39 +225,55 @@ class CountdownWin(QWidget):
     def mouseMoveEvent(self, event: QMouseEvent) -> None:
         if Qt.LeftButton and self.drag_flag:
             target = event.globalPos() - self.m_pos
-            if self.app.app_cfg.cfg['basic']['align_enabled']:  # Try to align to other countdowns
+            if self.app.app_cfg.cfg['basic']['align_enabled'] and self.auto_align_enabled_temp:  # Try to align to other countdowns
                 align_target = QPoint(target)
-                x = target.x()
-                y = target.y()
-                w = self.size().width()
-                h = self.size().height()
+                target_x = target.x()
+                target_y = target.y()
+                width = self.size().width()
+                height = self.size().height()
+                align_offset = self.app.app_cfg.cfg['basic']['align_offset']
                 # align x
-                # ax = list(self.app.profile_mgr.countdowns_win.values())[0].pos().x()
-                ax = -114514
-                for i in self.app.profile_mgr.countdowns_win.values():
+                align_x = -114514
+                align_x_2 = -114514
+                align_w = list(self.app.profile_mgr.countdowns_win.values())[0].size().width()
+                for i in self.app.profile_mgr.countdowns_win.values():  # Find nearset window
                     if i is self:
                         continue
-                    if abs(ax - x) > abs(i.frameGeometry().x() - x):
-                        ax = i.frameGeometry().x()
+                    if abs(align_x - target_x) > abs(i.frameGeometry().x() - target_x):
+                        align_x = i.frameGeometry().x()
                         # print('X near countdown:', i.name)
-                if abs(ax - x) <= self.app.app_cfg.cfg['basic']['align_offset']:
-                    align_target.setX(ax)
-                    # print('aligned to', ax)
+                    if abs(align_x_2 + width - target_x - width) > abs(i.frameGeometry().x() + i.size().width() - target_x):
+                        align_x_2 = i.frameGeometry().x() + i.size().width() - width
+                        # print('X w2 near countdown')
+                    # print(align_x + i.size().width() - target_x, i.frameGeometry().x() + i.size().width() - target_x)
+                if abs(align_x - target_x) < abs(align_x_2 - target_x):
+                    if abs(align_x - target_x) <= align_offset:
+                        align_target.setX(align_x)
+                        # print('aligned to', align_x)
+                else:
+                    if abs(align_x_2 - target_x) <= align_offset:
+                        align_target.setX(align_x_2)
                 # align y
-                # ay = list(self.app.profile_mgr.countdowns_win.values())[0].pos().y()
-                ay = -114514
+                # align_y = list(self.app.profile_mgr.countdowns_win.values())[0].pos().y()
+                align_y = -114514
+                align_y_2 = -114514
                 for i in self.app.profile_mgr.countdowns_win.values():
                     if i is self:
                         continue
-                    if abs(ay - y) > abs(i.frameGeometry().y() - y):
-                        ay = i.frameGeometry().y()
+                    if abs(align_y - target_y) > abs(i.frameGeometry().y() - target_y):
+                        align_y = i.frameGeometry().y()
                         # print('Y near countdown:', i.name)
-                if abs(ay - y) <= self.app.app_cfg.cfg['basic']['align_offset']:
-                    align_target.setY(ay)
-                    # print('aligned to', ay)
+                    if abs(align_y_2 + height - target_y - width) > abs(i.frameGeometry().y() + i.size().height() - target_y):
+                        align_y_2 = i.frameGeometry().y() + i.size().height() - height
+                if abs(align_y - target_y) < abs(align_y_2 - target_y):
+                    if abs(align_y - target_y) <= align_offset:
+                        align_target.setY(align_y)
+                else:
+                    if abs(align_y_2 - target_y) <= align_offset:
+                        align_target.setY(align_y_2)
                 # check
                 target = align_target
-                # print(ay - y, ax - x)
+                # print(align_y - y, align_x - x)
                 # print('===========================')
             self.move(target)
         event.accept()
@@ -265,3 +282,11 @@ class CountdownWin(QWidget):
         self.drag_flag = False
         self.setCursor(QCursor(Qt.ArrowCursor))
         self.write_config()
+
+    def keyPressEvent(self, event: QKeyEvent) -> None:
+        if event.key() == Qt.Key_Alt:
+            self.auto_align_enabled_temp = False
+
+    def keyReleaseEvent(self, event: QKeyEvent) -> None:
+        if event.key() == Qt.Key_Alt:
+            self.auto_align_enabled_temp = True

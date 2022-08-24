@@ -191,7 +191,7 @@ default_config = {
 default_basic_config = {
     'title_auto_align': {
         'view': 'wdcd.label',
-        'text': '<h2>对齐</h2><p>可以在移动倒计时时快速和其他窗口对齐</p>',
+        'text': '<h2>对齐</h2><p>可以在移动倒计时时快速和其他窗口对齐</p><p>在移动时按住Alt可以临时禁用此功能。</p>',
         'word_warp': True
     },
     'align_enabled': {
