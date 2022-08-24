@@ -53,7 +53,7 @@ class WDesktopCD(QApplication):
             self.install_update(arg.update_overwrite, arg.update_last_version)
             if os.path.exists(arg.update_overwrite):
                 sub = subprocess.Popen('{} -u2 {} -ulv {}'.format(arg.update_overwrite, sys.argv[0], arg.update_last_version))
-            self.quit()
+            sys.exit(0)
         self.full_mode = True
         if arg.update_remove is not None:
             self.finish_update(arg.update_remove, arg.update_last_version)
@@ -107,7 +107,7 @@ class WDesktopCD(QApplication):
         # print('加载时间：{}s，p1：{}s，p2：{}s'.format(self.final_time, self.p1_time, self.p2_time))
         self.splash.update_status(100, '完成')
         if self.app_cfg.cfg['update']['auto_update']['auto_check']:
-            self.settings_ui.on_btn_check_update_released()
+            self.settings_ui.post_check_update(silence=True)
             if self.update_mgr.status == functions.base.UpdateMgr.UpdateAvailable:
                 self.tray.showMessage('检测到更新', '转到应用设置页面查看详细。')
         self.splash.close()
@@ -143,7 +143,15 @@ class WDesktopCD(QApplication):
         if not os.path.exists(update_remove):
             logging.warning('Update file not exists: %s', update_remove)
             return
-        os.remove(update_remove)
+        start_time = time.time()
+        while True:
+            try:
+                os.remove(update_remove)
+                break
+            except:
+                pass
+            if time.time() - start_time > 60:
+                logging.error('Update time out.')
         
     def on_tray_clicked(self, reason):
         logging.debug('tray clicked, reason: %s', reason)
@@ -199,4 +207,6 @@ class WDesktopCD(QApplication):
             self.update_mgr.save_config()
             self.app_cfg.write()
             self.update_mgr.update_progress()
+        else:
+            logging.info('Application is not running in full mode.')
         super(WDesktopCD, self).quit()

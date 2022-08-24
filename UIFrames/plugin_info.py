@@ -1,5 +1,7 @@
 import os.path
 
+from PyQt5.QtCore import Qt
+
 import functions.base
 import functions.plugins
 
@@ -41,7 +43,6 @@ class PluginInfo(QWidget):
                 lists[i].addItem(item)
         lists[5].addItems(sources[5])
 
-
     def showEvent(self, event):
         self.ui.btn_browse_plugin.setEnabled(os.path.exists(properties.work_root + '/'.join(self.plugin.module_path.split('.'))))
         super(PluginInfo, self).showEvent(event)
@@ -51,3 +52,11 @@ class PluginInfo(QWidget):
             os.startfile(os.getcwd() + '/' + '/'.join(self.plugin.module_path.split('.')))
         except Exception as exp:
             QMessageBox.critical(self, '错误', '无法打开指定的文件：{}'.format(exp))
+
+    def keyPressEvent(self, event) -> None:
+        if event.key() == Qt.Key_Escape:
+            self.close()
+
+    def show(self) -> None:
+        super(PluginInfo, self).show()
+        self.activateWindow()

@@ -256,16 +256,21 @@ class Settings(QWidget):
 
         self.app.update_mgr.load_config(self.cfg['update'])
 
-    # slots
-    def on_btn_check_update_released(self):
+    def post_check_update(self, force=False, silence=False):
         try:
             self.save_val()
             self.app.update_mgr.refresh_source()
-            self.app.update_mgr.check_update()
+            self.app.update_mgr.check_update(force)
             self.load_val()
+            if not silence:
+                Toast.toast(self, properties.update_status[self.app.update_mgr.status + 1])
         except requests.RequestException as exp:
             logging.error('Could not refresh update metadata. %s', exp)
-            QMessageBox.critical(self, '获取更新信息失败', '获取更新信息失败，请稍后再试。{}'.format(exp))
+            Toast.toast(self, '获取更新信息失败，请检查网络连接。')
+
+    # slots
+    def on_btn_check_update_released(self):
+        self.post_check_update()
 
     def on_btn_update_now_released(self):
         self.save_val()
@@ -344,14 +349,7 @@ class Settings(QWidget):
         os.startfile(os.getcwd() + '/' + properties.log_root + 'crash.txt')
 
     def on_btn_force_update_released(self):
-        try:
-            self.save_val()
-            self.app.update_mgr.refresh_source()
-            self.app.update_mgr.check_update(True)
-            self.load_val()
-        except requests.RequestException as exp:
-            logging.error('Could not refresh update metadata. %s', exp)
-            QMessageBox.critical(self, '获取更新信息失败', '获取更新信息失败，请稍后再试。{}'.format(exp))
+        self.post_check_update(force=True)
 
     def on_btn_stop_update_released(self):
         self.app.update_mgr.update_thread.stop()

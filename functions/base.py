@@ -253,7 +253,7 @@ class UpdateThread(QThread):
                 self.sig_status.emit(0, '正在重启应用…')
                 self.sig_restart.emit('update.exe')
         except Exception as exp:
-            self.sig_error.emit('无法下载更新：{}'.format(exp))
+            self.sig_error.emit('无法下载更新，请检查您的网络连接。')
         finally:
             self.sig_status.emit(-1, '')
 
