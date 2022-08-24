@@ -137,6 +137,7 @@ class ProfileConfigUI(QWidget):
             import wcdapp
             self.app.profile_mgr.reset_profile(self.name)
             self.load_val()
+            self.save_val()
             if self.update_trigger is not None:
                 self.update_trigger()
             self.app.postEvent(self.app.profile_mgr_ui, QEvent(wcdapp.ProfileUpdatedEvent))
