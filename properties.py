@@ -43,12 +43,12 @@ system_color = '#FF5D99'
 
 countdown_config_default = {
     'window': {
-        'width': 300,
+        'width': 400,
         'height': 100,
         'window_mode': 0,
         'pos_x': 0,
         'pos_y': 0,
-        'show_title_bar': True,
+        'show_title_bar': False,
         'no_background': False,
         'mouse_tran': False,
         'skip_taskbar': True
@@ -59,7 +59,7 @@ countdown_config_default = {
         'title': 'countdown'
     },
     'display': {
-        'target_format': '%Y/%m/%d %H:%M:%S',
+        'target_format': '%Y/%m/%d',
         'countdown_format': '%D天',
         'show_progress_bar': True,
         'reverse_progress_bar': False,
@@ -70,20 +70,32 @@ countdown_config_default = {
     'automate': [],
     'style': {
         'window_bg': {},
-        'lb_event': {},
-        'lb_targetddate': {},
+        'lb_event': {
+            'font': 'Bold 24px 微软雅黑'
+        },
+        'lb_targetddate': {
+            'font': 'Bold 24px 微软雅黑'
+        },
         'lb_text1': {},
         'lb_text2': {},
-        'lb_CountDown': {},
+        'lb_CountDown': {
+            'font': 'Bold 60px 微软雅黑'
+        },
         'progressBar': {}
     },
     'style_enabled': {
         'window_bg': {},
-        'lb_event': {},
-        'lb_targetddate': {},
+        'lb_event': {
+            'font': True
+        },
+        'lb_targetddate': {
+            'font': True
+        },
         'lb_text1': {},
         'lb_text2': {},
-        'lb_CountDown': {},
+        'lb_CountDown': {
+            'font': True
+        },
         'progressBar': {}
     },
     'enabled': True,
