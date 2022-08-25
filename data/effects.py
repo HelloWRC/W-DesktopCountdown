@@ -8,7 +8,6 @@ from PyQt5.Qt import pyqtSignal, QEvent
 import logging
 
 import UIFrames.countdown
-import blur_effects
 import properties
 
 
@@ -117,6 +116,10 @@ class AcrylicEffect:
         self.win_moving = False
 
     def set_enabled(self):
+        try:
+            import blur_effects
+        except:
+            logging.error('Unable to import blur support.')
         self.load_config()
         # self.countdown.ui.window_bg.setAttribute(Qt.WA_paint, False)
         self.countdown.ui.window_bg.setStyleSheet('background:rgba(0,0,0,0)')
@@ -128,6 +131,10 @@ class AcrylicEffect:
         self.countdown.show()
 
     def update_config(self, config):
+        try:
+            import blur_effects
+        except:
+            logging.error('Unable to import blur support.')
         self.load_config(config)
         try:
             blur_effects.WindowEffect().setAcrylicEffect(int(self.countdown.winId()), self.bg_color, True)
@@ -136,6 +143,10 @@ class AcrylicEffect:
         self.countdown.show()
 
     def unload(self):
+        try:
+            import blur_effects
+        except:
+            logging.error('Unable to import blur support.')
         # self.countdown.setAttribute(Qt.WA_TranslucentBackground, False)
         self.countdown.setUpdatesEnabled(True)
         self.countdown.ui.window_bg.setStyleSheet(self.raw_style)
