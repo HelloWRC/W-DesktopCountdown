@@ -10,7 +10,9 @@ import os
 import logging
 
 import functions.base
+from UIFrames.toast import Toast
 from functions.hook import hook_target
+import hook
 from abc import *
 from PyQt5.QtWidgets import QWidget
 
@@ -23,11 +25,14 @@ cfg_views = {}
 
 
 class PluginAPI:
-    def __init__(self):
+    def __init__(self, plugin):
         """
         插件API
         """
-        pass
+        import wcdapp
+        self.plugin = plugin
+        self.app: wcdapp.WDesktopCD = plugin.app
+        self.config = self.plugin.plugin_config
 
     def get_self_module(self):
         """
@@ -35,7 +40,7 @@ class PluginAPI:
 
         :return: 插件对象
         """
-        pass
+        return self.plugin.module
 
     def get_plugin_module(self, plugin_id):
         """
@@ -44,19 +49,38 @@ class PluginAPI:
         :param plugin_id: 插件id
         :return: 插件对象
         """
-        pass
+        for i in self.app.plugin_mgr.plugins:
+            if i.plugin_id == plugin_id:
+                return i.module
+        raise NameError('Unable to find plugin: {}'.format(plugin_id))
 
-    def toast(self, parent, text, timeout=5):
+    @staticmethod
+    def toast(parent, text, timeout=5, buttons=None, no_default_button=False):
         """
         显示Toast
-        """
-        pass
 
-    def hook(self):
+        :param parent: 要显示Toast的父窗口
+        :param text: Toast内容
+        :param timeout: （可选）Toast自动关闭时间（秒），默认值为5
+        :param buttons: （可选）Toast上要附加的按钮
+        :param no_default_button: （可选）是否显示原有的关闭按钮
         """
-        对指定函数上钩
+        if buttons is None:
+            buttons = {}
+        Toast.toast(parent, text, timeout, buttons, no_default_button)
+
+    @staticmethod
+    def hook(source, target: str, hook_type: int, catch_return: bool = False) -> hook.Hook:
         """
-        pass
+        注入对应的模块，使在执行对应模块的前后执行特定的函数。详细请见插件开发文档。
+
+        :param source: function 要注入的函数
+        :param target: str 注入目标路径
+        :param hook_type: int 注入方式（0：原函数之前执行，1：原函数之后执行，2：覆盖原函数）
+        :param catch_return: bool 是否劫持原函数的返回值。如果劫持，原函数的返回值会以最后一个形参传入，并以注入的函数的返回值作为原函数的返回值
+        :return: Hook 返回钩子
+        """
+        return hook.hook(source, target, hook_type, catch_return)
 
 
 class Plugin:

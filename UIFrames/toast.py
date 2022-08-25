@@ -110,7 +110,7 @@ class Toast(QDialog):
         :param text: Toast内容
         :param timeout: （可选）Toast自动关闭时间（秒），默认值为5
         :param buttons: （可选）Toast上要附加的按钮
-        :param no_default_button：（可选）是否显示原有的关闭按钮
+        :param no_default_button: （可选）是否显示原有的关闭按钮
         """
         if buttons is None:
             buttons = []
