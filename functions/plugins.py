@@ -14,7 +14,7 @@ from UIFrames.toast import Toast
 from functions.hook import hook_target
 import functions.hook as hook
 from abc import *
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QLabel
 
 path_root = 'functions.plugins.'
 
@@ -371,3 +371,21 @@ class ConfigureView(ABC):
         :return: 数值
         """
         pass
+
+
+class FallbackConfigureView(ConfigureView):
+    view_id = '__fallback__'
+    view_name = 'Fallback'
+    can_store = False
+
+    def __init__(self, config, container):
+        self.widget = QLabel('<p style="color:#FF0000">【错误】找不到组件：{}</p>'.format(config['view']))
+
+    def generate_widget(self):
+        return self.widget
+
+    def load_val(self, value):
+        pass
+
+    def save_val(self):
+        return None

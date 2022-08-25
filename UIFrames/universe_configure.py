@@ -146,7 +146,10 @@ class UniverseConfigureEXP(QWidget):
 
         for i in self.config_temple:
             root = self.config_temple[i]
-            view: functions.plugins.ConfigureView = functions.plugins.cfg_views[root['view']](root, self.ui.container)
+            if root['view'] in functions.plugins.cfg_views:
+                view: functions.plugins.ConfigureView = functions.plugins.cfg_views[root['view']](root, self.ui.container)
+            else:
+                view: functions.plugins.ConfigureView = functions.plugins.FallbackConfigureView(root, self.ui.container)
             widget = view.generate_widget()
             if view.auto_construct:
                 if type(widget) == tuple:
