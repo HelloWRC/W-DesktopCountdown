@@ -6,11 +6,6 @@ import data.configure_widgets as cw
 from PyQt5.QtWidgets import QAction
 
 
-plugin_id = 'wdcd'
-plugin_name = '内置'
-plugin_website = 'https://github.com/HelloWRC/W-DesktopCountdown'
-plugin_description = 'W-DesktopCountdown的内置数据'
-
 provided_effects = (
     effects.AcrylicEffect,
     effects.RollingTexts,
@@ -43,7 +38,3 @@ provided_cfg_views = (
     cw.ComboBox,
     cw.ColorPicker
 )
-
-
-def on_load(config, app):
-    pass

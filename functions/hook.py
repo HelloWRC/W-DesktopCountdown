@@ -2,6 +2,10 @@ hooks = {}
 
 
 class Hook:
+    method_run_before = 0
+    method_run_after = 1
+    method_overwrite = 2
+
     def __init__(self, target, hook_type, source, catch_return):
         self.target = target
         self.hook_type = hook_type

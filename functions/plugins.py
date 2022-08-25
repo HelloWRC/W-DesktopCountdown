@@ -12,7 +12,7 @@ import logging
 import functions.base
 from UIFrames.toast import Toast
 from functions.hook import hook_target
-import hook
+import functions.hook as hook
 from abc import *
 from PyQt5.QtWidgets import QWidget
 
@@ -110,9 +110,11 @@ class Plugin:
         self.tray_actions = {}
         self.pm_actions = {}
 
+        self.plugin_api = None
+
     @hook_target(path_root + 'Plugin.load_plugin')
     def load_plugin(self):
-        logging.info('loading plugin as py package: %s', self.module_path
+        logging.info('Loading plugin as py package: %s', self.module_path
                      )
         self.module = importlib.import_module(self.module_path)
         self.plugin_id = self.metadata['id']
@@ -144,26 +146,32 @@ class Plugin:
 
         if 'provided_effects' in dir(self.module):
             for effect in self.module.provided_effects:
+                effect.plugin_api = self.plugin_api
                 effects[effect.effect_id] = effect
                 self.provided_effects[effect.effect_id] = effect
                 logging.info('Loaded effect %s', effect.effect_id)
         if 'provided_actions' in dir(self.module):
             for action in self.module.provided_actions:
+                action.plugin_api = self.plugin_api
                 actions[action.action_id] = action
                 self.provided_actions[action.action_id] = action
                 logging.info('Loaded action %s', action.action_id)
         if 'provided_triggers' in dir(self.module):
             for trigger in self.module.provided_triggers:
+                trigger.plugin_api = self.plugin_api
                 triggers[trigger.trigger_id] = trigger
                 self.provided_triggers[trigger.trigger_id] = trigger
                 logging.info('Loaded trigger %s', trigger.trigger_id)
         if 'provided_cfg_views' in dir(self.module):
             for view in self.module.provided_cfg_views:
+                view.plugin_api = self.plugin_api
                 cfg_views[view.view_id] = view
                 self.provided_views[view.view_id] = view
                 logging.info('Loaded cfg view %s', view.view_id)
 
-        self.module.on_load(self.plugin_config, self.app)
+        self.plugin_api = PluginAPI(self)
+        if 'on_load' in dir(self.module):
+            self.module.on_load(self.plugin_api)
 
         logging.info('Loaded plugin: %s', self.plugin_id)
 
@@ -179,20 +187,20 @@ class Plugin:
         logging.info('v2 loading plugin %s', self.plugin_id)
         self.plugin_info_ui = UIFrames.plugin_info.PluginInfo(self)
         if 'on_appinit_p2' in dir(self.module):
-            self.module.on_appinit_p2(self.app)
+            self.module.on_appinit_p2(self.plugin_api)
         logging.info('completed v2 load for plugin %s', self.plugin_id)
 
     def on_countdown_created(self, countdown):
         if 'on_countdown_created' in dir(self.module):
-            self.module.on_countdown_created(self.app, countdown)
+            self.module.on_countdown_created(self.plugin_api, countdown)
 
     def on_countdown_removed(self, countdown):
         if 'on_countdown_removed' in dir(self.module):
-            self.module.on_countdown_removed(self.app, countdown)
+            self.module.on_countdown_removed(self.plugin_api, countdown)
 
     def on_countdown_state_changed(self, countdown, enabled):
         if 'on_countdown_state_changed' in dir(self.module):
-            self.module.on_countdown_state_changed(self.app, countdown, enabled)
+            self.module.on_countdown_state_changed(self.plugin_api, countdown, enabled)
 
     def on_app_quit(self):
         if 'on_app_quit' in dir(self.module):
