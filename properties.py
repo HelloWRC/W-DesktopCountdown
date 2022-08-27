@@ -346,6 +346,13 @@ ucfg_test_temple = {
         'default': '#c84232',  # 索引值
         # 可选选项
         'description': '在这里选择一个颜色'
+    },
+    'rich_edit': {
+        'view': 'wdcd.rich_edit',
+        'name': '这是一个富文本编辑器',
+        'default': '欸嘿~',
+        'placeholder': 'ehe',
+        # 'description': '在这里随便输入点啥……'
     }
 }
 

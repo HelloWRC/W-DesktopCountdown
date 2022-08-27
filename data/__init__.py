@@ -36,5 +36,6 @@ provided_cfg_views = (
     cw.SpinBox,
     cw.LineEdit,
     cw.ComboBox,
-    cw.ColorPicker
+    cw.ColorPicker,
+    cw.RichTextEdit
 )

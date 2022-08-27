@@ -2,7 +2,7 @@ from abc import ABC
 
 from functions.plugins import ConfigureView as CV
 from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QCheckBox, QSpinBox, QDoubleSpinBox, QComboBox, QPushButton, \
-    QColorDialog, QFrame, QFormLayout
+    QColorDialog, QFrame, QFormLayout, QHBoxLayout
 from PyQt5.QtGui import QColor
 from PyQt5.Qt import QApplication, Qt, QSize
 
@@ -58,6 +58,8 @@ class Line(CV):
 
 # Valuable widgets
 class LCV(CV, ABC):
+    auto_set_description = True
+
     def __init__(self, config, container):
         self.config = config
         self.content = None
@@ -66,7 +68,7 @@ class LCV(CV, ABC):
             self.label.setToolTip(config['description'])
 
     def generate_widget(self):
-        if 'description' in self.config:
+        if self.auto_set_description and 'description' in self.config:
             self.content.setToolTip(self.config['description'])
         return self.label, self.content
 
@@ -172,3 +174,37 @@ class SpinBox(LCV):
 
     def save_val(self):
         return self.content.value()
+
+
+class RichTextEdit(LCV):
+    view_id = 'wdcd.rich_edit'
+    view_name = '富文本编辑'
+    auto_set_description = False
+    
+    def __init__(self, config, container):
+        from UIFrames.format_edit import FormatEdit
+        super(RichTextEdit, self).__init__(config, container)
+        self.layout = QHBoxLayout()
+        self.content = self.layout
+        self.line_edit = QLineEdit()
+        self.button = QPushButton('...')
+
+        self.layout.addWidget(self.line_edit)
+        self.layout.addWidget(self.button)
+
+        if 'placeholder' in config:
+            self.line_edit.setPlaceholderText(config['placeholder'])
+        if 'description' in self.config:
+            self.line_edit.setToolTip(self.config['description'])
+        self.placeholders = {}
+        if 'placeholders' in self.config:
+            self.placeholders = self.config['placeholders']
+        self.button.setToolTip('编辑富文本')
+        self.editor = FormatEdit('编辑富文本', self.line_edit.setText, self.placeholders)
+        self.button.released.connect(lambda: self.editor.open_edit_window(self.line_edit.text()))
+
+    def load_val(self, value):
+        self.line_edit.setText(value)
+
+    def save_val(self):
+        return self.line_edit.text()
