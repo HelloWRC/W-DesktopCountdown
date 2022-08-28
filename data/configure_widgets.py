@@ -2,7 +2,7 @@ from abc import ABC
 
 from functions.plugins import ConfigureView as CV
 from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QCheckBox, QSpinBox, QDoubleSpinBox, QComboBox, QPushButton, \
-    QColorDialog, QFrame, QFormLayout, QHBoxLayout
+    QColorDialog, QFrame, QFormLayout, QHBoxLayout, QFileDialog
 from PyQt5.QtGui import QColor
 from PyQt5.Qt import QApplication, Qt, QSize
 
@@ -176,14 +176,12 @@ class SpinBox(LCV):
         return self.content.value()
 
 
-class RichTextEdit(LCV):
-    view_id = 'wdcd.rich_edit'
-    view_name = '富文本编辑'
+# advanced line edits
+class AdvancedLineEdit(LCV):
     auto_set_description = False
     
     def __init__(self, config, container):
-        from UIFrames.format_edit import FormatEdit
-        super(RichTextEdit, self).__init__(config, container)
+        super(AdvancedLineEdit, self).__init__(config, container)
         self.layout = QHBoxLayout()
         self.content = self.layout
         self.line_edit = QLineEdit()
@@ -195,16 +193,69 @@ class RichTextEdit(LCV):
         if 'placeholder' in config:
             self.line_edit.setPlaceholderText(config['placeholder'])
         if 'description' in self.config:
+            self.label.setToolTip(self.config['description'])
             self.line_edit.setToolTip(self.config['description'])
-        self.placeholders = {}
-        if 'placeholders' in self.config:
-            self.placeholders = self.config['placeholders']
-        self.button.setToolTip('编辑富文本')
-        self.editor = FormatEdit('编辑富文本', self.line_edit.setText, self.placeholders)
-        self.button.released.connect(lambda: self.editor.open_edit_window(self.line_edit.text()))
 
     def load_val(self, value):
         self.line_edit.setText(value)
 
     def save_val(self):
         return self.line_edit.text()
+
+
+class RichTextEdit(AdvancedLineEdit):
+    view_id = 'wdcd.rich_edit'
+    view_name = '富文本编辑'
+
+    def __init__(self, config, container):
+        from UIFrames.format_edit import FormatEdit
+        super(RichTextEdit, self).__init__(config, container)
+        self.formats = {}
+        if 'formats' in self.config:
+            self.formats = self.config['formats']
+        self.button.setToolTip('编辑富文本')
+        self.editor = FormatEdit('编辑富文本', self.line_edit.setText, self.formats)
+        self.button.released.connect(lambda: self.editor.open_edit_window(self.line_edit.text()))
+
+
+class FileDialog(AdvancedLineEdit):
+    view_id = 'wdcd.file_dialog'
+    view_name = '文件选择器'
+    
+    def __init__(self, config, container):
+        super(FileDialog, self).__init__(config, container)
+        self.open_function = None
+        self.container = container
+        if self.config['sel_type'] == 0:
+            if self.config['open_mode'] == 0:
+                self.open_function = QFileDialog.getOpenFileName
+            elif self.config['open_mode'] == 1:
+                self.open_function = QFileDialog.getSaveFileName
+            else:
+                raise ValueError('Invalid open mode {}'.format(self.config['open_mode']))
+        elif self.config['sel_type'] == 1:
+            self.open_function = QFileDialog.getExistingDirectory
+        else:
+            raise ValueError('Invalid select type {}'.format(self.config['sel_type']))
+
+        self.start_dir = '.'
+        if 'start_dir' in self.config:
+            self.start_dir = self.config['start_dir']
+
+        self.button.setToolTip('浏览…')
+        self.button.released.connect(self.open_dialog)
+
+    def open_dialog(self):
+        text = self.line_edit.text()
+        if self.config['sel_type'] == 0:
+            result = self.open_function(parent=self.container.parent(),
+                                        directory=self.start_dir,
+                                        filter=self.config['file_types'])
+            if result[0]:
+                text = result[0]
+        else:
+            result = self.open_function(parent=self.container.parent(),
+                                        directory=self.start_dir)
+            if result:
+                text = result
+        self.line_edit.setText(text)

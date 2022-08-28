@@ -37,5 +37,6 @@ provided_cfg_views = (
     cw.LineEdit,
     cw.ComboBox,
     cw.ColorPicker,
-    cw.RichTextEdit
+    cw.RichTextEdit,
+    cw.FileDialog
 )

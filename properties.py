@@ -352,7 +352,21 @@ ucfg_test_temple = {
         'name': '这是一个富文本编辑器',
         'default': '欸嘿~',
         'placeholder': 'ehe',
-        # 'description': '在这里随便输入点啥……'
+        'description': '在这里随便输入点啥……',
+        'formats': {
+            '%a': '占位符1',
+            '%b': '占位符2'
+        }
+    },
+    'file_dialog': {
+        'view': 'wdcd.file_dialog',
+        'name': '选择一个文件',
+        'default': r'C:\Windows\explorer.exe',
+        'sel_type': 1,
+        'open_mode': 0,
+        'file_types': '可执行文件 (*.exe)',
+        'start_dir': r'C:\Windows',
+        'description': '请选择一个文件'
     }
 }
 
