@@ -63,7 +63,7 @@ class RollingTexts:
                 self.texts = texts.read().split('\n')
             self.label.setText(self.config['format'].format(random.choice(self.texts)))
         except Exception as exp:
-            self.label.setText(self.config['format'].format('出现错误：{}'.format(exp)))
+            self.label.setText('<p style="color: red">出现错误：{}</p>'.format(exp))
 
     def unload(self):
         self.label.setVisible(False)
