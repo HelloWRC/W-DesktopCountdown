@@ -39,7 +39,7 @@ ld_themes = [
     'light', 'dark', 'light'  # system fallback value
 ]
 
-system_color = '#FF5D99'
+system_color = '#0591d7'
 
 countdown_config_default = {
     'window': {
@@ -174,7 +174,7 @@ default_config = {
         'color_theme': {
             'type': 1,  # 0：主题值;1：跟随系统;2：自定
             'theme': 0,
-            'color': '#FF5D99'
+            'color': '#0591d7'
         },
         'custom_font': '微软雅黑',
         'custom_dpi': {
