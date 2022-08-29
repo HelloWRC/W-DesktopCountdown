@@ -1,3 +1,5 @@
+import os
+
 from PyQt5.QtWidgets import QSystemTrayIcon, QMenu
 from PyQt5.QtGui import QIcon
 from PyQt5.Qt import QAction
@@ -29,6 +31,9 @@ class SystemTray(QSystemTrayIcon):
 
         self.settings = QAction('应用设置', triggered=self.app.settings_ui.show)
         self.menu.addAction(self.settings)
+
+        self.help = QAction('帮助', triggered=lambda: os.startfile('https://github.com/HelloWRC/W-DesktopCountdown/wiki'))
+        self.menu.addAction(self.help)
 
         self.exit = QAction('退出', triggered=self.app.quit)
         self.menu.addAction(self.exit)

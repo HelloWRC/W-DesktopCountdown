@@ -80,7 +80,6 @@ class WDesktopCD(QApplication):
         self.p1_time = time.time() - self.starttime
         # self.splash.update_status(30, '第一阶段初始化完成')
 
-
     @hook_target('wdcd_app.init_v2')
     def init_phase2(self):
         # Qt事件处理器启动完毕，开始初始化qt套件

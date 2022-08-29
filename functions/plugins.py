@@ -70,7 +70,7 @@ class PluginAPI:
         Toast.toast(parent, text, timeout, buttons, no_default_button)
 
     @staticmethod
-    def hook(source, target: str, hook_type: int, catch_return: bool = False) -> hook.Hook:
+    def hook(source, target: str, hook_type: int, catch_return: bool = False) -> functions.hook.Hook:
         """
         注入对应的模块，使在执行对应模块的前后执行特定的函数。详细请见插件开发文档。
 
@@ -81,6 +81,16 @@ class PluginAPI:
         :return: Hook 返回钩子
         """
         return hook.hook(source, target, hook_type, catch_return)
+
+    @staticmethod
+    def unhook(content: functions.hook.Hook):
+        """
+        将钩子脱钩。
+
+        :param content: Hook 钩子
+        :return: None
+        """
+        hook.unhook(content)
 
 
 class Plugin:
@@ -204,7 +214,7 @@ class Plugin:
 
     def on_app_quit(self):
         if 'on_app_quit' in dir(self.module):
-            self.module.on_app_quit(self.app)
+            self.module.on_app_quit(self.plugin_api)
 
 
 class PluginMgr:
@@ -321,8 +331,9 @@ class PluginMgr:
             i.on_countdown_state_changed(countdown, enabled)
 
     def on_app_quit(self):
-        for i in self.plugins:
-            i.on_app_quit()
+        length = len(self.plugins)
+        for i in range(length - 1, -1, -1):
+            self.plugins[i].on_app_quit()
 
 
 class ConfigureView(ABC):

@@ -22,15 +22,21 @@ class RollingTexts:
             'word_warp': True
         },
         'filename': {
-            'view': 'wdcd.line_edit',
+            'view': 'wdcd.file_dialog',
             'name': '文件路径',
             'default': '',
+            'sel_type': 0,
+            'open_mode': 0,
+            'file_types': '文本文档 (*.txt)',
             'description': '包含要显示的标语的文本文件，编码为UTF-8，一行一条。'
         },
         'format': {
-            'view': 'wdcd.line_edit',
+            'view': 'wdcd.rich_edit',
             'name': '标语格式',
             'default': '{}',
+            'formats': {
+                '{}': '标语内容'
+            },
             'description': '标语格式，“{}”将被替换为要显示的标语，可以使用HTML。'
         }
     }

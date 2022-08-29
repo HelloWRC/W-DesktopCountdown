@@ -361,11 +361,11 @@ ucfg_test_temple = {
     'file_dialog': {
         'view': 'wdcd.file_dialog',
         'name': '选择一个文件',
-        'default': r'C:\Windows\explorer.exe',
-        'sel_type': 1,
+        'default': 'C:/Windows/explorer.exe',
+        'sel_type': 0,
         'open_mode': 0,
         'file_types': '可执行文件 (*.exe)',
-        'start_dir': r'C:\Windows',
+        'start_dir': 'C:/Windows',
         'description': '请选择一个文件'
     }
 }
