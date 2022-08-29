@@ -2,10 +2,11 @@ import copy
 import logging
 import time
 import sys
+import zipfile
 
 import requests
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QFileDialog
 from PyQt5.QtWidgets import QMenu, QAction
 from PyQt5.QtWidgets import QListWidgetItem
 from PyQt5.QtWidgets import QProgressDialog
@@ -84,6 +85,7 @@ class Settings(QWidget):
         self.app.update_mgr.update_thread.sig_error.connect(self.error_status)
         if not self.app.arg.dev:
             self.ui.tabWidget.removeTab(5)
+            self.ui.btn_plug_dev_pack.setVisible(False)
 
         self.format_edit = UIFrames.format_edit.FormatEdit('编辑文本', self.ui.le_text_dev.setText, {
             '%a': '占位符1',
@@ -394,3 +396,39 @@ class Settings(QWidget):
         if self.__finished_init:
             if text:
                 self.ui.lb_channel_info.setText(self.app.update_mgr.source['branches'][self.cfg['update']['download']['branch']]['channels'][text]['description'])
+
+    def on_btn_plug_install_released(self):
+        plugin_file = QFileDialog.getOpenFileName(self, filter='插件包 (*.zip)')
+        filename = plugin_file[0]
+        if not filename:
+            return
+
+        try:
+            self.app.plugin_mgr.import_plugin_zip(filename)
+        except Exception as exp:
+            logging.error('Unable to import plugin zip: %s', exp)
+            Toast.toast(self, '导入插件失败。')
+        else:
+            Toast.toast(self, '已导入插件，插件需要重新启动才能生效。', timeout=10)
+
+    def on_btn_plug_dev_pack_released(self):
+        if self.ui.lst_plugins.currentRow() == 0:
+            Toast.toast(self, '【内置】插件不可被导出。')
+            return
+
+        plugin_file = QFileDialog.getSaveFileName(self, filter='插件包 (*.zip)')
+        filename = plugin_file[0]
+        if not filename:
+            return
+
+        try:
+            plugin_id = self.app.plugin_mgr.plugins[self.ui.lst_plugins.currentRow()].plugin_id
+        except Exception as exp:
+            logging.error('Unable to pack plugin: %s', exp)
+            Toast.toast(self, '打包插件失败。')
+        else:
+            self.app.plugin_mgr.export_plugin_zip(plugin_id, filename)
+            button_open = QPushButton('查看')
+            button_open.setFlat(True)
+            button_open.released.connect(lambda: os.startfile(os.path.split(filename)[0]))
+            Toast.toast(self, '已导出插件。', buttons=[button_open])

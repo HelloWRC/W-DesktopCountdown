@@ -82,7 +82,7 @@
             <x>0</x>
             <y>0</y>
             <width>535</width>
-            <height>557</height>
+            <height>569</height>
            </rect>
           </property>
           <layout class="QFormLayout" name="formLayout">
@@ -285,7 +285,7 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>下面是已加载的插件，可以将插件文件拖动到这里来添加插件。</string>
+          <string>已加载的插件</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -499,7 +499,7 @@ p, li { white-space: pre-wrap; }
                 <x>0</x>
                 <y>0</y>
                 <width>487</width>
-                <height>289</height>
+                <height>294</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -1066,7 +1066,7 @@ p, li { white-space: pre-wrap; }
             <x>0</x>
             <y>0</y>
             <width>535</width>
-            <height>557</height>
+            <height>569</height>
            </rect>
           </property>
           <layout class="QFormLayout" name="formLayout_2">

@@ -499,3 +499,7 @@ plugin_wdcd_meta = {
     'depends': [],
     'description': 'W-DesktopCountdown的内置数据'
 }
+
+plugin_export_ignored = [
+    '__pycache__'
+]

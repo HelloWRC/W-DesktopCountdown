@@ -1,7 +1,9 @@
 import copy
 import importlib
 import json
+import shutil
 import sys
+import zipfile
 
 import UIFrames.universe_configure
 import UIFrames.plugin_info
@@ -229,6 +231,7 @@ class PluginMgr:
 
         self.plugin_metas = {}
         self.plugin_metas_id = {}
+        self.plugin_paths = {}
         self.preloaded_plugins = []
         self.loading_tree = {}
         # Preloading plugins
@@ -243,6 +246,7 @@ class PluginMgr:
                 metadata = json.load(meta)
                 self.plugin_metas[i] = metadata
                 self.plugin_metas_id[metadata['id']] = metadata
+                self.plugin_paths[metadata['id']] = properties.plugins_prefix + i
                 self.preloaded_plugins.append(metadata['id'])
                 logging.info('Found plugin: %s', metadata['id'])
                 self.loading_tree[metadata['id']] = {
@@ -317,6 +321,48 @@ class PluginMgr:
             self.app.splash.update_status(status, '正在第二阶段加载插件：{}'.format(i.plugin_id))
             i.load_v2()
             status += step
+
+    def import_plugin_zip(self, filename):
+        # Extract zip file
+        logging.info('importing plugin from file %s', filename)
+        plugin_zip = zipfile.ZipFile(filename, mode='r')
+        files = plugin_zip.namelist()
+
+        extract_tmp = properties.tmp_prefix + 'plugin_import/'
+        for i in files:
+            plugin_zip.extractall(extract_tmp)
+        plugin_zip.close()
+
+        # Read plugin info
+        final_path = ''
+        with open(extract_tmp + 'metadata.json') as meta_file:
+            meta = json.load(meta_file)
+        plugin_id = meta['id']
+        final_path = properties.plugins_prefix + plugin_id
+        if os.path.exists(final_path):
+            logging.info('plugin %s exists, removing old files...', plugin_id)
+            if os.path.exists(final_path):
+                shutil.rmtree(final_path)
+        if plugin_id in self.plugin_paths.keys():
+            logging.info('plugin %s exists, removing old files...', plugin_id)
+            if os.path.exists(final_path):
+                shutil.rmtree(self.plugin_paths[plugin_id])
+        shutil.copytree(extract_tmp, final_path)
+        shutil.rmtree(extract_tmp)
+        logging.info('Successfully imported plugin zip %s (plugin id: %s)', filename, plugin_id)
+
+    def export_plugin_zip(self, plugin_id, filename):
+        plugin_path = self.plugin_paths[plugin_id]
+        plugin_zip = zipfile.ZipFile(filename, mode='w')
+        for root, dirs, files in os.walk(plugin_path):
+            if os.path.split(root)[-1] in properties.plugin_export_ignored:
+                continue
+            for i in files:
+                raw = root + '/' + i
+                raw = raw.replace('\\', '/')
+                plugin_zip.write(raw, '/'.join(raw.split('/')[3:]))
+                # print(raw, '/'.join(os.path.split(raw)[1:]))
+        plugin_zip.close()
 
     def on_countdown_created(self, countdown):
         for i in self.plugins:
