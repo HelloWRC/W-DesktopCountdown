@@ -407,13 +407,13 @@ class Settings(QWidget):
             self.app.plugin_mgr.import_plugin_zip(filename)
         except Exception as exp:
             logging.error('Unable to import plugin zip: %s', exp)
-            Toast.toast(self, '导入插件失败。')
+            Toast.toast(self, '安装插件失败。')
         else:
-            Toast.toast(self, '已导入插件，插件需要重新启动才能生效。', timeout=10)
+            Toast.toast(self, '已安装插件，插件需要重新启动才能生效。', timeout=10)
 
     def on_btn_plug_dev_pack_released(self):
         if self.ui.lst_plugins.currentRow() == 0:
-            Toast.toast(self, '【内置】插件不可被导出。')
+            Toast.toast(self, '【内置】插件不可被打包。')
             return
 
         plugin_file = QFileDialog.getSaveFileName(self, filter='插件包 (*.zip)')
@@ -431,4 +431,4 @@ class Settings(QWidget):
             button_open = QPushButton('查看')
             button_open.setFlat(True)
             button_open.released.connect(lambda: os.startfile(os.path.split(filename)[0]))
-            Toast.toast(self, '已导出插件。', buttons=[button_open])
+            Toast.toast(self, '已打包插件。', buttons=[button_open])
