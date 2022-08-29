@@ -298,6 +298,13 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
+          <widget class="QPushButton" name="btn_plug_install">
+           <property name="text">
+            <string>安装插件</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="btn_configure_plug">
            <property name="enabled">
             <bool>false</bool>
@@ -311,6 +318,13 @@
           <widget class="QPushButton" name="btn_plug_info">
            <property name="text">
             <string>信息</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_plug_dev_pack">
+           <property name="text">
+            <string>打包插件</string>
            </property>
           </widget>
          </item>
@@ -467,7 +481,7 @@ p, li { white-space: pre-wrap; }
        <item>
         <widget class="QTabWidget" name="about_info_2">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab_update_info">
           <attribute name="title">
@@ -803,8 +817,8 @@ p, li { white-space: pre-wrap; }
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
-                <height>375</height>
+                <width>509</width>
+                <height>378</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_16">
@@ -963,8 +977,8 @@ p, li { white-space: pre-wrap; }
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>275</width>
-                <height>199</height>
+                <width>509</width>
+                <height>378</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_15">
@@ -1259,9 +1273,25 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>btn_confirm</tabstop>
+  <tabstop>btn_cancel</tabstop>
+  <tabstop>btn_apply</tabstop>
+  <tabstop>scrollArea_2</tabstop>
+  <tabstop>cb_lang</tabstop>
+  <tabstop>cb_appstyle</tabstop>
+  <tabstop>cb_ldstyle</tabstop>
+  <tabstop>rb_default</tabstop>
+  <tabstop>cb_colortheme</tabstop>
+  <tabstop>rb_syscolor</tabstop>
+  <tabstop>rb_customcolor</tabstop>
+  <tabstop>btn_selcolor</tabstop>
+  <tabstop>cb_custom_font</tabstop>
   <tabstop>lst_plugins</tabstop>
+  <tabstop>btn_plug_install</tabstop>
   <tabstop>btn_configure_plug</tabstop>
   <tabstop>btn_plug_info</tabstop>
+  <tabstop>btn_plug_dev_pack</tabstop>
   <tabstop>btn_plug_func</tabstop>
   <tabstop>btn_plugin_folder</tabstop>
   <tabstop>btn_check_update</tabstop>
@@ -1277,12 +1307,23 @@ p, li { white-space: pre-wrap; }
   <tabstop>btn_feedback</tabstop>
   <tabstop>btn_opensource</tabstop>
   <tabstop>about_info</tabstop>
+  <tabstop>scrollArea_5</tabstop>
   <tabstop>btn_log</tabstop>
   <tabstop>btn_log_folder</tabstop>
   <tabstop>btn_crash_report</tabstop>
+  <tabstop>scrollArea_4</tabstop>
+  <tabstop>scrollArea_3</tabstop>
+  <tabstop>btn_crash</tabstop>
+  <tabstop>cb_hook_exception</tabstop>
+  <tabstop>btn_dbg_download_update</tabstop>
+  <tabstop>btn_install_local_update</tabstop>
+  <tabstop>btn_check_ui</tabstop>
   <tabstop>le_text_dev</tabstop>
   <tabstop>btn_text_dev_edit</tabstop>
-  <tabstop>btn_confirm</tabstop>
+  <tabstop>btn_ucfg_exp</tabstop>
+  <tabstop>btn_get_ucfg_value</tabstop>
+  <tabstop>le_toast_text</tabstop>
+  <tabstop>btn_show_toast</tabstop>
  </tabstops>
  <resources/>
  <connections/>
