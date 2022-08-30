@@ -407,7 +407,7 @@ class Settings(QWidget):
             self.app.plugin_mgr.import_plugin_zip(filename)
         except Exception as exp:
             logging.error('Unable to import plugin zip: %s', exp)
-            Toast.toast(self, '安装插件失败。')
+            Toast.toast(self, '安装插件失败，可能不是有效的插件包。')
         else:
             Toast.toast(self, '已安装插件，插件需要重新启动才能生效。', timeout=10)
 
