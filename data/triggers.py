@@ -26,9 +26,9 @@ class WhenCountdownEnd:
         }
     }
 
-    def __init__(self, app, countdown, config):
+    def __init__(self, api, countdown, config):
         import UIFrames.countdown
-        self.app = app
+        self.api = api
         self.countdown: UIFrames.countdown.CountdownWin = countdown
         self.config = config
         if 'triggered' not in self.config:
@@ -74,9 +74,9 @@ class WhenCountdownStart:
         }
     }
 
-    def __init__(self, app, countdown, config):
+    def __init__(self, api, countdown, config):
         import UIFrames.countdown
-        self.app = app
+        self.api = api
         self.countdown: UIFrames.countdown.CountdownWin = countdown
         self.config = config
         if 'triggered' not in self.config:
@@ -104,9 +104,9 @@ class WhenCountdownShow:
     default_config = {
     }
 
-    def __init__(self, app, countdown, config):
+    def __init__(self, api, countdown, config):
         import UIFrames.countdown
-        self.app = app
+        self.api = api
         self.countdown: UIFrames.countdown.CountdownWin = countdown
         self.config = config
         self.config['triggered'] = False

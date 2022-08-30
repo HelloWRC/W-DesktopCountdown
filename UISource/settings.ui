@@ -481,7 +481,7 @@ p, li { white-space: pre-wrap; }
        <item>
         <widget class="QTabWidget" name="about_info_2">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab_update_info">
           <attribute name="title">
@@ -499,7 +499,7 @@ p, li { white-space: pre-wrap; }
                 <x>0</x>
                 <y>0</y>
                 <width>487</width>
-                <height>294</height>
+                <height>329</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -817,8 +817,8 @@ p, li { white-space: pre-wrap; }
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>509</width>
-                <height>378</height>
+                <width>98</width>
+                <height>371</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_16">
@@ -977,8 +977,8 @@ p, li { white-space: pre-wrap; }
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>509</width>
-                <height>378</height>
+                <width>220</width>
+                <height>169</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_15">

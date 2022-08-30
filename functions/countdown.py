@@ -196,18 +196,20 @@ class Automate:
 
         for i in self.config['triggers']:
             if i['id'] in functions.plugins.triggers:
-                self.triggers.append(functions.plugins.triggers[i['id']](self.app, self.countdown,
-                                                                         functions.base.rich_default_pass(
-                                                                             functions.plugins.triggers[i['id']].default_config,
+                trigger = functions.plugins.triggers[i['id']]
+                self.triggers.append(trigger(trigger.plugin_api__, self.countdown,
+                                             functions.base.rich_default_pass(
+                                                                             trigger.default_config,
                                                                              i['config'])))
             else:
                 logging.error('Trigger %s not found! skipped.', i)
         for i in self.config['actions']:
             if i['id'] in functions.plugins.actions:
-                self.actions.append(functions.plugins.actions[i['id']](self.app, self.countdown,
-                                                                       functions.base.rich_default_pass(
-                                                                           functions.plugins.actions[i['id']].default_config,
-                                                                       i['config'])))
+                action = functions.plugins.actions[i['id']]
+                self.actions.append(action(action.plugin_api__, self.countdown,
+                                           functions.base.rich_default_pass(
+                                                                           action.default_config,
+                                                                           i['config'])))
             else:
                 logging.error('Action %s not found! skipped.', i)
         self.trigger_type = config['trigger_type']

@@ -5,6 +5,7 @@ import UIFrames.countdown
 
 from PyQt5.QtWidgets import QMessageBox
 
+import functions.plugins
 import wcdapp
 
 
@@ -20,7 +21,7 @@ class RunCommand:
         }
     }
 
-    def __init__(self, app, countdown, config):
+    def __init__(self, api, countdown, config):
         self.cfg = config
 
     def run(self):
@@ -40,7 +41,7 @@ class StartFile:
         }
     }
 
-    def __init__(self, app, countdown, config):
+    def __init__(self, api, countdown, config):
         self.cfg = config
 
     def run(self):
@@ -83,7 +84,7 @@ class PushCountdownBack:
         }
     }
 
-    def __init__(self, app, countdown, config):
+    def __init__(self, api, countdown, config):
         self.cfg = config
         self.countdown = countdown
 
@@ -99,7 +100,7 @@ class HideCountdown:
     action_descriprion = '将倒计时隐藏'
     default_config = {}
 
-    def __init__(self, app, countdown, config):
+    def __init__(self, api, countdown, config):
         self.cfg = config
         self.countdown: UIFrames.countdown.CountdownWin = countdown
 
@@ -115,12 +116,12 @@ class ExitApp:
     action_descriprion = '退出W-DesktopCountdown'
     default_config = {}
 
-    def __init__(self, app, countdown, config):
+    def __init__(self, api, countdown, config):
         self.cfg = config
-        self.app = app
+        self.api = api
 
     def run(self):
-        self.app.quit(0)
+        self.api.app.quit(0)
 
 
 class PopMessageBox:
@@ -157,9 +158,9 @@ class PopMessageBox:
         QMessageBox.information, QMessageBox.question, QMessageBox.warning, QMessageBox.critical
     ]
 
-    def __init__(self, app, countdown, config):
+    def __init__(self, api, countdown, config):
         self.cfg = config
-        self.app = app
+        self.api = api
         self.countdown = countdown
 
     def run(self):
@@ -185,10 +186,10 @@ class PopNotification:
         },
     }
 
-    def __init__(self, app, countdown, config):
+    def __init__(self, api, countdown, config):
         self.cfg = config
-        self.app: wcdapp.WDesktopCD = app
+        self.api: functions.plugins.PluginAPI = api
         self.countdown = countdown
 
     def run(self):
-        self.app.tray.showMessage(self.cfg['title'], self.cfg['text'])
+        self.api.app.tray.showMessage(self.cfg['title'], self.cfg['text'])

@@ -13,7 +13,7 @@ class Label(CV):
     view_name = '文字'
     can_store = False
 
-    def __init__(self, config, container):
+    def __init__(self, api, config, container):
         self.config = config
         self.widget = QLabel(self.config['text'])
         if 'word_warp' in self.config:
@@ -38,7 +38,7 @@ class Line(CV):
     can_store = False
     auto_construct = False
 
-    def __init__(self, config, container):
+    def __init__(self, api, config, container):
         self.config = config
         self.container = container
 
@@ -60,7 +60,7 @@ class Line(CV):
 class LCV(CV, ABC):
     auto_set_description = True
 
-    def __init__(self, config, container):
+    def __init__(self, api, config, container):
         self.config = config
         self.content = None
         self.label = QLabel(config['name'])
@@ -77,7 +77,7 @@ class CheckBox(CV):
     view_id = 'wdcd.check_box'
     view_name = '复选框'
 
-    def __init__(self, config, container):
+    def __init__(self, api, config, container):
         self.config = config
         self.container = container
         self.checkbox = QCheckBox(config['name'])
@@ -98,8 +98,8 @@ class LineEdit(LCV):
     view_id = 'wdcd.line_edit'
     view_name = '单行文本框'
 
-    def __init__(self, config, container):
-        super(LineEdit, self).__init__(config, container)
+    def __init__(self, api, config, container):
+        super(LineEdit, self).__init__(api, config, container)
         self.content = QLineEdit()
         if 'placeholder' in config:
             self.content.setPlaceholderText(config['placeholder'])
@@ -115,8 +115,8 @@ class ComboBox(LCV):
     view_id = 'wdcd.combo_box'
     view_name = '下拉框'
 
-    def __init__(self, config, container):
-        super(ComboBox, self).__init__(config, container)
+    def __init__(self, api, config, container):
+        super(ComboBox, self).__init__(api, config, container)
         self.content = QComboBox()
         self.content.addItems(config['items'])
 
@@ -131,8 +131,8 @@ class ColorPicker(LCV):
     view_id = 'wdcd.color_picker'
     view_name = '选色器'
 
-    def __init__(self, config, container):
-        super(ColorPicker, self).__init__(config, container)
+    def __init__(self, api, config, container):
+        super(ColorPicker, self).__init__(api, config, container)
         self.color = QColor()
         self.content = QPushButton()
         self.content.released.connect(self.set_color)
@@ -154,8 +154,8 @@ class SpinBox(LCV):
     view_id = 'wdcd.spin_box'
     view_name = '数值框'
 
-    def __init__(self, config, container):
-        super(SpinBox, self).__init__(config, container)
+    def __init__(self, api, config, container):
+        super(SpinBox, self).__init__(api, config, container)
         if config['type'] == 'int':
             self.content = QSpinBox()
         else:
@@ -180,8 +180,8 @@ class SpinBox(LCV):
 class AdvancedLineEdit(LCV):
     auto_set_description = False
     
-    def __init__(self, config, container):
-        super(AdvancedLineEdit, self).__init__(config, container)
+    def __init__(self, api, config, container):
+        super(AdvancedLineEdit, self).__init__(api, config, container)
         self.layout = QHBoxLayout()
         self.content = self.layout
         self.line_edit = QLineEdit()
@@ -207,9 +207,9 @@ class RichTextEdit(AdvancedLineEdit):
     view_id = 'wdcd.rich_edit'
     view_name = '富文本编辑'
 
-    def __init__(self, config, container):
+    def __init__(self, api, config, container):
         from UIFrames.format_edit import FormatEdit
-        super(RichTextEdit, self).__init__(config, container)
+        super(RichTextEdit, self).__init__(api, config, container)
         self.formats = {}
         if 'formats' in self.config:
             self.formats = self.config['formats']
@@ -222,8 +222,8 @@ class FileDialog(AdvancedLineEdit):
     view_id = 'wdcd.file_dialog'
     view_name = '文件选择器'
     
-    def __init__(self, config, container):
-        super(FileDialog, self).__init__(config, container)
+    def __init__(self, api, config, container):
+        super(FileDialog, self).__init__(api, config, container)
         self.open_function = None
         self.container = container
         if self.config['sel_type'] == 0:

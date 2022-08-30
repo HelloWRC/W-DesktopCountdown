@@ -76,7 +76,8 @@ class EffectManager:
             logging.info('unloaded effects: %s', i)
         for i in new_effects:
             functions.base.rich_default_pass(functions.plugins.effects[i].default_config, config[i])
-            self.effects[i] = functions.plugins.effects[i](self.app, self.countdown, config[i])
+            effect = functions.plugins.effects[i]
+            self.effects[i] = effect(effect.plugin_api__, self.countdown, config[i])
             self.effects[i].set_enabled()
             logging.info('enabled effect: %s', i)
         for i in changed_effects:

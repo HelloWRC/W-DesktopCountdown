@@ -158,30 +158,31 @@ class Plugin:
 
         if 'provided_effects' in dir(self.module):
             for effect in self.module.provided_effects:
-                effect.plugin_api = self.plugin_api
                 effects[effect.effect_id] = effect
                 self.provided_effects[effect.effect_id] = effect
                 logging.info('Loaded effect %s', effect.effect_id)
         if 'provided_actions' in dir(self.module):
             for action in self.module.provided_actions:
-                action.plugin_api = self.plugin_api
                 actions[action.action_id] = action
                 self.provided_actions[action.action_id] = action
                 logging.info('Loaded action %s', action.action_id)
         if 'provided_triggers' in dir(self.module):
             for trigger in self.module.provided_triggers:
-                trigger.plugin_api = self.plugin_api
                 triggers[trigger.trigger_id] = trigger
                 self.provided_triggers[trigger.trigger_id] = trigger
                 logging.info('Loaded trigger %s', trigger.trigger_id)
         if 'provided_cfg_views' in dir(self.module):
             for view in self.module.provided_cfg_views:
-                view.plugin_api = self.plugin_api
                 cfg_views[view.view_id] = view
                 self.provided_views[view.view_id] = view
                 logging.info('Loaded cfg view %s', view.view_id)
 
         self.plugin_api = PluginAPI(self)
+
+        for i in (self.provided_views, self.provided_actions, self.provided_effects, self.provided_triggers):
+            for name, obj in i.items():
+                obj.plugin_api__ = self.plugin_api
+
         if 'on_load' in dir(self.module):
             self.module.on_load(self.plugin_api)
 
@@ -396,7 +397,7 @@ class ConfigureView(ABC):
     auto_construct = True
 
     @abstractmethod
-    def __init__(self, config, container):
+    def __init__(self, api, config, container):
         """
         初始化
         """
@@ -434,8 +435,9 @@ class FallbackConfigureView(ConfigureView):
     view_id = '__fallback__'
     view_name = 'Fallback'
     can_store = False
+    plugin_api__ = None
 
-    def __init__(self, config, container):
+    def __init__(self, api, config, container):
         self.widget = QLabel('<p style="color:#FF0000">【错误】找不到组件：{}</p>'.format(config['view']))
 
     def generate_widget(self):

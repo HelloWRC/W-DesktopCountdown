@@ -8,6 +8,7 @@ from PyQt5.Qt import pyqtSignal, QEvent
 import logging
 
 import UIFrames.countdown
+import functions.plugins
 import properties
 
 
@@ -41,10 +42,10 @@ class RollingTexts:
         }
     }
 
-    def __init__(self, app, countdown, config):
+    def __init__(self, api, countdown, config):
         import UIFrames.countdown
         from PyQt5.QtWidgets import QLabel
-        self.app = app
+        self.api = api
         self.countdown: UIFrames.countdown.CountdownWin = countdown
         self.config = config
         self.texts = []
@@ -111,10 +112,10 @@ class AcrylicEffect:
     light_bg = 'f5f5f5'
     dark_bg = '31363b'
 
-    def __init__(self, app, countdown, config):
+    def __init__(self, api, countdown, config):
         import UIFrames.countdown
         import wcdapp
-        self.app: wcdapp.WDesktopCD = app
+        self.api: functions.plugins.PluginAPI = api
         self.countdown: UIFrames.countdown.CountdownWin = countdown
         self.config = config
         self.bg_color = '00000000'
@@ -166,7 +167,7 @@ class AcrylicEffect:
             self.config = config
 
         if config['background_color_type'] == 0:
-            if properties.ld_themes[self.app.app_cfg.cfg['appearance']['ld_style']] == 'light':
+            if properties.ld_themes[self.api.app.app_cfg.cfg['appearance']['ld_style']] == 'light':
                 self.bg_color = self.light_bg
             else:
                 self.bg_color = self.dark_bg
@@ -256,9 +257,9 @@ class CharmBase(QObject):
         }
     }
 
-    def __init__(self, app, countdown, config):
+    def __init__(self, api, countdown, config):
         super(CharmBase, self).__init__()
-        self.app = app
+        self.api = api
         self.countdown: UIFrames.countdown.CountdownWin = countdown
         self.cfg = config
         self.start_time = 0
@@ -327,8 +328,8 @@ class BackgroundCharm(CharmBase):
     effect_friendly_name = '背景渐变'
     effect_description = '让背景颜色随时间渐变'
 
-    def __init__(self, app, countdown, config):
-        super(BackgroundCharm, self).__init__(app, countdown, config)
+    def __init__(self, api, countdown, config):
+        super(BackgroundCharm, self).__init__(api, countdown, config)
         self.countdown: UIFrames.countdown.CountdownWin = countdown
 
     def set_rgb_color(self, color):
@@ -346,8 +347,8 @@ class CountdownCharm(CharmBase):
     effect_friendly_name = '倒计时渐变'
     effect_description = '让倒计时文字随时间渐变'
 
-    def __init__(self, app, countdown, config):
-        super(CountdownCharm, self).__init__(app, countdown, config)
+    def __init__(self, api, countdown, config):
+        super(CountdownCharm, self).__init__(api, countdown, config)
         self.countdown: UIFrames.countdown.CountdownWin = countdown
 
     def set_rgb_color(self, color):
