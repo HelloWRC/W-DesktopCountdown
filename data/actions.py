@@ -34,9 +34,12 @@ class StartFile:
     action_description = '打开指定的文件'
     default_config = {
         'path': {
-            'view': 'wdcd.line_edit',
+            'view': 'wdcd.file_dialog',
             'name': '文件路径',
             'default': '',
+            'sel_type': 0,
+            'open_mode': 0,
+            'file_types': '任何文件 (*.*)',
             'description': '要打开的文件路径'
         }
     }

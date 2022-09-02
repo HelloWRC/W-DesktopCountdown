@@ -48,8 +48,11 @@ class FormatEdit(QWidget):
             'text': '<h1>插入图片</h1>'
         },
         'path': {
-            'view': 'wdcd.line_edit',
+            'view': 'wdcd.file_dialog',
             'name': '图片位置',
+            'sel_type': 0,
+            'open_mode': 0,
+            'file_types': '图片 (*.BMP *.GIF *.JPG *.JPEG *.PNG *.TIFF *.PBM *.PGM *.PPM *.XBM *.XPM *.ICO *.SVG);;任何文件 (*.*)',
             'default': ''
         },
         'd': {
